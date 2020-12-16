@@ -1,0 +1,147 @@
+#!/bin/bash
+
+# Oracle pre-install script
+# This script creates limits for oracle user
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+# How to check the existing limits
+# Soft limits:
+# ulimit -Sa
+# Hard limits:
+# ulimit -Ha
+
+# core file size          (blocks, -c) 0
+# data seg size           (kbytes, -d) unlimited
+# scheduling priority             (-e) 0
+# file size               (blocks, -f) unlimited
+# pending signals                 (-i) 128044
+# max locked memory       (kbytes, -l) 65536
+# max memory size         (kbytes, -m) unlimited
+# open files                      (-n) 1024
+# pipe size            (512 bytes, -p) 8
+# POSIX message queues     (bytes, -q) 819200
+# real-time priority              (-r) 0
+# stack size              (kbytes, -s) 8192
+# cpu time               (seconds, -t) unlimited
+# max user processes              (-u) 128044
+# virtual memory          (kbytes, -v) unlimited
+# file locks                      (-x) unlimited
+
+# Just in time change. We need run it under oracle user
+# H — hard
+# S — soft
+# u - max number of precesses
+# n - max number of open files
+# s - max size of stack (8192 = 8 MB)
+#
+# ulimit -Su 2047
+# ulimit -Hu 16384
+# ulimit -Sn 1024
+# ulimit -Hn 65536
+# ulimit -Ss 10240
+
+source environment
+
+conf_file="/etc/security/limits.d/oracle.conf"
+#conf_file="./oracle.conf"
+
+function GetSysLimit {
+  echo -n "Get current system ${1} limit for \"${2}\": "
+  eval ${3}='$(ulimit ${4})'
+  if [ $? -eq 0 ]; then
+    echo -e "\033[1;32mDone\033[0m"
+  else
+    echo -e "\033[1;31mFailed\033[0m"
+  fi
+}
+
+function GetConfLimit {
+  echo -n "Try to find ${1} limit for \"${2}\" in ${conf_file}: "
+  local result_str=$( grep -v "^#\|^ .*#\|^<-->.*#\|^$" ${conf_file} | grep  "${ORACLE_OWNER}.*${1}.*${5}" )
+  eval ${3}='${result_str}'
+  local result=$(echo "${result_str}" | awk ' {print $4} ')
+  eval ${4}='${result}'
+  if [ ! -z "${result}" ]; then
+    echo -e "\033[1;32mFound\033[0m"
+  else
+    echo -e "\033[1;31mNot found\033[0m"
+  fi
+}
+
+function SetupLimit {
+  echo -n "Setting up ${1} limit for \"${2}\" in ${conf_file}: "
+  #local val_in_sys=$( eval echo \$${3} )
+  local val_in_sys val_in_conf_str val_in_conf
+  eval val_in_sys='$'${3}
+  eval val_in_conf_str='$'${4}
+  eval val_in_conf='$'${5}
+  if [ ! -z "${val_in_conf}" ]; then
+    if [ "${val_in_conf}" == "unlimited" ] || [ ${val_in_conf} -ge ${6} ]; then
+      echo -e "\033[1;32mAlready exists and meets the requirements\033[0m"
+    else
+      echo -e "\033[1;31mAlready exists, but does not meets the requirements\033[0m"
+      read -p "Do you want to change it (Y/N)?: " user_choice
+      if [ "x${user_choice}" == "xY" ] || [ "x${user_choice}" == "xy" ]; then
+        sudo sed -i "s/${val_in_conf_str}/${ORACLE_OWNER}           ${1}    ${7}   ${6}/g" ${conf_file}
+      fi
+    fi
+  else
+    if [ "${val_in_sys}" == "unlimited" ] || [ ${val_in_sys} -ge ${6} ]; then
+      echo -e "\033[1;32mCurrent system value meets the requirements\033[0m"
+    else
+      echo -e "\033[1;31mCurrent system value does not meets the requirements\033[0m"
+      read -p "Do you want to change it (Y/N)?: " user_choice
+      if [ "x${user_choice}" == "xY" ] || [ "x${user_choice}" == "xy" ]; then
+        sudo sh -c "echo '${ORACLE_OWNER}           ${1}    ${7}   ${6}' >> ${conf_file}"
+      fi
+    fi
+  fi
+}
+
+
+
+echo -n "Try to find ${conf_file}: "
+if [ -f ${conf_file} ]; then
+  echo -e "\033[1;32mFound\033[0m"
+else
+  echo -e "\033[1;31mNot found\033[0m"
+fi
+
+GetSysLimit "soft" "max user processes" "mups_in_sys" "-Su"
+GetSysLimit "hard" "max user processes" "muph_in_sys" "-Hu"
+GetSysLimit "soft" "max open files" "mofs_in_sys" "-Sn"
+GetSysLimit "hard" "max open files" "mofh_in_sys" "-Hn"
+GetSysLimit "soft" "stack size" "sss_in_sys" "-Ss"
+
+if [ -f ${conf_file} ]; then
+  GetConfLimit "soft" "max user processes" "mups_in_conf_str" "mups_in_conf" "nproc"
+  GetConfLimit "hard" "max user processes" "muph_in_conf_str" "muph_in_conf" "nproc"
+  GetConfLimit "soft" "max open files" "mofs_in_conf_str" "mofs_in_conf" "nofile"
+  GetConfLimit "hard" "max open files" "mofh_in_conf_str" "mofh_in_conf" "nofile"
+  GetConfLimit "soft" "stack size" "sss_in_conf_str" "sss_in_conf" "stack"
+fi
+
+SetupLimit "soft" "max user processes" "mups_in_sys" "mups_in_conf_str" "mups_in_conf" 2047 "nproc"
+SetupLimit "hard" "max user processes" "muph_in_sys" "muph_in_conf_str" "muph_in_conf" 16384 "nproc"
+SetupLimit "soft" "max open files" "mofs_in_sys" "mofs_in_conf_str" "mofs_in_conf" 1024 "nofile"
+SetupLimit "hard" "max open files" "mofh_in_sys" "mofh_in_conf_str" "mofh_in_conf" 65536 "nofile"
+SetupLimit "soft" "stack size" "sss_in_sys" "sss_in_conf_str" "sss_in_conf" 10240 "stack"
+
+
+echo "Limits after change:"
+echo -n "Soft limit \"max user processes\": "
+sudo --user=${ORACLE_OWNER} sh -c "ulimit -Su"
+echo -n "Hard limit \"max user processes\": "
+sudo --user=${ORACLE_OWNER} sh -c "ulimit -Hu"
+echo -n "Soft limit \"max open files\": "
+sudo --user=${ORACLE_OWNER} sh -c "ulimit -Sn"
+echo -n "Hard limit \"max open files\": "
+sudo --user=${ORACLE_OWNER} sh -c "ulimit -Hn"
+echo -n "Soft limit \"stack size\": "
+sudo --user=${ORACLE_OWNER} sh -c "ulimit -Ss"

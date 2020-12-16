@@ -1,0 +1,96 @@
+Error in ${ORACLE_HOME}/server/install/make.log:
+
+ - Linking tnslsnr
+rm -f tnslsnr
+gcc -o tnslsnr -m64 -L/opt/Oracle/server/network/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/  /opt/Oracle/server/network/lib/s0nsgl.o /opt/Oracle/server/network/lib/snsglp.o -lclntsh `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11 -lztkg11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lmm -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lclient11 -lnnetd11 -lvsn11 -lcommon11 -lgeneric11   -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11   `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib -lons -lnl11  -ln11 -lnlsnr11 -lnlsnrc11 -lnsgr11 -lnms -lncm11 -lnmsp -lpeer -lnro11 -ln11   -lnl11 -lnlsnr11 -lnlsnrc11 -lnms -lncm11 -lnmsp -ln11 -lm
+/opt/Oracle/server/network/lib//libnlsnr11.a(nsglsn.o): In function `nsglonsterm':
+nsglsn.c:(.text+0xc29): undefined reference to `ons_subscriber_close'
+nsglsn.c:(.text+0xc3b): undefined reference to `ons_shutdown_nowait'
+/opt/Oracle/server/network/lib//libnlsnr11.a(nsglsn.o): In function `nsglma':
+nsglsn.c:(.text+0x1ffb): undefined reference to `ons_subscriber_receive'
+nsglsn.c:(.text+0x2b0e): undefined reference to `ons_notification_body'
+nsglsn.c:(.text+0x303c): undefined reference to `ons_subscriber_relinquish'
+nsglsn.c:(.text+0x3053): undefined reference to `ons_subscriber_receive'
+/opt/Oracle/server/network/lib//libnlsnr11.a(nsglsn.o): In function `nsglonsinit':
+nsglsn.c:(.text+0x2e006): undefined reference to `ons_init'
+nsglsn.c:(.text+0x2e021): undefined reference to `ons_subscriber_create_async'
+nsglsn.c:(.text+0x2e03d): undefined reference to `ons_subscriber_status'
+nsglsn.c:(.text+0x2e85e): undefined reference to `ons_shutdown_nowait'
+nsglsn.c:(.text+0x2eda2): undefined reference to `ons_init_woraclehome'
+/opt/Oracle/server/network/lib//libnlsnr11.a(nsgcs.o): In function `nsgcsss':
+nsgcs.c:(.text+0x58c): undefined reference to `ons_subscriber_status'
+collect2: error: ld returned 1 exit status
+/opt/Oracle/server/network/lib/ins_net_server.mk:27: Error in invoking target «tnslsnr»
+make: *** [tnslsnr] Error 1
+
+
+
+
+Investigation:
+
+current GCC option
+gcc -o tnslsnr -m64 -L/opt/Oracle/server/network/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/  /opt/Oracle/server/network/lib/s0nsgl.o /opt/Oracle/server/network/lib/snsglp.o -lclntsh `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11 -lztkg11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lmm -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lclient11 -lnnetd11 -lvsn11 -lcommon11 -lgeneric11   -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11   `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib -lons -lnl11  -ln11 -lnlsnr11 -lnlsnrc11 -lnsgr11 -lnms -lncm11 -lnmsp -lpeer -lnro11 -ln11   -lnl11 -lnlsnr11 -lnlsnrc11 -lnms -lncm11 -lnmsp -ln11 -lm
+
+
+
+Simplify it as much as possible
+
+Look at -> /opt/Oracle/server/lib/sysliblist and replace corresponding includes with
+-ldl -lm -lpthread -lnsl -lirc -lipgo -lsvml
+
+Look at -> /opt/Oracle/server/lib/ldflags and replace corresponding includes with
+-lnbeq11 -lnhost11 -lnus11 -lnldap11 -lldapclnt11  -lnsslb11   -lntcp11 -lntcps11 -lnsslb11 -lntcp11 -lntns11
+
+
+Minimal samebugous linking options
+Not Found! But solution was found very fast.
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!! Victory !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+gcc -o tnslsnr s0nsgl.o snsglp.o -lnlsnr11 -ln11 -lnl11 -lnnz11 -lnsgr11 -lclntsh -ldl -lm -lnms -lnmsp -lons -lpeer -lpthread -L/opt/Oracle/server/network/lib -L/opt/Oracle/server/lib -m64
+
+
+Solution 1:
+
+${ORACLE_HOME}/network/lib/ins_net_server.mk
+
+tnslsnr: $(S0NSGL) $(SNSGLP) $(NSGLPNP)
+<------>$(SILENT)$(ECHO) " - Linking $(TNSLSNR)"
+<------>$(RMF) $@
+<------>$(TNSLSNR_LINKLINE)
+
+
+replace with
+
+tnslsnr: $(S0NSGL) $(SNSGLP) $(NSGLPNP)
+<------>$(SILENT)$(ECHO) " - Linking $(TNSLSNR)"
+<------>$(RMF) $@
+<------>$(TNSLSNR_LINKLINE:-lclntsh=-lnlsnr11 -lclntsh)
+
+Solution 2:
+
+${ORACLE_HOME}/network/lib/env_network.mk
+
+TNSLSNR_LINKLINE=$(LINK) $(TNSLSNR_OFILES) $(LINKTTLIBS) $(LLIBONS) \
+                 $(LOCALNETLIBS) $(MATHLIB) $(TNSLSNR_THREADLIB)
+
+replace with
+
+TNSLSNR_LINKLINE=$(LINK) $(TNSLSNR_OFILES) -lnlsnr11 $(LINKTTLIBS) $(LLIBONS) \
+                 $(LOCALNETLIBS) $(MATHLIB) $(TNSLSNR_THREADLIB)
+
+Solution from internet:
+
+${ORACLE_HOME}/network/lib/env_network.mk
+
+TNSLSNR_LINKLINE=$(LINK) $(TNSLSNR_OFILES) $(LINKTTLIBS) $(LLIBONS) \
+                 $(LOCALNETLIBS) $(MATHLIB) $(TNSLSNR_THREADLIB)
+
+replace with
+
+TNSLSNR_LINKLINE=$(LINK) $(TNSLSNR_OFILES) -Wl,--no-as-needed $(LINKTTLIBS) $(LLIBONS) \
+                 $(LOCALNETLIBS) $(MATHLIB) $(TNSLSNR_THREADLIB)
+
+
+
+

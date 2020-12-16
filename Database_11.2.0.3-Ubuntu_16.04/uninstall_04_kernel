@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Oracle uninstall script
+# This script will remove kernel parameters
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+if [ -f /etc/sysctl.d/60-oracle.conf ]
+then
+  echo "Removing /etc/sysctl.d/60-oracle.conf: "
+  sudo rm /etc/sysctl.d/60-oracle.conf
+  if [ $? -eq 0 ]; then
+    echo -e "\033[1;32mDone\033[0m"
+  else
+    echo -e "\033[1;31mFailed\033[0m"
+  fi
+fi
+
+sudo sysctl -p

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# This script will remove windows *.bat and *.exe files
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source environment
+
+sudo rm ${ORACLE_HOME}/bin/EMDeploy.bat
+sudo rm ${ORACLE_HOME}/bin/emdwgrd.bat
+sudo rm ${ORACLE_HOME}/bin/pafctl.bat
+sudo rm ${ORACLE_HOME}/bin/PARDeploy.bat
+sudo rm ${ORACLE_HOME}/sqldeveloper/sqldeveloper.exe
+sudo rm ${ORACLE_HOME}/sqldeveloper/sqlcli.bat

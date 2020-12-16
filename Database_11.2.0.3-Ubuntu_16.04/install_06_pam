@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Oracle pre-install script
+# This script checkes PAM configuration
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+#conf_file=/etc/pam.d/login
+conf_file=./login.conf
+
+echo -n "Check PAM configuration: "
+conf_str=$( grep -v "^#\|^ .*#\|^<-->.*#\|^$" ${conf_file} | grep  "session.*required.*pam_limits.so" )
+
+if [ -z "${conf_str}" ]; then
+  echo -e "\033[1;31mFailed\033[0m"
+  read -p "Do you want to change ${conf_file} (Y/N)?: " user_choice
+  if [ "x${user_choice}" == "xY" ] || [ "x${user_choice}" == "xy" ]; then
+    sudo sh -c "echo \"session    required   pam_limits.so\" >> ${conf_file}"
+    if [ $? -eq 0 ]; then
+      result="\033[1;32mDone\033[0m"
+    else
+      result="\033[1;31mFailed\033[0m"
+    fi
+    echo -e "Changing ${conf_file}: ${result}"
+  fi
+else
+  echo -e "\033[1;32mSuccess\033[0m"
+fi

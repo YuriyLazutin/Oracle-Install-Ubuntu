@@ -1,0 +1,227 @@
+Error in ${ORACLE_HOME}/server/install/make.log:
+
+ - Linking Oracle.
+rm -f /opt/Oracle/server/rdbms/lib/oracle
+gcc  -o /opt/Oracle/server/rdbms/lib/oracle -m64 -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/   -Wl,-E /opt/Oracle/server/rdbms/lib/opimai.o /opt/Oracle/server/rdbms/lib/ssoraed.o /opt/Oracle/server/rdbms/lib/ttcsoi.o  -Wl,--whole-archive -lperfsrv11 -Wl,--no-whole-archive /opt/Oracle/server/lib/nautab.o /opt/Oracle/server/lib/naeet.o /opt/Oracle/server/lib/naect.o /opt/Oracle/server/lib/naedhs.o /opt/Oracle/server/rdbms/lib/config.o  -lserver11 -lodm11 -lcell11 -lnnet11 -lskgxp11 -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lclient11  -lvsn11 -lcommon11 -lgeneric11 -lknlopt `if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep xsyeolap.o > /dev/null 2>&1 ; then echo "-loraolap11" ; fi` -lslax11 -lpls11  -lrt -lplp11 -lserver11 -lclient11  -lvsn11 -lcommon11 -lgeneric11 `if [ -f /opt/Oracle/server/lib/libavserver11.a ] ; then echo "-lavserver11" ; else echo "-lavstub11"; fi` `if [ -f /opt/Oracle/server/lib/libavclient11.a ] ; then echo "-lavclient11" ; fi` -lknlopt -lslax11 -lpls11  -lrt -lplp11 -ljavavm11 -lserver11  -lwwg  `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11 -lmm -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lztkg11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11   -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep "kxmnsd.o" > /dev/null 2>&1 ; then echo " " ; else echo "-lordsdo11"; fi` -L/opt/Oracle/server/ctx/lib/ -lctxc11 -lctx11 -lzx11 -lgx11 -lctx11 -lzx11 -lgx11 -lordimt11 -lclsra11 -ldbcfg11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11 -locr11 -locrb11 -locrutl11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11  -loraz -llzopro -lorabz2 -lipp_z -lipp_bz2 -lippdcemerged -lippsemerged -lippdcmerged  -lippsmerged -lippcore  -lippcpemerged -lippcpmerged  -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lsnls11 -lunls11  -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lasmclnt11 -lcommon11 -lcore11 -laio    `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoCloseFile'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoCommit2P'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoErrorMessage'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoGetSize'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoOpenDirty'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoIO'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoCreateCtxExt'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoCreate2P'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoCheckHdl'
+/opt/Oracle/server/lib//libocrutl11.so: undefined reference to `lfifcp'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoDestroyCtx'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoRenameFile'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoCreateFile'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoDeleteFile'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoFnameMax'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoCheckMount'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoControl'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoOpenFile'
+/opt/Oracle/server/lib//libocrutl11.so: undefined reference to `lfieno'
+collect2: error: ld returned 1 exit status
+make: *** [/opt/Oracle/server/rdbms/lib/oracle] Error 1
+/opt/Oracle/server/rdbms/lib/ins_rdbms.mk:724: Error in invoking target «/opt/Oracle/server/rdbms/lib/oracle»
+
+
+
+
+Investigation:
+
+current GCC option
+gcc  -o /opt/Oracle/server/rdbms/lib/oracle -m64 -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/   -Wl,-E /opt/Oracle/server/rdbms/lib/opimai.o /opt/Oracle/server/rdbms/lib/ssoraed.o /opt/Oracle/server/rdbms/lib/ttcsoi.o  -Wl,--whole-archive -lperfsrv11 -Wl,--no-whole-archive /opt/Oracle/server/lib/nautab.o /opt/Oracle/server/lib/naeet.o /opt/Oracle/server/lib/naect.o /opt/Oracle/server/lib/naedhs.o /opt/Oracle/server/rdbms/lib/config.o  -lserver11 -lodm11 -lcell11 -lnnet11 -lskgxp11 -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lclient11  -lvsn11 -lcommon11 -lgeneric11 -lknlopt `if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep xsyeolap.o > /dev/null 2>&1 ; then echo "-loraolap11" ; fi` -lslax11 -lpls11  -lrt -lplp11 -lserver11 -lclient11  -lvsn11 -lcommon11 -lgeneric11 `if [ -f /opt/Oracle/server/lib/libavserver11.a ] ; then echo "-lavserver11" ; else echo "-lavstub11"; fi` `if [ -f /opt/Oracle/server/lib/libavclient11.a ] ; then echo "-lavclient11" ; fi` -lknlopt -lslax11 -lpls11  -lrt -lplp11 -ljavavm11 -lserver11  -lwwg  `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11 -lmm -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lztkg11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11   -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep "kxmnsd.o" > /dev/null 2>&1 ; then echo " " ; else echo "-lordsdo11"; fi` -L/opt/Oracle/server/ctx/lib/ -lctxc11 -lctx11 -lzx11 -lgx11 -lctx11 -lzx11 -lgx11 -lordimt11 -lclsra11 -ldbcfg11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11 -locr11 -locrb11 -locrutl11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11  -loraz -llzopro -lorabz2 -lipp_z -lipp_bz2 -lippdcemerged -lippsemerged -lippdcmerged  -lippsmerged -lippcore  -lippcpemerged -lippcpmerged  -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lsnls11 -lunls11  -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lasmclnt11 -lcommon11 -lcore11 -laio    `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib
+
+
+
+Simplify it as much as possible
+
+Look at -> /opt/Oracle/server/lib/sysliblist and replace corresponding includes with
+-ldl -lm -lpthread -lnsl -lirc -lipgo -lsvml
+
+Look at -> /opt/Oracle/server/lib/ldflags and replace corresponding includes with
+-lnbeq11 -lnhost11 -lnus11 -lnldap11 -lldapclnt11  -lnsslb11   -lntcp11 -lntcps11 -lnsslb11 -lntcp11 -lntns11
+
+*******************************
+`if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep xsyeolap.o > /dev/null 2>&1 ; then echo "-loraolap11" ; fi`                    -loraolap11
+`if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep "kxmnsd.o" > /dev/null 2>&1 ; then echo " " ; else echo "-lordsdo11"; fi`      -lordsdo11
+`if [ -f /opt/Oracle/server/lib/libavserver11.a ] ; then echo "-lavserver11" ; else echo "-lavstub11"; fi`                                        -lavstub11
+`if [ -f /opt/Oracle/server/lib/libavclient11.a ] ; then echo "-lavclient11" ; fi`                                                                EMPTY
+*******************************
+
+
+Minimal samebugous linking options
+gcc -o oracle -m64 -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/ opimai.o ssoraed.o ttcsoi.o -Wl,--whole-archive -lperfsrv11 -Wl,--no-whole-archive /opt/Oracle/server/lib/nautab.o /opt/Oracle/server/lib/naeet.o /opt/Oracle/server/lib/naect.o /opt/Oracle/server/lib/naedhs.o config.o -lserver11 -lcell11 -lnnet11 -lskgxp11 -lcommon11 -lgeneric11 -lknlopt `if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep xsyeolap.o > /dev/null 2>&1 ; then echo "-loraolap11" ; fi` -lpls11 -lplp11 -lclient11 -lvsn11 -lgeneric11 `if [ -f /opt/Oracle/server/lib/libavserver11.a ] ; then echo "-lavserver11" ; else echo "-lavstub11"; fi` -lslax11 -lpls11 -lrt -ljavavm11 -lserver11 -lwwg -lmm -lsnls11 -lztkg11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags` -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 `if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep "kxmnsd.o" > /dev/null 2>&1 ; then echo " " ; else echo "-lordsdo11"; fi` -lctxc11 -lctx11 -lzx11 -lgx11 -lordimt11 -lclsra11 -ldbcfg11 -locr11 -lhasgen11 -lnnz11 -lzt11 -loraz -llzopro -lorabz2 -lipp_z -lipp_bz2 -lippdcemerged -lippsemerged -lippdcmerged -lippsmerged -lippcore -lippcpemerged -lippcpmerged -lxml11 -lunls11 -lcore11 -lnls11 -lasmclnt11 -lcommon11 -lcore11 `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm
+
+
+Fix a few bugs
+gcc -o oracle -m64 -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/ opimai.o ssoraed.o ttcsoi.o -Wl,--whole-archive -lperfsrv11 -Wl,--no-whole-archive /opt/Oracle/server/lib/nautab.o /opt/Oracle/server/lib/naeet.o /opt/Oracle/server/lib/naect.o /opt/Oracle/server/lib/naedhs.o config.o -lserver11 -lcell11 -lnnet11 -lskgxp11 -lcommon11 -lgeneric11 -lknlopt `if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep xsyeolap.o > /dev/null 2>&1 ; then echo "-loraolap11" ; fi` -lpls11 -lplp11 -lclient11 -lvsn11 -lgeneric11 `if [ -f /opt/Oracle/server/lib/libavserver11.a ] ; then echo "-lavserver11" ; else echo "-lavstub11"; fi` -lasmclntsh11 -lslax11 -lpls11 -lrt -ljavavm11 -lserver11 -lwwg -lmm -lsnls11 -lztkg11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags` -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 `if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep "kxmnsd.o" > /dev/null 2>&1 ; then echo " " ; else echo "-lordsdo11"; fi` -lctxc11 -lctx11 -lzx11 -lgx11 -lordimt11 -lclsra11 -ldbcfg11 -locr11 -lhasgen11 -lnnz11 -lzt11 -loraz -llzopro -lorabz2 -lipp_z -lipp_bz2 -lippdcemerged -lippsemerged -lippdcmerged -lippsmerged -lippcore -lippcpemerged -lippcpmerged -lxml11 -lunls11 -lcore11 -lnls11 -lasmclnt11 -lcommon11 -lcore11 `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm
+/opt/Oracle/server/lib/libocrutl11.so: undefined reference to `lfifcp'
+/opt/Oracle/server/lib/libocrutl11.so: undefined reference to `lfieno'
+collect2: error: ld returned 1 exit status
+
+Try to find in:
+~/server/lib$ ~/findproc lfifcp
+ 1673: 00000000016e6cd8   1000 FUNC    GLOBAL DEFAULT       13 lfifcp
+13735: 00000000016e7cfc    800 FUNC    GLOBAL DEFAULT       13 slfifcp
+24900: 0000000000000000      0 FILE    LOCAL  DEFAULT      ABS lfifcp.c
+25012: 0000000000000000      0 FILE    LOCAL  DEFAULT      ABS slfifcp.c
+96966: 00000000016e6cd8   1000 FUNC    GLOBAL DEFAULT       13 lfifcp
+107969: 00000000016e7cfc    800 FUNC    GLOBAL DEFAULT       13 slfifcp
+Found in: libclntsh.so
+  116: 0000000000000000      0 NOTYPE  GLOBAL DEFAULT    UNDEF lfifcp
+  183: 0000000000000000      0 NOTYPE  GLOBAL DEFAULT    UNDEF lfifcp
+Found in: libocrutl11.so
+eu-readelf: input file is empty
+libcore11.a(lfifcp.o):
+    1: 0000000000000000      0 FILE    LOCAL  DEFAULT      ABS lfifcp.c
+   16: 0000000000000000   1000 FUNC    GLOBAL DEFAULT        3 lfifcp
+   20: 0000000000000000      0 NOTYPE  GLOBAL DEFAULT    UNDEF slfifcp
+libcore11.a(slfifcp.o):
+    1: 0000000000000000      0 FILE    LOCAL  DEFAULT      ABS slfifcp.c
+   17: 0000000000000000    800 FUNC    GLOBAL DEFAULT        5 slfifcp
+Found in: libcore11.a
+
+~/server/lib/stubs$ ~/findproc lfifcp
+~/server/rdbms/lib$ ~/findproc lfifcp
+ls: can't access to '*.so': No such file or directory
+   78: 0000000000000000      0 NOTYPE  GLOBAL DEFAULT    UNDEF lfifcp
+Found in: libdbtools11.a
+
+~/server/ctx/lib$ ~/findproc lfifcp
+~/server/hs/lib$ ~/findproc lfifcp
+~/server/instantclient$ ~/findproc lfifcp
+~/server/ldap/lib$ ~/findproc lfifcp
+~/server/network/lib$ ~/findproc lfifcp
+~/server/odbc/lib$ ~/findproc lfifcp
+~/server/plsql/lib$ ~/findproc lfifcp
+~/server/precomp/lib$ ~/findproc lfifcp
+~/server/racg/lib$ ~/findproc lfifcp
+~/server/sqlplus/lib$ ~/findproc lfifcp
+~/server/srvm/lib$ ~/findproc lfifcp
+ls: can't access to '*.so': No such file or directory
+   57: 0000000000000000      0 NOTYPE  GLOBAL DEFAULT    UNDEF lfifcp
+Found in: libocrutl11.a
+
+~/server/sysman/lib$ ~/findproc lfifcp
+
+~/server/lib$ ~/findproc lfieno
+  573: 00000000016e6a04    448 FUNC    GLOBAL DEFAULT       13 lfieno
+24659: 0000000000000000      0 FILE    LOCAL  DEFAULT      ABS lfieno.c
+94219: 00000000016e6a04    448 FUNC    GLOBAL DEFAULT       13 lfieno
+Found in: libclntsh.so
+  108: 0000000000000000      0 NOTYPE  GLOBAL DEFAULT    UNDEF lfieno
+  176: 0000000000000000      0 NOTYPE  GLOBAL DEFAULT    UNDEF lfieno
+Found in: libocrutl11.so
+eu-readelf: input file is empty
+libcore11.a(lfieno.o):
+    1: 0000000000000000      0 FILE    LOCAL  DEFAULT      ABS lfieno.c
+   14: 0000000000000000    448 FUNC    GLOBAL DEFAULT        3 lfieno
+Found in: libcore11.a
+
+~/server/lib/stubs$ ~/findproc lfieno
+~/server/rdbms/lib$ ~/findproc lfieno
+ls: can't access to '*.so': No such file or directory
+  105: 0000000000000000      0 NOTYPE  GLOBAL DEFAULT    UNDEF lfieno
+Found in: libdbtools11.a
+
+~/server/ctx/lib$ ~/findproc lfieno
+~/server/hs/lib$ ~/findproc lfieno
+~/server/instantclient$ ~/findproc lfieno
+~/server/ldap/lib$ ~/findproc lfieno
+~/server/network/lib$ ~/findproc lfieno
+~/server/odbc/lib$ ~/findproc lfieno
+~/server/plsql/lib$ ~/findproc lfieno
+~/server/precomp/lib$ ~/findproc lfieno
+~/server/racg/lib$ ~/findproc lfieno
+~/server/sqlplus/lib$ ~/findproc lfieno
+~/server/srvm/lib$ ~/findproc lfieno
+ls: can't access to '*.so': No such file or directory
+   61: 0000000000000000      0 NOTYPE  GLOBAL DEFAULT    UNDEF lfieno
+Found in: libocrutl11.a
+~/server/sysman/lib$ ~/findproc.sh lfieno
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!! Victory 1 (This solution is not work. Oracle after such compilation was compiled but are segfaulted) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+gcc -o oracle -m64 -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/ opimai.o ssoraed.o ttcsoi.o -Wl,--whole-archive -lperfsrv11 -Wl,--no-whole-archive /opt/Oracle/server/lib/nautab.o /opt/Oracle/server/lib/naeet.o /opt/Oracle/server/lib/naect.o /opt/Oracle/server/lib/naedhs.o config.o -lserver11 -lcell11 -lnnet11 -lskgxp11 -lcommon11 -lgeneric11 -lknlopt `if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep xsyeolap.o > /dev/null 2>&1 ; then echo "-loraolap11" ; fi` -lpls11 -lplp11 -lclient11 -lvsn11 -lgeneric11 `if [ -f /opt/Oracle/server/lib/libavserver11.a ] ; then echo "-lavserver11" ; else echo "-lavstub11"; fi` -lslax11 -lpls11 -lrt -ljavavm11 -lserver11 -lwwg -lmm -lsnls11 -lztkg11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags` -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 `if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep "kxmnsd.o" > /dev/null 2>&1 ; then echo " " ; else echo "-lordsdo11"; fi` -lctxc11 -lctx11 -lzx11 -lgx11 -lordimt11 -lclsra11 -ldbcfg11 -lasmclntsh11 -lclntsh -locr11 -lhasgen11 -lnnz11 -lzt11 -loraz -llzopro -lorabz2 -lipp_z -lipp_bz2 -lippdcemerged -lippsemerged -lippdcmerged -lippsmerged -lippcore -lippcpemerged -lippcpmerged -lxml11 -lunls11 -lcore11 -lnls11 -lasmclnt11 -lcommon11 -lcore11 `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm
+
+!!!!!!!!!!!!!!!!!!!!!!!!! Victory 2 (This solution is not work. Oracle after such compilation was compiled but are segfaulted) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+gcc  -o /opt/Oracle/server/rdbms/lib/oracle -m64 -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/   -Wl,-E /opt/Oracle/server/rdbms/lib/opimai.o /opt/Oracle/server/rdbms/lib/ssoraed.o /opt/Oracle/server/rdbms/lib/ttcsoi.o  -Wl,--whole-archive -lperfsrv11 -Wl,--no-whole-archive /opt/Oracle/server/lib/nautab.o /opt/Oracle/server/lib/naeet.o /opt/Oracle/server/lib/naect.o /opt/Oracle/server/lib/naedhs.o /opt/Oracle/server/rdbms/lib/config.o  -lserver11 -lodm11 -lcell11 -lnnet11 -lskgxp11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lclient11  -lvsn11             -lcommon11 -lgeneric11 -lknlopt `if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep xsyeolap.o > /dev/null 2>&1 ; then echo "-loraolap11" ; fi` -lslax11 -lpls11  -lrt -lplp11 -lserver11 -lclient11  -lvsn11 -lcommon11 -lgeneric11 `if [ -f /opt/Oracle/server/lib/libavserver11.a ] ; then echo "-lavserver11" ; else echo "-lavstub11"; fi` `if [ -f /opt/Oracle/server/lib/libavclient11.a ] ; then echo "-lavclient11" ; fi` -lknlopt -lslax11 -lpls11  -lrt -lplp11 -ljavavm11 -lserver11  -lwwg  `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11 -lmm -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lztkg11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11   -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep "kxmnsd.o" > /dev/null 2>&1 ; then echo " " ; else echo "-lordsdo11"; fi` -L/opt/Oracle/server/ctx/lib/ -lctxc11 -lctx11 -lzx11 -lgx11 -lctx11 -lzx11 -lgx11 -lordimt11 -lclsra11 -ldbcfg11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11 -locr11 -locrb11 -locrutl11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11  -loraz -llzopro -lorabz2 -lipp_z -lipp_bz2 -lippdcemerged -lippsemerged -lippdcmerged  -lippsmerged -lippcore  -lippcpemerged -lippcpmerged  -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lsnls11 -lunls11  -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lasmclnt11 -lcommon11 -lcore11 -laio    `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib -Wl,--allow-shlib-undefined
+
+!!!!!!!!!!!!!!!!!!!!!!!!! Victory 3 (This is work for me) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+gcc  -o /opt/Oracle/server/rdbms/lib/oracle -m64 -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/   -Wl,-E /opt/Oracle/server/rdbms/lib/opimai.o /opt/Oracle/server/rdbms/lib/ssoraed.o /opt/Oracle/server/rdbms/lib/ttcsoi.o  -Wl,--whole-archive -lperfsrv11 -Wl,--no-whole-archive /opt/Oracle/server/lib/nautab.o /opt/Oracle/server/lib/naeet.o /opt/Oracle/server/lib/naect.o /opt/Oracle/server/lib/naedhs.o /opt/Oracle/server/rdbms/lib/config.o  -lserver11 -lodm11 -lcell11 -lnnet11 -lskgxp11 -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lclient11  -lvsn11 -lcommon11 -lgeneric11 -lknlopt `if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep xsyeolap.o > /dev/null 2>&1 ; then echo "-loraolap11" ; fi` -lslax11 -lpls11  -lrt -lplp11 -lserver11 -lclient11  -lvsn11 -lcommon11 -lgeneric11 `if [ -f /opt/Oracle/server/lib/libavserver11.a ] ; then echo "-lavserver11" ; else echo "-lavstub11"; fi` `if [ -f /opt/Oracle/server/lib/libavclient11.a ] ; then echo "-lavclient11" ; fi` -lknlopt -lslax11 -lpls11  -lrt -lplp11 -ljavavm11 -lserver11  -lwwg  `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11 -lmm -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lztkg11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11   -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `if /usr/bin/ar tv /opt/Oracle/server/rdbms/lib/libknlopt.a | grep "kxmnsd.o" > /dev/null 2>&1 ; then echo " " ; else echo "-lordsdo11"; fi` -L/opt/Oracle/server/ctx/lib/ -lctxc11 -lctx11 -lzx11 -lgx11 -lctx11 -lzx11 -lgx11 -lordimt11 -lclsra11 -ldbcfg11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11 -Wl,--no-as-needed -locr11 -locrb11 -locrutl11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11  -loraz -llzopro -lorabz2 -lipp_z -lipp_bz2 -lippdcemerged -lippsemerged -lippdcmerged  -lippsmerged -lippcore  -lippcpemerged -lippcpmerged  -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lsnls11 -lunls11  -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lasmclnt11 -lcommon11 -lcore11 -laio    `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib
+
+
+Solution 1 (not work):
+
+${ORACLE_HOME}/rdbms/lib/ins_rdbms.mk
+
+$(ORACLE): $(ALWAYS) $(ORACLE_DEPS) $(INS_CONFIG)
+<------>$(SILENT)$(ECHO)
+<------>$(SILENT)$(ECHO) " - Linking Oracle "
+<------>$(RMF) $@
+<------>$(ORACLE_LINKLINE)
+
+replace with
+
+$(ORACLE): $(ALWAYS) $(ORACLE_DEPS) $(INS_CONFIG)
+<------>$(SILENT)$(ECHO)
+<------>$(SILENT)$(ECHO) " - Linking Oracle "
+<------>$(RMF) $@
+<------>$(ORACLE_LINKLINE:-locr11=-lasmclntsh11 -lclntsh -locr11)
+
+
+Solution 2 (not work):
+
+${ORACLE_HOME}/rdbms/lib/ins_rdbms.mk
+
+$(ORACLE): $(ALWAYS) $(ORACLE_DEPS) $(INS_CONFIG)
+<------>$(SILENT)$(ECHO)
+<------>$(SILENT)$(ECHO) " - Linking Oracle "
+<------>$(RMF) $@
+<------>$(ORACLE_LINKLINE)
+
+replace with
+
+$(ORACLE): $(ALWAYS) $(ORACLE_DEPS) $(INS_CONFIG)
+<------>$(SILENT)$(ECHO)
+<------>$(SILENT)$(ECHO) " - Linking Oracle "
+<------>$(RMF) $@
+<------>$(ORACLE_LINKLINE) -Wl,--allow-shlib-undefined
+
+
+Solution 3 (work for me):
+
+${ORACLE_HOME}/rdbms/lib/ins_rdbms.mk
+
+$(ORACLE): $(ALWAYS) $(ORACLE_DEPS) $(INS_CONFIG)
+<------>$(SILENT)$(ECHO)
+<------>$(SILENT)$(ECHO) " - Linking Oracle "
+<------>$(RMF) $@
+<------>$(ORACLE_LINKLINE)
+
+replace with
+
+$(ORACLE): $(ALWAYS) $(ORACLE_DEPS) $(INS_CONFIG)
+<------>$(SILENT)$(ECHO)
+<------>$(SILENT)$(ECHO) " - Linking Oracle "
+<------>$(RMF) $@
+<------>$(ORACLE_LINKLINE:-locr11=-Wl,--no-as-needed -locr11)
+
+
+Solution from internet:
+
+${ORACLE_HOME}/rdbms/lib/env_rdbms.mk
+
+ORACLE_LINKLINE=$(ORACLE_LINKER) $(PL_FLAGS) $(ORAMAI) $(SSORED) $(TTCSOI) \
+$(ORACLE_KERNEL_LIBS) $(LINKLDLIBS)
+
+replace with
+
+ORACLE_LINKLINE=$(ORACLE_LINKER) -Wl,--no-as-needed $(PL_FLAGS) $(ORAMAI) $(SSORED) $(TTCSOI) \
+$(ORACLE_KERNEL_LIBS) $(LINKLDLIBS)
+

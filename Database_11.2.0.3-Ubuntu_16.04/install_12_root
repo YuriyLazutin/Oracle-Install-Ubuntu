@@ -1,0 +1,232 @@
+#!/bin/bash
+
+# This script should be executed when oracle installer will ask you to execute root scripts
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+
+source environment
+
+function PrintInfo {
+  if [ $? -eq 0 ]; then
+    result="\033[1;32mDone\033[0m"
+  else
+    result="\033[1;31mFailed\033[0m"
+  fi
+  echo -e "${1}: ${result}"
+}
+
+# Replace actions from: ${ORACLE_INVENTORY}/orainstRoot.sh
+
+if [ ! -f "/etc/oraInst.loc" ]; then
+  echo -n "Creating /etc/oraInst.loc: "
+  sudo sh -c "echo inventory_loc=${ORACLE_INVENTORY} > /etc/oraInst.loc"
+  sudo sh -c "echo inst_group=${ORACLE_GROUP} >> /etc/oraInst.loc"
+  PrintInfo
+
+  echo -n "Changing access rights for /etc/oraInst.loc: "
+  sudo chmod u=rw,go=r /etc/oraInst.loc
+  PrintInfo
+fi
+
+# Replace actions from ${ORACLE_HOME}/install/utl/rootmacro.sh "$@"
+export WAS_ROOTMACRO_CALL_MADE=YES
+export LOG=${LOGDIR}/rootmacro.sh.log
+
+# Replace actions from ${ORACLE_HOME}/install/utl/rootinstall.sh
+
+echo -n "Move files to LBIN, and set permissions: "
+sudo ln -s ${ORACLE_HOME}/bin/dbhome ${LBIN}/dbhome
+sudo ln -s ${ORACLE_HOME}/bin/oraenv ${LBIN}/oraenv
+# This file is needed if we use a C-shell
+#sudo ln -s ${ORACLE_HOME}/bin/coraenv ${LBIN}/coraenv
+PrintInfo
+
+echo -n "Create oratab file (${ORATAB}): "
+sudo sh -c "echo >> ${ORATAB}"
+sudo chown ${ORACLE_OWNER}:${ORACLE_GROUP} ${ORATAB}
+sudo chmod ug=rw,o=r ${ORATAB}
+PrintInfo
+
+# Replace actions from ${ORACLE_HOME}/install/unix/rootadd.sh
+
+## change owner and permissions of the remote operations executible
+#if [ -f  ${ORACLE_HOME}/bin/nmo.0 ];
+#then
+#  rm -f ${ORACLE_HOME}/bin/nmo
+#  cp -p ${ORACLE_HOME}/bin/nmo.0 ${ORACLE_HOME}/bin/nmo
+#fi
+#chown root ${ORACLE_HOME}/bin/nmo
+#chmod 4710 ${ORACLE_HOME}/bin/nmo
+
+## change owner and permissions of the program that does memory computations
+#if [ -f  ${ORACLE_HOME}/bin/nmb.0 ];
+#then
+#  rm -f ${ORACLE_HOME}/bin/nmb
+#  cp -p ${ORACLE_HOME}/bin/nmb.0 ${ORACLE_HOME}/bin/nmb
+#fi
+#chown root ${ORACLE_HOME}/bin/nmb
+#chmod 4710 ${ORACLE_HOME}/bin/nmb
+
+# change owner and permissions of the storage metrics executible
+#if [ -f  ${ORACLE_HOME}/bin/nmhs.0 ];
+#then
+#  rm -f ${ORACLE_HOME}/bin/nmhs
+#  cp -p ${ORACLE_HOME}/bin/nmhs.0 ${ORACLE_HOME}/bin/nmhs
+#fi
+#chown root ${ORACLE_HOME}/bin/nmhs
+#chmod 4710 ${ORACLE_HOME}/bin/nmhs
+
+echo -n "Change permissions on emagent: "
+sudo chmod u=rwx,go-rwx ${ORACLE_HOME}/bin/emagent
+PrintInfo
+
+echo -n "Change permissions on emdctl: "
+sudo chmod u=rwx,go-rwx ${ORACLE_HOME}/bin/emdctl
+PrintInfo
+
+# change permissions so they are accessible by users from groups
+# other than the agent user group.
+echo -n "Change permissions on ${ORACLE_HOME}/bin: "
+sudo chmod u=rwx,go=rx ${ORACLE_HOME}/bin
+PrintInfo
+
+echo -n "Change permissions on ${ORACLE_HOME}/lib: "
+sudo chmod -R a+rX ${ORACLE_HOME}/lib
+PrintInfo
+
+echo -n "Change permissions on ${ORACLE_HOME}/perl: "
+sudo chmod -R a+rX ${ORACLE_HOME}/perl
+PrintInfo
+
+#chmod -R a+rX ${ORACLE_HOME}/sysman/admin/scripts
+
+echo -n "Change permissions on ${ORACLE_HOME}/jdk: "
+sudo chmod -R a+rX ${ORACLE_HOME}/jdk
+PrintInfo
+
+echo -n "Change permissions on ${ORACLE_HOME}/bin/nmocat: "
+sudo chmod u=rwx,go=rx ${ORACLE_HOME}/bin/nmocat
+PrintInfo
+
+
+# Replace actions from ${ORACLE_HOME}/network/install/sqlnet/setowner.sh
+
+if [ ! -d /var/tmp/.oracle ]; then
+  echo -n "Create /var/tmp/.oracle directory: "
+  sudo mkdir -p /var/tmp/.oracle
+  PrintInfo
+
+  echo -n "Change owner of /var/tmp/.oracle: "
+  #sudo chown root  /var/tmp/.oracle
+  sudo chown ${ORACLE_OWNER}:${ORACLE_GROUP} /var/tmp/.oracle
+  PrintInfo
+
+  echo -n "Change permissions on /var/tmp/.oracle: "
+  #sudo chmod 01777 /var/tmp/.oracle
+  sudo chmod ugo=rwxt /var/tmp/.oracle
+  PrintInfo
+fi
+
+if [ ! -d /tmp/.oracle ]; then
+  echo -n "Create /tmp/.oracle directory: "
+  sudo mkdir -p /tmp/.oracle
+  PrintInfo
+
+  echo -n "Change owner of /tmp/.oracle: "
+  #sudo chown root  /tmp/.oracle
+  sudo chown ${ORACLE_OWNER}:${ORACLE_GROUP} /tmp/.oracle
+  PrintInfo
+
+  echo -n "Change permissions on /tmp/.oracle: "
+  #sudo chmod 01777 /tmp/.oracle
+  sudo chmod ugo=rwxt /tmp/.oracle
+  PrintInfo
+fi
+
+
+# Replace actions from ${ORACLE_HOME}/rdbms/install/rootadd_rdbms.sh
+#if [ -f ${ORACLE_HOME}/bin/oradism ]; then
+#    sudo chown root ${ORACLE_HOME}/bin/oradism
+#    sudo 4750 ${ORACLE_HOME}/bin/oradism
+#fi
+
+# remove backup copy
+#if [ -f ${ORACLE_HOME}/bin/oradism.old ]; then
+#    rm -f ${ORACLE_HOME}/bin/oradism.old
+#fi
+
+# copy extjobo to extjob if it doesn't exist
+#if [ ! -f $ORACLE_HOME/bin/extjob -a -f $ORACLE_HOME/bin/extjobo ]; then
+#    cp -p $ORACLE_HOME/bin/extjobo $ORACLE_HOME/bin/extjob
+#fi
+
+#if [ -f $ORACLE_HOME/bin/extjob ]; then
+#    sudo chown root $ORACLE_HOME/bin/extjob
+#    sudo chmod 4750 $ORACLE_HOME/bin/extjob
+#fi
+
+if [ -f ${ORACLE_HOME}/rdbms/admin/externaljob.ora ]; then
+  # sudo chown root ${ORACLE_HOME}/rdbms/admin/externaljob.ora
+  echo -n "Change owner of ${ORACLE_HOME}/rdbms/admin/externaljob.ora: "
+  sudo chown root:root ${ORACLE_HOME}/rdbms/admin/externaljob.ora
+  PrintInfo
+
+  #sudo chmod u=rw,g=r,o-wrx ${ORACLE_HOME}/rdbms/admin/externaljob.ora # How oracle user will read this file???
+  echo -n "Change permissions on ${ORACLE_HOME}/rdbms/admin/externaljob.ora: "
+  sudo chmod u=rw,go=r ${ORACLE_HOME}/rdbms/admin/externaljob.ora
+  PrintInfo
+fi
+
+# properly setup job scheduler switch user executable
+#if [ -f ${ORACLE_HOME}/bin/jssu ]; then
+#    sudo chown root ${ORACLE_HOME}/bin/jssu
+#    sudo chmod 4750 ${ORACLE_HOME}/bin/jssu
+#fi
+
+# remove backup copy
+#if [ -f ${ORACLE_HOME}/rdbms/admin/externaljob.ora.orig ]; then
+#    rm -f ${ORACLE_HOME}/rdbms/admin/externaljob.ora.orig
+#fi
+
+# tighten permissions on $ORACLE_HOME/scheduler/wallet
+echo -n "Change permissions on ${ORACLE_HOME}/scheduler/wallet: "
+sudo chmod 0700 ${ORACLE_HOME}/scheduler/wallet
+PrintInfo
+
+
+
+# Replace actions from ${ORACLE_HOME}/rdbms/install/rootadd_filemap.sh
+
+# The filemap binaries need to exist under /opt/ORCLfmap/prot1_X where
+# X is either 32 for 32-bit Solaris machines and 64 for 64-bit Solaris
+# machines.
+#
+# Other UNIX platforms will have to do something similar..
+echo -n "Copy ${ORACLE_HOME}/bin/fmputl to ${FILEMAPLOC}/bin: "
+sudo cp ${ORACLE_HOME}/bin/fmputl ${FILEMAPLOC}/bin
+PrintInfo
+
+echo -n "Copy ${ORACLE_HOME}/bin/fmputlhp to ${FILEMAPLOC}/bin: "
+sudo cp ${ORACLE_HOME}/bin/fmputlhp ${FILEMAPLOC}/bin
+PrintInfo
+
+echo -n "Change permissions on ${FILEMAPLOC}/bin/fmputl: "
+sudo chmod ug=rx,o-rwx ${FILEMAPLOC}/bin/fmputl
+PrintInfo
+
+echo -n "Change permissions on ${FILEMAPLOC}/bin/fmputlhp: "
+#sudo chmod 4555 ${FILEMAPLOC}/bin/fmputlhp
+sudo chmod ug=rx,o-rwx ${FILEMAPLOC}/bin/fmputlhp
+PrintInfo
+
+if [ ! -f ${FILEMAPLOC}/etc/filemap.ora ]; then
+  echo -n "Copy ${ORACLE_HOME}/rdbms/install/filemap.ora to ${FILEMAPLOC}/etc: "
+  sudo cp ${ORACLE_HOME}/rdbms/install/filemap.ora ${FILEMAPLOC}/etc
+  PrintInfo
+fi

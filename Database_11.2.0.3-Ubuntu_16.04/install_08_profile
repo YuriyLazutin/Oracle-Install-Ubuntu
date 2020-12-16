@@ -1,0 +1,119 @@
+#!/bin/bash
+
+# This script will create parameters for oracle user in ${ORACLE_BASE}/.profile
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source environment
+
+function PrintInfo {
+  if [ $? -eq 0 ]; then
+    result="\033[1;32mDone\033[0m"
+  else
+    result="\033[1;31mFailed\033[0m"
+  fi
+  echo -e "${1}: ${result}"
+}
+
+sudo grep "# Oracle settings (Start)" ${ORACLE_BASE}/.profile
+if [ $? -ne 0 ]; then
+
+  # Check following strings and remove it if exists
+  #  # set PATH so it includes user's private bin directories
+  #  PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+  sudo grep "# set PATH so it includes user's private bin directories" ${ORACLE_BASE}/.profile > /dev/null
+  if [ $? -eq 0 ]; then
+    echo -n "Remove string \"# set PATH so it includes user's private bin directories\": "
+    sudo sed -i "s/# set PATH so it includes user's private bin directories//g" ${ORACLE_BASE}/.profile
+    PrintInfo
+  fi
+
+  sudo grep "PATH=\"\$HOME/bin:\$HOME/.local/bin:\$PATH\"" ${ORACLE_BASE}/.profile > /dev/null
+  if [ $? -eq 0 ]; then
+    echo -n "Remove string \"PATH=\"\$HOME/bin:\$HOME/.local/bin:\$PATH\"\": "
+    sudo sed -i "s/PATH=\"\$HOME\/bin:\$HOME\/.local\/bin:\$PATH\"//g" ${ORACLE_BASE}/.profile
+    PrintInfo
+  fi
+  
+  # Start of Oracle section
+  sudo sh -c "echo >> ${ORACLE_BASE}/.profile"
+  sudo sh -c "echo \"# Oracle settings (Start)\" >> ${ORACLE_BASE}/.profile"
+
+  echo -n "Setup the default file mode creation mask (umask) to 022 in the shell startup file: "
+  sudo sh -c "echo \"umask 022\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Select the default editor for Midnight Commander: "
+  sudo sh -c "echo \"export SELECTED_EDITOR=\\\"/usr/bin/mcedit\\\"\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Set the DISPLAY environment variable: "
+  sudo sh -c "echo \"export DISPLAY=${DISPLAY}\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Set the XAUTHORITY environment variable: "
+  sudo sh -c "echo \"export XAUTHORITY=~/.Xauthority\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Set the ORACLE_BASE environment variable: "
+  sudo sh -c "echo \"export ORACLE_BASE=${ORACLE_BASE}\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Set the ORACLE_HOME environment variable: "
+  sudo sh -c "echo \"export ORACLE_HOME=${ORACLE_HOME}\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+  
+  echo -n "Set the ORACLE_SID environment variable: "
+  sudo sh -c "echo \"export ORACLE_SID=${ORACLE_SID}\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Set the ORACLE_UNQNAME environment variable: "
+  sudo sh -c "echo \"#export ORACLE_UNQNAME=${ORACLE_UNQNAME}\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Set the LBIN environment variable: "
+  sudo sh -c "echo \"export LBIN=${LBIN}\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Set the TMP environment variable: "
+  sudo sh -c "echo \"export TMP=${TMP}\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Set the TMPDIR environment variable: "
+  sudo sh -c "echo \"export TMPDIR=${TMPDIR}\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Set the ORACLE_OWNER environment variable: "
+  sudo sh -c "echo \"export ORACLE_OWNER=${ORACLE_OWNER}\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Set the OSDBA_GROUP environment variable: "
+  sudo sh -c "echo \"export OSDBA_GROUP=${OSDBA_GROUP}\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Set the TNS_ADMIN environment variable: "
+  sudo sh -c "echo \"export TNS_ADMIN=${TNS_ADMIN}\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Set the LOGDIR environment variable: "
+  sudo sh -c "echo \"export LOGDIR=${LOGDIR}\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Set the INVENTORY_LOCATION environment variable: "
+  sudo sh -c "echo \"export INVENTORY_LOCATION=${INVENTORY_LOCATION}\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Set the LD_LIBRARY_PATH environment variable: "
+  sudo sh -c "echo \"export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  sudo sh -c "echo \"# Oracle settings (End)\" >> ${ORACLE_BASE}/.profile"
+
+else
+  echo -e "\033[1;32m${ORACLE_BASE}/.profile file already contains Oracle settings section!.\033[0m"
+fi

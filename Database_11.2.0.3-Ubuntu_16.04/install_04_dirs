@@ -1,0 +1,103 @@
+#!/bin/bash
+
+# Oracle pre-install script
+# This script creates oracle directories
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source environment
+
+function PrintInfo {
+  if [ $? -eq 0 ]; then
+    result="\033[1;32mDone\033[0m"
+  else
+    result="\033[1;31mFailed\033[0m"
+  fi
+  echo -e "${1}: ${result}"
+}
+
+# ORACLE_BASE
+sudo chmod -R u=rwx,g=rx,o-rwx ${ORACLE_BASE}
+PrintInfo "Changing access level for ORACLE_BASE directory (${ORACLE_BASE})"
+
+# ORACLE_HOME
+sudo mkdir -p ${ORACLE_HOME}
+PrintInfo "Creating ORACLE_HOME directory (${ORACLE_HOME})"
+sudo chown -R ${ORACLE_OWNER}:${ORACLE_GROUP} ${ORACLE_HOME}
+PrintInfo "Changing ownership for ORACLE_HOME directory (${ORACLE_HOME})"
+sudo chmod u=rwx,g=rx,o-rwx ${ORACLE_HOME}
+PrintInfo "Changing access level for ORACLE_HOME directory (${ORACLE_HOME})"
+
+# INVENTORY_LOCATION
+sudo mkdir -p ${INVENTORY_LOCATION}
+PrintInfo "Creating INVENTORY_LOCATION directory (${INVENTORY_LOCATION})"
+sudo chown -R ${ORACLE_OWNER}:${ORACLE_GROUP} ${INVENTORY_LOCATION}
+PrintInfo "Changing ownership for INVENTORY_LOCATION directory (${INVENTORY_LOCATION})"
+sudo chmod u=rwx,g=rx,o-rwx ${INVENTORY_LOCATION}
+PrintInfo "Changing access level for INVENTORY_LOCATION directory (${INVENTORY_LOCATION})"
+
+# TMP
+sudo mkdir -p ${TMP}
+PrintInfo "Creating TMP directory (${TMP})"
+sudo chown -R ${ORACLE_OWNER}:${ORACLE_GROUP} ${TMP}
+PrintInfo "Changing ownership for TMP directory (${TMP})"
+sudo chmod -R ug=rwx,o-rwx ${TMP}
+PrintInfo "Changing access level for TMP directory (${TMP})"
+
+# TNS_ADMIN
+sudo mkdir -p ${TNS_ADMIN}
+PrintInfo "Creating TNS_ADMIN directory (${TNS_ADMIN})"
+sudo chown -R ${ORACLE_OWNER}:${ORACLE_GROUP} ${TNS_ADMIN}
+PrintInfo "Changing ownership for TNS_ADMIN directory (${TNS_ADMIN})"
+sudo chmod u=rwx,g=rx,o-rwx ${TNS_ADMIN}
+PrintInfo "Changing access level for TNS_ADMIN directory (${TNS_ADMIN})"
+
+# LOGDIR
+sudo mkdir -p ${LOGDIR}
+PrintInfo "Creating LOGDIR directory (${LOGDIR})"
+sudo chown -R ${ORACLE_OWNER}:${ORACLE_GROUP} ${LOGDIR}
+PrintInfo "Changing ownership for LOGDIR directory (${LOGDIR})"
+sudo chmod u=rwx,g=rx,o-rwx ${LOGDIR}
+PrintInfo "Changing access level for LOGDIR directory (${LOGDIR})"
+
+# CRSHOME
+sudo mkdir -p ${CRSHOME}
+PrintInfo "Creating CRSHOME directory (${CRSHOME})"
+sudo chown -R ${ORACLE_OWNER}:${ORACLE_GROUP} ${CRSHOME}
+PrintInfo "Changing ownership for CRSHOME directory (${CRSHOME})"
+sudo chmod u=rwx,g=rx,o-rwx ${CRSHOME}
+PrintInfo "Changing access level for CRSHOME directory (${CRSHOME})"
+
+sudo mkdir -p ${ORCLFMAPLOC}
+PrintInfo "Creating ORCLFMAPLOC directory (${ORCLFMAPLOC})"
+sudo mkdir -p ${FILEMAPLOC}
+PrintInfo "Creating FILEMAPLOC directory (${FILEMAPLOC})"
+sudo mkdir -p ${FILEMAPLOC}/bin
+PrintInfo "Creating FILEMAPLOC/bin directory (${FILEMAPLOC}/bin)"
+sudo mkdir -p ${FILEMAPLOC}/etc
+PrintInfo "Creating FILEMAPLOC/etc directory (${FILEMAPLOC}/etc)"
+sudo mkdir -p ${FILEMAPLOC}/log
+PrintInfo "Creating FILEMAPLOC/log directory (${FILEMAPLOC}/log)"
+sudo chown -R ${ORACLE_OWNER}:${ORACLE_GROUP} ${ORCLFMAPLOC}
+PrintInfo "Changing ownership for ORCLFMAPLOC directory (${ORCLFMAPLOC})"
+sudo chown -R ${ORACLE_OWNER}:${ORACLE_GROUP} ${FILEMAPLOC}
+PrintInfo "Changing ownership for FILEMAPLOC directory (${FILEMAPLOC})"
+sudo chmod -R u=rwx,g=rx,o-rwx ${ORCLFMAPLOC}
+PrintInfo "Changing access level for ORCLFMAPLOC directory (${ORCLFMAPLOC})"
+sudo chmod -R u=rwx,g=rx,o-rwx ${FILEMAPLOC}
+PrintInfo "Changing access level for FILEMAPLOC directory (${FILEMAPLOC})"
+sudo ln -s ${ORCLFMAPLOC} /opt/ORCLfmap
+PrintInfo "Creating symlink /opt/ORCLfmap -> ${ORCLFMAPLOC}"
+
+sudo sh -c "echo >> ${ORACLE_BASE}/.Xauthority"
+PrintInfo "Creating ${ORACLE_BASE}/.Xauthority file"
+
+sudo chown ${ORACLE_OWNER}:${ORACLE_GROUP} ${ORACLE_BASE}/.Xauthority
+PrintInfo "Changing ownership for ${ORACLE_BASE}/.Xauthority file"
+sudo chmod u=rw,go-rwx ${ORACLE_BASE}/.Xauthority
+PrintInfo "Changing access level for ${ORACLE_BASE}/.Xauthority file"

@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Oracle pre-install script
+# This script creates environment variables
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+export ORACLE_GROUP=oinstall
+export OSDBA_GROUP=dba
+export ORACLE_OWNER=oracle
+export ORACLE_OPER=oper
+export ORACLE_SID=cargo #(typically no more than five characters)
+export ORACLE_UNQNAME=${ORACLE_SID}
+export LBIN=/usr/local/bin
+
+export ORACLE_BASE=/opt/Oracle
+export ORACLE_HOME=${ORACLE_BASE}/server
+export INVENTORY_LOCATION=${ORACLE_BASE}/inventory
+export TMP=${ORACLE_BASE}/tmp
+export TMPDIR=${ORACLE_BASE}/tmp
+export TNS_ADMIN=${ORACLE_BASE}/tnsadmin
+export LOGDIR=${ORACLE_BASE}/logs
+export CRSHOME=${ORACLE_BASE}/crs
+
+export ORATABLOC=/etc
+export ORATAB=${ORATABLOC}/oratab
+export TMPORATB=${TMP}/oratab
+
+
+# This directories created by ${ORACLE_HOME}/rdbms/install/rootadd_filemap.sh
+# The filemap binaries need to exist under /opt/ORCLfmap/prot1_X where
+# X is either 32 for 32-bit Solaris machines and 64 for 64-bit Solaris
+# machines.
+# Other UNIX platforms will have to do something similar..
+# We will create ${ORACLE_BASE}/filemap directory and put symlink into /opt target.
+export ORCLFMAPLOC=${ORACLE_BASE}/filemap
+#export ORCLFMAPLOC=/opt/ORCLfmap
+export FILEMAPLOC=$ORCLFMAPLOC/prot1_64 # needs to be prot1_32 for 32 bit platforms
+
+#$JAVA_HOME - oracle distibutive have it own Java, so it's look like Java is not needed at all.
+
+if [ -z ${LD_LIBRARY_PATH} ]; then
+  export LD_LIBRARY_PATH=${ORACLE_HOME}/lib
+else
+  export LD_LIBRARY_PATH=${ORACLE_HOME}/lib:${LD_LIBRARY_PATH}
+fi

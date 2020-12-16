@@ -1,0 +1,108 @@
+#!/bin/bash
+
+# This script created symlinks and fixed different bugs which rised during installation
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+function LinkProg {
+  echo -n "Try to find ${1} in /bin/${1}: "
+  if [ -f "/bin/${1}" ]; then
+    echo -e "\033[1;32mFound\033[0m"
+  else
+    echo -e "\033[1;31mNot found\033[0m"
+    link_name="/bin/${1}"
+    unset link_target
+    
+    for file_path in "/usr/bin" "/usr/local/bin"; do
+      if [ -z ${link_target} ]; then
+        echo -n "Try to find ${1} in ${file_path}/${1}: "
+        if [ -f "${file_path}/${1}" ]; then
+          echo -e "\033[1;32mFound\033[0m"
+          link_target="${file_path}/${1}"
+        else
+          echo -e "\033[1;31mNot found\033[0m"
+        fi
+      fi
+    done
+    
+    if [ -z ${link_target} ]; then
+      echo -e "\033[37;1;41mFatal Error!\033[0m \033[1;31m${1} program was not found on this host! Please check and install it first\033[0m"
+      exit 1
+    fi
+    
+    sudo ln -s ${link_target} ${link_name}
+    if [ $? -eq 0 ]; then
+      result="\033[1;32mDone\033[0m"
+    else
+      result="\033[1;31mFailed\033[0m"
+    fi
+    echo -e "Creating symlink ${link_name} -> ${link_target}: ${result}"
+  fi
+}
+
+LinkProg awk
+LinkProg sed
+LinkProg uname
+LinkProg basename
+LinkProg rpm
+
+
+# genclntsh: Failed to link libclntsh.so.11.1 in make file for rdbms/lib/ins_rdbms.mk
+# Reason: /usr/bin/ld: cannot find /usr/lib64/libpthread_nonshared.a inside
+link_name="/usr/lib64"
+link_target="/usr/lib/x86_64-linux-gnu"
+
+echo -n "Try to find link or directory ${link_name}: "
+if [ ! -d "${link_name}" ]; then
+  echo -e "\033[1;31mNot found\033[0m"
+  sudo ln -s ${link_target} ${link_name}
+  if [ $? -eq 0 ]; then
+    result="\033[1;32mDone\033[0m"
+  else
+    result="\033[1;31mFailed\033[0m"
+  fi
+  echo -e "Creating symlink ${link_name} -> ${link_target}: ${result}"
+else
+  echo -e "\033[1;32mFound\033[0m"
+fi
+
+# /lib64/libgcc_s.so.1: File or directory does not exists, while creating lib/liborasdkbase.so.11.1 in ins_rdbms.mk
+file_name="libgcc_s.so.1"
+echo -n "Try to find ${file_name} in /lib64/${file_name}: "
+if [ -f "/lib64/${file_name}" ]; then
+  echo -e "\033[1;32mFound\033[0m"
+else
+  echo -e "\033[1;31mNot found\033[0m"
+  link_name="/lib64/${file_name}"
+  unset link_target
+
+  for file_path in "/lib/x86_64-linux-gnu" "/usr/lib/x86_64-linux-gnu" "/usr/lib64/x86_64-linux-gnu"; do
+    if [ -z ${link_target} ]; then
+      echo -n "Try to find ${file_name} in ${file_path}/${file_name}: "
+      if [ -f "${file_path}/${file_name}" ]; then
+        echo -e "\033[1;32mFound\033[0m"
+        link_target="${file_path}/${file_name}"
+      else
+        echo -e "\033[1;31mNot found\033[0m"
+      fi
+    fi
+  done
+
+  if [ -z ${link_target} ]; then
+    echo -e "\033[37;1;41mFatal Error!\033[0m \033[1;31mFile ${file_name} was not found on this host! Please check and install it first\033[0m"
+    exit 1
+  fi
+
+  sudo ln -s ${link_target} ${link_name}
+  if [ $? -eq 0 ]; then
+    result="\033[1;32mDone\033[0m"
+  else
+    result="\033[1;31mFailed\033[0m"
+  fi
+  echo -e "Creating symlink ${link_name} -> ${link_target}: ${result}"
+fi

@@ -1,0 +1,82 @@
+Error in ${ORACLE_HOME}/server/install/make.log:
+
+Linking OSM Discovery  utility (kfod)
+rm -f /opt/Oracle/server/rdbms/lib/kfod
+gcc -o /opt/Oracle/server/rdbms/lib/kfod -m64 -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/  /opt/Oracle/server/lib/s0main.o /opt/Oracle/server/rdbms/lib/sskfoded.o /opt/Oracle/server/rdbms/lib/skfodpt.o /opt/Oracle/server/rdbms/lib/kfod.o /opt/Oracle/server/lib/libgeneric11.a -ldbtools11 /opt/Oracle/server/lib/libgeneric11.a -lcommon11 -lcell11 -lskgxp11 /opt/Oracle/server/lib/libcore11.a -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11 -locr11 -locrb11 -locrutl11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11  -lasmclnt11 -lclntsh  `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11 -lztkg11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lmm -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11   -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11   `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoOpenFile'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoCreateCtxExt'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoIO'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoFnameMax'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoCommit2P'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoCheckHdl'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoRenameFile'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoDeleteFile'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoCloseFile'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoErrorMessage'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoGetSize'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoCreateFile'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoOpenDirty'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoCheckMount'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoDestroyCtx'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoControl'
+/opt/Oracle/server/lib//libocrb11.so: undefined reference to `kgfoCreate2P'
+collect2: error: ld returned 1 exit status
+make: *** [/opt/Oracle/server/rdbms/lib/kfod] Error 1
+/opt/Oracle/server/rdbms/lib/ins_rdbms.mk:1088: Error in invoking target «/opt/Oracle/server/rdbms/lib/kfod»
+
+
+
+Investigation:
+
+current GCC option
+gcc -o /opt/Oracle/server/rdbms/lib/kfod -m64 -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/  /opt/Oracle/server/lib/s0main.o /opt/Oracle/server/rdbms/lib/sskfoded.o /opt/Oracle/server/rdbms/lib/skfodpt.o /opt/Oracle/server/rdbms/lib/kfod.o /opt/Oracle/server/lib/libgeneric11.a -ldbtools11 /opt/Oracle/server/lib/libgeneric11.a -lcommon11 -lcell11 -lskgxp11 /opt/Oracle/server/lib/libcore11.a -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11 -locr11 -locrb11 -locrutl11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11  -lasmclnt11 -lclntsh  `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11 -lztkg11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lmm -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11   -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11   `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib
+
+Simplify it as much as possible
+
+Look at -> /opt/Oracle/server/lib/sysliblist and replace corresponding includes with
+-ldl -lm -lpthread -lnsl -lirc -lipgo -lsvml
+
+Look at -> /opt/Oracle/server/lib/ldflags and replace corresponding includes with
+-lnbeq11 -lnhost11 -lnus11 -lnldap11 -lldapclnt11  -lnsslb11   -lntcp11 -lntcps11 -lnsslb11 -lntcp11 -lntns11
+
+Minimal samebugous linking options
+gcc -o kfod /opt/Oracle/server/lib/s0main.o sskfoded.o skfodpt.o kfod.o /opt/Oracle/server/lib/libgeneric11.a /opt/Oracle/server/lib/libcore11.a -ldbtools11 -lcommon11 -lasmclnt11 -lcell11 -lclntsh  -ldl -lgeneric11 -lhasgen11 -lm -locr11 -lskgxp11 -lpthread -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib -m64
+
+Try to find in:
+~/server/rdbms/lib$ ~/findproc kgfoOpenFile
+~/server/lib$ ~/findproc kgfoOpenFile
+Found in: libasmclntsh11.so
+Found in: libocrb11.so
+Found in: libasmclnt11.a
+Found in: libasmclntsh11.a
+
+!!!!!!!!!!!!!!!!!!!!!!!!! Victory 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+gcc -o kfod /opt/Oracle/server/lib/s0main.o sskfoded.o skfodpt.o kfod.o /opt/Oracle/server/lib/libgeneric11.a /opt/Oracle/server/lib/libcore11.a -ldbtools11 -lcommon11 -lasmclnt11 -lasmclntsh11 -lcell11 -lclntsh  -ldl -lgeneric11 -lhasgen11 -lm -locr11 -lskgxp11 -lpthread -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib -m64
+
+!!!!!!!!!!!!!!!!!!!!!!!!! Victory 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+gcc -o /opt/Oracle/server/rdbms/lib/kfod -m64 -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/  /opt/Oracle/server/lib/s0main.o /opt/Oracle/server/rdbms/lib/sskfoded.o /opt/Oracle/server/rdbms/lib/skfodpt.o /opt/Oracle/server/rdbms/lib/kfod.o /opt/Oracle/server/lib/libgeneric11.a -ldbtools11 /opt/Oracle/server/lib/libgeneric11.a -lcommon11 -lcell11 -lskgxp11 /opt/Oracle/server/lib/libcore11.a -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11 -lasmclntsh11 -locr11 -locrb11 -locrutl11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11  -lasmclnt11 -lclntsh  `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11 -lztkg11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lmm -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11   -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11   `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib
+
+
+Solution:
+
+${ORACLE_HOME}/rdbms/lib/env_rdbms.mk
+
+KFOD_LINKLINE=$(LINK) $(S0MAIN) $(SSKFODED) $(SKFODPT) $(KFODOBJ) \
+<------>$(LIBGENERIC) $(LLIBDBTOOLS) \
+<------>$(LIBGENERIC) $(LLIBCOMMON) $(LLIBSAGE) $(LLIBSKGXP) $(LIBCORE) \
+        $(CSSCLNTLIBS_SERVER) $(LLIBASMCLNT) $(LINKTTLIBS)
+
+Replace with:
+
+KFOD_LINKLINE=$(LINK) $(S0MAIN) $(SSKFODED) $(SKFODPT) $(KFODOBJ) \
+<------>$(LIBGENERIC) $(LLIBDBTOOLS) \
+<------>$(LIBGENERIC) $(LLIBCOMMON) $(LLIBSAGE) $(LLIBSKGXP) $(LIBCORE) \
+        $(CSSCLNTLIBS_SERVER) $(LLIBASMCLNT) $(LLIBASMCLNTSH) $(LINKTTLIBS)
+
+
+Solution from internet:
+KFOD_LINKLINE=$(LINK) $(S0MAIN) -Wl,--no-as-needed $(SSKFODED) $(SKFODPT) $(KFODOBJ) \
+<------>$(LIBGENERIC) $(LLIBDBTOOLS) \
+<------>$(LIBGENERIC) $(LLIBCOMMON) $(LLIBSAGE) $(LLIBSKGXP) $(LIBCORE) \
+        $(CSSCLNTLIBS_SERVER) $(LLIBASMCLNT) $(LINKTTLIBS)
+

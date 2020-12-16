@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Oracle uninstall script
+# This script deletes users and groups which needs for using oracle
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-11
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source environment
+
+# Kill all processes
+#sudo pkill SIGKILL -u ${ORACLE_OWNER}
+sudo pkill -9 -u ${ORACLE_OWNER}
+
+# Remove users
+grep "^${ORACLE_OWNER}:" /etc/passwd > /dev/null
+if [ $? -ne 0 ]; then
+  echo 'No user '${ORACLE_OWNER}' found'
+else
+  echo 'Removing '${ORACLE_OWNER}
+  sudo userdel --remove ${ORACLE_OWNER}
+fi
+
+# Remove groups
+grep "^${ORACLE_GROUP}:" /etc/group > /dev/null
+if [ $? -ne 0 ]; then
+  echo 'No group '${ORACLE_GROUP}' found'
+else
+  echo 'Removing '${ORACLE_GROUP}
+  sudo groupdel ${ORACLE_GROUP}
+fi
+
+grep "^${OSDBA_GROUP}:" /etc/group > /dev/null
+if [ $? -ne 0 ]; then
+  echo 'No group '${OSDBA_GROUP}' found'
+else
+  echo 'Removing '${OSDBA_GROUP}
+  sudo groupdel ${OSDBA_GROUP}
+fi
+

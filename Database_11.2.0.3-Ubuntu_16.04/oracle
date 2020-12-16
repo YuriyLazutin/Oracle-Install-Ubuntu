@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# This script will start or stop oracle components
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-nov-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+
+source environment
+
+function ToLower {
+  local tmp
+  tmp=$( echo "${1}" | sed 'y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/' )
+  echo "${tmp}"
+}
+
+function PrintHelp {
+  printf "Using:\n"
+  printf "Start Enterprice Manager\n"
+  printf "\toracle start em\n"
+  printf "Start Database cargo\n"
+  printf "\toracle start db cargo\n"
+  printf "Stop Enterprice Manager\n"
+  printf "\toracle stop em\n"
+  printf "Stop Database cargo\n"
+  printf "\toracle stop db cargo\n"
+}
+
+arg1=$( ToLower "${1}" )
+arg2=$( ToLower "${2}" )
+arg3=$( ToLower "${3}" )
+
+case "${arg1}" in
+  "start")
+           case "${arg2}" in
+             "em")
+                   sudo -u ${ORACLE_OWNER} sh -c "${ORACLE_HOME}/bin/emctl start dbconsole"
+             ;;
+             "db")
+                   sudo -u ${ORACLE_OWNER} sh -c "${ORACLE_HOME}/bin/dbstart ${ORACLE_HOME}"
+             ;;
+             *) echo "Sorry, second option is not recognized."
+                PrintHelp
+                exit 1
+             ;;
+           esac
+  ;;
+  "stop")
+          case "${arg2}" in
+            "em")
+                  sudo -u ${ORACLE_OWNER} sh -c "${ORACLE_HOME}/bin/emctl stop dbconsole"
+            ;;
+            "db")
+                  sudo -u ${ORACLE_OWNER} sh -c "${ORACLE_HOME}/bin/dbshut ${ORACLE_HOME}"
+            ;;
+            *) echo "Sorry, second option is not recognized."
+               PrintHelp
+               exit 1
+            ;;
+          esac
+
+  ;;
+  *)       echo "Sorry, first option is not recognized."
+           PrintHelp
+           exit 1
+  ;;
+esac
+

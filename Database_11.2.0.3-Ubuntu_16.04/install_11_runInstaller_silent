@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# This script starts oracle installer
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source environment
+
+#echo "Login as oracle:"
+#su - oracle -c "
+#cd \${TMP}/distr
+#./runInstaller
+#"
+
+#./runInstaller -silent -response db.rsp
+
+sudo -u ${ORACLE_OWNER} sh -c "
+cd \${TMP}/distr
+./runInstaller -silent -response newdb.rsp
+"

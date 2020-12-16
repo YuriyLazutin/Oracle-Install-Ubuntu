@@ -1,0 +1,83 @@
+Error in ${ORACLE_HOME}/server/install/make.log:
+
+ - Linking Oracle GETCRSHOME tool
+gcc -o getcrshome -m64 -L/opt/Oracle/server//lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/  -L/opt/Oracle/server/rdbms/lib/   /opt/Oracle/server/srvm/lib/prgcrshm.o /opt/Oracle/server/srvm/lib/sprgcrshm.o -locr11 -locrb11 -locrutl11 -lhasgen11 -lclntsh -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lskgxn2  -lclntsh -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `cat /opt/Oracle/server/lib/sysliblist` -lasmclntsh11 -lcell11 -lskgxp11 -lclntsh   `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm  `cat /opt/Oracle/server/lib/sysliblist` -lm -lm   -L/opt/Oracle/server/lib
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoOpenFile'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoCreateCtxExt'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoIO'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoFnameMax'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoCommit2P'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoCheckHdl'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoRenameFile'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoDeleteFile'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoCloseFile'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoErrorMessage'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoGetSize'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoCreateFile'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoOpenDirty'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoCheckMount'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoDestroyCtx'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoControl'
+/opt/Oracle/server//lib//libocrb11.so: undefined reference to `kgfoCreate2P'
+collect2: error: ld returned 1 exit status
+/opt/Oracle/server/srvm/lib/ins_srvm.mk:61: Error in invoking target «getcrshome»
+make: *** [getcrshome] Error 1
+
+
+
+Investigation:
+
+current GCC option
+gcc -o getcrshome -m64 -L/opt/Oracle/server//lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/  -L/opt/Oracle/server/rdbms/lib/   /opt/Oracle/server/srvm/lib/prgcrshm.o /opt/Oracle/server/srvm/lib/sprgcrshm.o -locr11 -locrb11 -locrutl11 -lhasgen11 -lclntsh -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lskgxn2  -lclntsh -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `cat /opt/Oracle/server/lib/sysliblist` -lasmclntsh11 -lcell11 -lskgxp11 -lclntsh   `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm  `cat /opt/Oracle/server/lib/sysliblist` -lm -lm   -L/opt/Oracle/server/lib
+
+Simplify it as much as possible
+
+Look at -> /opt/Oracle/server/lib/sysliblist and replace corresponding includes with
+-ldl -lm -lpthread -lnsl -lirc -lipgo -lsvml
+
+Minimal samebugous linking options
+gcc -o getcrshome prgcrshm.o sprgcrshm.o -locr11 -lhasgen11 -lclntsh -lpthread -lm -L/opt/Oracle/server/lib/ -m64 
+
+Try to find in:
+~/server/lib$ ~/findproc kgfoOpenFile
+Found in: libasmclntsh11.so
+Found in: libocrb11.so
+Found in: libasmclnt11.a
+Found in: libasmclntsh11.a
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!! Victory !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+gcc -o getcrshome prgcrshm.o sprgcrshm.o -locr11 -lhasgen11 -lclntsh -lpthread -lm -L/opt/Oracle/server/lib/ -m64 -Wl,--allow-shlib-undefined
+
+
+Solution:
+
+${ORACLE_HOME}/srvm/lib/ins_srvm.mk
+
+$(GETCRSHOME): $(ALWAYS) $(GETCRSHOMEDEPS)
+<------>$(SILENT)$(ECHO)
+<------>$(SILENT)$(ECHO) " - Linking Oracle GETCRSHOME tool"
+<------>$(GETCRSHOME_LINKLINE)
+
+replace with
+
+$(GETCRSHOME): $(ALWAYS) $(GETCRSHOMEDEPS)
+<------>$(SILENT)$(ECHO)
+<------>$(SILENT)$(ECHO) " - Linking Oracle GETCRSHOME tool"
+<------>$(GETCRSHOME_LINKLINE) -Wl,--allow-shlib-undefined 
+
+Solution from internet:
+
+${ORACLE_HOME}/srvm/lib/env_srvm.mk
+
+GETCRSHOME_LINKLINE=$(LINK) $(LDPATHFLAG)$(RDBMSLIB) $(CDEBUG) $(OPT) \
+<------><------>$(GETCRSHOME_OBJ1) $(OCRLIBS_DEFAULT) $(LLIBCLNTSH) \
+<------><------>$(LINKLDLIBS)
+
+replace with
+
+GETCRSHOME_LINKLINE=$(LINK) $(LDPATHFLAG)$(RDBMSLIB) $(CDEBUG) $(OPT) \
+<------><------>$(GETCRSHOME_OBJ1) -Wl,--no-as-needed $(OCRLIBS_DEFAULT) $(LLIBCLNTSH) \
+<------><------>$(LINKLDLIBS)
+
+
