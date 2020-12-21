@@ -5,6 +5,7 @@ This file describes an installation process into Ubuntu 16.04
 mkdir ${HOME}/Oracle
 
 2) Download and unzip an Oracle installation files into your ${HOME}/Oracle
+cd ${HOME}/Oracle
 unzip linux.x64_11gR2_database_1of2.zip
 unzip linux.x64_11gR2_database_2of2.zip
 
@@ -12,10 +13,9 @@ The "database" directory will appears
 
 3) Download Oracle installation scripts
 
-cd ${HOME}/Oracle
 git clone https://github.com/YuriyLazutin/Oracle-Install-Ubuntu.git
 
-4) Copy the scripts corresponding to your Ubuntu version
+4) Copy the scripts corresponding to your Ubuntu version into "database" directory
 
 cp -R ${HOME}/Oracle/Oracle-Install-Ubuntu/Database_11.2.0.3-Ubuntu_16.04/* ${HOME}/Oracle/database/
 
@@ -23,23 +23,71 @@ cp -R ${HOME}/Oracle/Oracle-Install-Ubuntu/Database_11.2.0.3-Ubuntu_16.04/* ${HO
 cd ${HOME}/Oracle/database/
 mcedit ./environment
 
-6) Run the first installation script. It will check a nesessary software on your system.
+Please store a backup copy of this file. It can be useful, for example when you will uninstall Oracle.
+
+6) Run the first installation script. It will check a nesessary software on your system. If some packages was not found on this step and will failed during installation - don't be upset.
+Perhaps Oracle will work without them. We are just trying to find and install the recommended packages.
 
 ./install_01_checksoft
 
+7) Run the second installation script. It will create nesessary symlinks.
 
-install_02_symlinks
-install_03_groups
-install_04_dirs
-install_05_limits
-install_06_pam
-install_07_kernel
-install_08_profile
-install_09_xauth
-install_10_mkdistr
-install_11_runInstaller
-install_11_runInstaller_silent
-install_12_root
+./install_02_symlinks
+
+8) Run the third installation script. It will create oracle's users and groups.
+
+./install_03_groups
+
+9) Run the fourth installation script. It will create nesessary directories and tune it contents.
+
+./install_04_dirs
+
+10) Run the fifth installation script. It will switch on nesessary system limits.
+
+./install_05_limits
+
+11) Run the sixth installation script. It will check a PAM configuration.
+
+./install_06_pam
+
+12) Run the seventh installation script. It will setup a nesessary kernel parameters.
+
+./install_07_kernel
+
+13) Run the eighth installation script. It will customize profile parameters for oracle user.
+
+./install_08_profile
+
+14) Run the ninth installation script. It will setup xAuthority key. If you reboots, you will need a run this script again. It works only for one session.
+
+./install_09_xauth
+
+15) Run the tenth installation script. It will copy installation files into distr directory of oracle user. Also it appied a necessary access rights and patches.
+
+./install_10_mkdistr
+
+16) Run the eleventh installation script. It will start Oracle Universal Installer. It will ask you to provide a password from oracle user.
+    Run install_11_runInstaller if you want to use GUI.
+    If you want to run installer in silent mode please change newdb.rsp file and run install_11_runInstaller_silent script.
+
+./install_11_runInstaller
+
+or
+
+./install_11_runInstaller_silent
+
+If you will install in GUI mode you will meets with different fails:
+  Configure Security Updates: Remove selection from "I wish to receive security updates..." and press Next and then Yes.
+  Download Software Updates: Select "Skip software updates" and press Next.
+  Typical Installation: Ignore warning messages.
+  Create Inventory: Ignore warning messages.
+  Prerequisite Checks: Select "Ignore All" and press Next and then Yes.
+
+17) When Universal Installer will ask you to run "root" scripts please run this 2 scripts or run install_12_root instead
+
+./install_12_root
+
+or
 
 
 

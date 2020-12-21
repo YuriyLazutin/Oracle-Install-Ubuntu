@@ -133,15 +133,33 @@ SetupLimit "soft" "max open files" "mofs_in_sys" "mofs_in_conf_str" "mofs_in_con
 SetupLimit "hard" "max open files" "mofh_in_sys" "mofh_in_conf_str" "mofh_in_conf" 65536 "nofile"
 SetupLimit "soft" "stack size" "sss_in_sys" "sss_in_conf_str" "sss_in_conf" 10240 "stack"
 
+# Limits in such manner will shown not for Oracle user. I currently don't understand - why?
+# We need use su to watch it. And strange bug with -u option if we use sh...
+#echo "Limits after change:"
+#echo -n "Soft limit \"max user processes\": "
+#sudo --user=${ORACLE_OWNER} sh -c "ulimit -Su"            # sh: 1: ulimit: Illegal option -u   WHY?
+#sudo --user=${ORACLE_OWNER} bash -c "ulimit -Su"
+#echo -n "Hard limit \"max user processes\": "
+#sudo --user=${ORACLE_OWNER} sh -c "ulimit -Hu"            # sh: 1: ulimit: Illegal option -u   WHY?
+#sudo --user=${ORACLE_OWNER} bash -c "ulimit -Hu"
+#echo -n "Soft limit \"max open files\": "
+#sudo --user=${ORACLE_OWNER} sh -c "ulimit -Sn"
+#echo -n "Hard limit \"max open files\": "
+#sudo --user=${ORACLE_OWNER} sh -c "ulimit -Hn"
+#echo -n "Soft limit \"stack size\": "
+#sudo --user=${ORACLE_OWNER} sh -c "ulimit -Ss"
 
-echo "Limits after change:"
-echo -n "Soft limit \"max user processes\": "
-sudo --user=${ORACLE_OWNER} sh -c "ulimit -Su"
-echo -n "Hard limit \"max user processes\": "
-sudo --user=${ORACLE_OWNER} sh -c "ulimit -Hu"
-echo -n "Soft limit \"max open files\": "
-sudo --user=${ORACLE_OWNER} sh -c "ulimit -Sn"
-echo -n "Hard limit \"max open files\": "
-sudo --user=${ORACLE_OWNER} sh -c "ulimit -Hn"
-echo -n "Soft limit \"stack size\": "
-sudo --user=${ORACLE_OWNER} sh -c "ulimit -Ss"
+echo "Please provide a password for user \"${ORACLE_OWNER}\": "
+su - ${ORACLE_OWNER} --command "
+echo \"Limits after change:\"
+echo -n \"Soft limit \\\"max user processes\\\": \"
+ulimit -Su
+echo -n \"Hard limit \\\"max user processes\\\": \"
+ulimit -Hu
+echo -n \"Soft limit \\\"max open files\\\": \"
+ulimit -Sn
+echo -n \"Hard limit \\\"max open files\\\": \"
+ulimit -Hn
+echo -n \"Soft limit \\\"stack size\\\": \"
+ulimit -Ss
+"

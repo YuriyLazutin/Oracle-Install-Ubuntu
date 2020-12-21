@@ -48,8 +48,8 @@ function AddUser {
     fi
     echo -e "Creating new user (${1}): ${result}"
 
-    echo "Please provide a new password for ${1}: "
-    sudo passwd ${1} &> /dev/null
+    echo "Please provide a new password for user \"${1}\": "
+    sudo passwd ${1}
     if [ $? -eq 0 ]; then
       result="\033[1;32mDone\033[0m"
     else

@@ -24,14 +24,12 @@ function PrintInfo {
 # Replace actions from: ${ORACLE_INVENTORY}/orainstRoot.sh
 
 if [ ! -f "/etc/oraInst.loc" ]; then
-  echo -n "Creating /etc/oraInst.loc: "
   sudo sh -c "echo inventory_loc=${ORACLE_INVENTORY} > /etc/oraInst.loc"
   sudo sh -c "echo inst_group=${ORACLE_GROUP} >> /etc/oraInst.loc"
-  PrintInfo
+  PrintInfo "Creating /etc/oraInst.loc"
 
-  echo -n "Changing access rights for /etc/oraInst.loc: "
   sudo chmod u=rw,go=r /etc/oraInst.loc
-  PrintInfo
+  PrintInfo "Changing access rights for /etc/oraInst.loc"
 fi
 
 # Replace actions from ${ORACLE_HOME}/install/utl/rootmacro.sh "$@"
@@ -40,18 +38,16 @@ export LOG=${LOGDIR}/rootmacro.sh.log
 
 # Replace actions from ${ORACLE_HOME}/install/utl/rootinstall.sh
 
-echo -n "Move files to LBIN, and set permissions: "
 sudo ln -s ${ORACLE_HOME}/bin/dbhome ${LBIN}/dbhome
 sudo ln -s ${ORACLE_HOME}/bin/oraenv ${LBIN}/oraenv
 # This file is needed if we use a C-shell
 #sudo ln -s ${ORACLE_HOME}/bin/coraenv ${LBIN}/coraenv
-PrintInfo
+PrintInfo "Move files to LBIN, and set permissions"
 
-echo -n "Create oratab file (${ORATAB}): "
 sudo sh -c "echo >> ${ORATAB}"
 sudo chown ${ORACLE_OWNER}:${ORACLE_GROUP} ${ORATAB}
 sudo chmod ug=rw,o=r ${ORATAB}
-PrintInfo
+PrintInfo "Create oratab file (${ORATAB})"
 
 # Replace actions from ${ORACLE_HOME}/install/unix/rootadd.sh
 
@@ -82,71 +78,58 @@ PrintInfo
 #chown root ${ORACLE_HOME}/bin/nmhs
 #chmod 4710 ${ORACLE_HOME}/bin/nmhs
 
-echo -n "Change permissions on emagent: "
 sudo chmod u=rwx,go-rwx ${ORACLE_HOME}/bin/emagent
-PrintInfo
+PrintInfo "Change permissions on emagent"
 
-echo -n "Change permissions on emdctl: "
 sudo chmod u=rwx,go-rwx ${ORACLE_HOME}/bin/emdctl
-PrintInfo
+PrintInfo "Change permissions on emdctl"
 
 # change permissions so they are accessible by users from groups
 # other than the agent user group.
-echo -n "Change permissions on ${ORACLE_HOME}/bin: "
 sudo chmod u=rwx,go=rx ${ORACLE_HOME}/bin
-PrintInfo
+PrintInfo "Change permissions on ${ORACLE_HOME}/bin"
 
-echo -n "Change permissions on ${ORACLE_HOME}/lib: "
 sudo chmod -R a+rX ${ORACLE_HOME}/lib
-PrintInfo
+PrintInfo "Change permissions on ${ORACLE_HOME}/lib"
 
-echo -n "Change permissions on ${ORACLE_HOME}/perl: "
 sudo chmod -R a+rX ${ORACLE_HOME}/perl
-PrintInfo
+PrintInfo "Change permissions on ${ORACLE_HOME}/perl"
 
 #chmod -R a+rX ${ORACLE_HOME}/sysman/admin/scripts
 
-echo -n "Change permissions on ${ORACLE_HOME}/jdk: "
 sudo chmod -R a+rX ${ORACLE_HOME}/jdk
-PrintInfo
+PrintInfo "Change permissions on ${ORACLE_HOME}/jdk"
 
-echo -n "Change permissions on ${ORACLE_HOME}/bin/nmocat: "
 sudo chmod u=rwx,go=rx ${ORACLE_HOME}/bin/nmocat
-PrintInfo
+PrintInfo "Change permissions on ${ORACLE_HOME}/bin/nmocat"
 
 
 # Replace actions from ${ORACLE_HOME}/network/install/sqlnet/setowner.sh
 
 if [ ! -d /var/tmp/.oracle ]; then
-  echo -n "Create /var/tmp/.oracle directory: "
   sudo mkdir -p /var/tmp/.oracle
-  PrintInfo
+  PrintInfo "Create /var/tmp/.oracle directory"
 
-  echo -n "Change owner of /var/tmp/.oracle: "
   #sudo chown root  /var/tmp/.oracle
   sudo chown ${ORACLE_OWNER}:${ORACLE_GROUP} /var/tmp/.oracle
-  PrintInfo
+  PrintInfo "Change owner of /var/tmp/.oracle"
 
-  echo -n "Change permissions on /var/tmp/.oracle: "
   #sudo chmod 01777 /var/tmp/.oracle
   sudo chmod ugo=rwxt /var/tmp/.oracle
-  PrintInfo
+  PrintInfo "Change permissions on /var/tmp/.oracle"
 fi
 
 if [ ! -d /tmp/.oracle ]; then
-  echo -n "Create /tmp/.oracle directory: "
   sudo mkdir -p /tmp/.oracle
-  PrintInfo
+  PrintInfo "Create /tmp/.oracle directory"
 
-  echo -n "Change owner of /tmp/.oracle: "
   #sudo chown root  /tmp/.oracle
   sudo chown ${ORACLE_OWNER}:${ORACLE_GROUP} /tmp/.oracle
-  PrintInfo
+  PrintInfo "Change owner of /tmp/.oracle"
 
-  echo -n "Change permissions on /tmp/.oracle: "
   #sudo chmod 01777 /tmp/.oracle
   sudo chmod ugo=rwxt /tmp/.oracle
-  PrintInfo
+  PrintInfo "Change permissions on /tmp/.oracle"
 fi
 
 
@@ -173,14 +156,12 @@ fi
 
 if [ -f ${ORACLE_HOME}/rdbms/admin/externaljob.ora ]; then
   # sudo chown root ${ORACLE_HOME}/rdbms/admin/externaljob.ora
-  echo -n "Change owner of ${ORACLE_HOME}/rdbms/admin/externaljob.ora: "
   sudo chown root:root ${ORACLE_HOME}/rdbms/admin/externaljob.ora
-  PrintInfo
+  PrintInfo "Change owner of ${ORACLE_HOME}/rdbms/admin/externaljob.ora"
 
   #sudo chmod u=rw,g=r,o-wrx ${ORACLE_HOME}/rdbms/admin/externaljob.ora # How oracle user will read this file???
-  echo -n "Change permissions on ${ORACLE_HOME}/rdbms/admin/externaljob.ora: "
   sudo chmod u=rw,go=r ${ORACLE_HOME}/rdbms/admin/externaljob.ora
-  PrintInfo
+  PrintInfo "Change permissions on ${ORACLE_HOME}/rdbms/admin/externaljob.ora"
 fi
 
 # properly setup job scheduler switch user executable
@@ -195,9 +176,8 @@ fi
 #fi
 
 # tighten permissions on $ORACLE_HOME/scheduler/wallet
-echo -n "Change permissions on ${ORACLE_HOME}/scheduler/wallet: "
 sudo chmod 0700 ${ORACLE_HOME}/scheduler/wallet
-PrintInfo
+PrintInfo "Change permissions on ${ORACLE_HOME}/scheduler/wallet"
 
 
 
@@ -208,25 +188,20 @@ PrintInfo
 # machines.
 #
 # Other UNIX platforms will have to do something similar..
-echo -n "Copy ${ORACLE_HOME}/bin/fmputl to ${FILEMAPLOC}/bin: "
 sudo cp ${ORACLE_HOME}/bin/fmputl ${FILEMAPLOC}/bin
-PrintInfo
+PrintInfo "Copy ${ORACLE_HOME}/bin/fmputl to ${FILEMAPLOC}/bin"
 
-echo -n "Copy ${ORACLE_HOME}/bin/fmputlhp to ${FILEMAPLOC}/bin: "
 sudo cp ${ORACLE_HOME}/bin/fmputlhp ${FILEMAPLOC}/bin
-PrintInfo
+PrintInfo "Copy ${ORACLE_HOME}/bin/fmputlhp to ${FILEMAPLOC}/bin"
 
-echo -n "Change permissions on ${FILEMAPLOC}/bin/fmputl: "
 sudo chmod ug=rx,o-rwx ${FILEMAPLOC}/bin/fmputl
-PrintInfo
+PrintInfo "Change permissions on ${FILEMAPLOC}/bin/fmputl: "
 
-echo -n "Change permissions on ${FILEMAPLOC}/bin/fmputlhp: "
 #sudo chmod 4555 ${FILEMAPLOC}/bin/fmputlhp
 sudo chmod ug=rx,o-rwx ${FILEMAPLOC}/bin/fmputlhp
-PrintInfo
+PrintInfo "Change permissions on ${FILEMAPLOC}/bin/fmputlhp"
 
 if [ ! -f ${FILEMAPLOC}/etc/filemap.ora ]; then
-  echo -n "Copy ${ORACLE_HOME}/rdbms/install/filemap.ora to ${FILEMAPLOC}/etc: "
   sudo cp ${ORACLE_HOME}/rdbms/install/filemap.ora ${FILEMAPLOC}/etc
-  PrintInfo
+  PrintInfo "Copy ${ORACLE_HOME}/rdbms/install/filemap.ora to ${FILEMAPLOC}/etc"
 fi

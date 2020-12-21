@@ -20,15 +20,12 @@ function PrintInfo {
   echo -e "${1}: ${result}"
 }
 
-echo -n "Creating distr directory (${TMP}/distr): "
 sudo mkdir -p ${TMP}/distr
-PrintInfo
+PrintInfo "Creating distr directory (${TMP}/distr)"
 
-echo -n "Copying files to ${TMP}/distr: "
 sudo cp --recursive ./* ${TMP}/distr
-PrintInfo
+PrintInfo "Copying files to ${TMP}/distr"
 
-echo -n "Changing access rights: "
 sudo chown -R ${ORACLE_OWNER}:${ORACLE_GROUP} ${TMP}/distr
 sudo chmod -R ug=rw,o-rwx ${TMP}/distr
 sudo chmod ug+x ${TMP}/distr
@@ -90,24 +87,24 @@ sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/shutdown_hwclock_sync
 sudo chmod ug+x ${TMP}/distr/stage/ext/bin/srawutl
 sudo chmod ug+x ${TMP}/distr/stage/fastcopy/setperms1.sh
 sudo chmod ug+x ${TMP}/distr/runInstaller
-sudo chmod ug+x ${TMP}/distr/findinjar.sh
-sudo chmod ug+x ${TMP}/distr/findproc.sh
-sudo chmod ug+x ${TMP}/distr/patch_jar.sh
-PrintInfo
+sudo chmod ug+x ${TMP}/distr/findinjar
+sudo chmod ug+x ${TMP}/distr/findproc
+sudo chmod ug+x ${TMP}/distr/patch_jar
+PrintInfo "Changing access rights"
 
-echo -n "Testing executables and make logs: "
-sudo -u ${ORACLE_OWNER} sh -c "
+sudo -u ${ORACLE_OWNER} --set-home sh -c "
+. \${HOME}/.profile
 cd \${TMP}/distr
 env > \${LOGDIR}/env.log
 ldd ./install/.oui > \${LOGDIR}/.oui.ldd
 ldd ./install/unzip > \${LOGDIR}/unzip.ldd
 ldd ./install/lsnodes > \${LOGDIR}/lsnodes.ldd
 "
-PrintInfo
+PrintInfo "Testing executables and make logs"
 
-echo -n "Applying patches: "
-sudo -u ${ORACLE_OWNER} sh -c "
+sudo -u ${ORACLE_OWNER} --set-home sh -c "
+. \${HOME}/.profile
 cd \${TMP}/distr
 ./patch_jar
 "
-PrintInfo
+PrintInfo "Applying patches"

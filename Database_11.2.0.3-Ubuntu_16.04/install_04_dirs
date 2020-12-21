@@ -101,3 +101,8 @@ sudo chown ${ORACLE_OWNER}:${ORACLE_GROUP} ${ORACLE_BASE}/.Xauthority
 PrintInfo "Changing ownership for ${ORACLE_BASE}/.Xauthority file"
 sudo chmod u=rw,go-rwx ${ORACLE_BASE}/.Xauthority
 PrintInfo "Changing access level for ${ORACLE_BASE}/.Xauthority file"
+
+if sudo [ -e  "${ORACLE_BASE}/examples.desktop" ]; then
+  sudo rm "${ORACLE_BASE}/examples.desktop"
+  PrintInfo "Remove ${ORACLE_BASE}/examples.desktop file"
+fi
