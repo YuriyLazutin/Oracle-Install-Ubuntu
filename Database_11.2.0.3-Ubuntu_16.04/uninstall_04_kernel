@@ -12,7 +12,7 @@
 
 if [ -f /etc/sysctl.d/60-oracle.conf ]
 then
-  echo "Removing /etc/sysctl.d/60-oracle.conf: "
+  echo -n "Removing /etc/sysctl.d/60-oracle.conf: "
   sudo rm /etc/sysctl.d/60-oracle.conf
   if [ $? -eq 0 ]; then
     echo -e "\033[1;32mDone\033[0m"

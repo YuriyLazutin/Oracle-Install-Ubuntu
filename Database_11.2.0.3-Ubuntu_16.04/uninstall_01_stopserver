@@ -12,5 +12,9 @@
 
 source environment
 
-sudo -u ${ORACLE_OWNER} sh -c "${ORACLE_HOME}/bin/emctl stop dbconsole"
-sudo -u ${ORACLE_OWNER} sh -c "${ORACLE_HOME}/bin/dbshut ${ORACLE_HOME}"
+sudo -u ${ORACLE_OWNER} --set-home sh -c "
+. \${HOME}/.profile
+export ORACLE_UNQNAME=\${ORACLE_SID}
+\${ORACLE_HOME}/bin/emctl stop dbconsole
+\${ORACLE_HOME}/bin/dbshut \${ORACLE_HOME}
+"

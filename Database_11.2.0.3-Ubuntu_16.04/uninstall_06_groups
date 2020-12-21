@@ -19,26 +19,40 @@ sudo pkill -9 -u ${ORACLE_OWNER}
 # Remove users
 grep "^${ORACLE_OWNER}:" /etc/passwd > /dev/null
 if [ $? -ne 0 ]; then
-  echo 'No user '${ORACLE_OWNER}' found'
+  echo "No user \"${ORACLE_OWNER}\" found"
 else
-  echo 'Removing '${ORACLE_OWNER}
+  echo -n "Removing user \"${ORACLE_OWNER}\": "
   sudo userdel --remove ${ORACLE_OWNER}
+  if [ $? -eq 0 ]; then
+    echo -e "\033[1;32mDone\033[0m"
+  else
+    echo -e "\033[1;31mFailed\033[0m"
+  fi
 fi
 
 # Remove groups
 grep "^${ORACLE_GROUP}:" /etc/group > /dev/null
 if [ $? -ne 0 ]; then
-  echo 'No group '${ORACLE_GROUP}' found'
+  echo "No group \"${ORACLE_GROUP}\" found"
 else
-  echo 'Removing '${ORACLE_GROUP}
+  echo -n "Removing group \"${ORACLE_GROUP}\": "
   sudo groupdel ${ORACLE_GROUP}
+  if [ $? -eq 0 ]; then
+    echo -e "\033[1;32mDone\033[0m"
+  else
+    echo -e "\033[1;31mFailed\033[0m"
+  fi
 fi
 
 grep "^${OSDBA_GROUP}:" /etc/group > /dev/null
 if [ $? -ne 0 ]; then
-  echo 'No group '${OSDBA_GROUP}' found'
+  echo "No group \"${OSDBA_GROUP}\" found"
 else
-  echo 'Removing '${OSDBA_GROUP}
+  echo -n "Removing group \"${OSDBA_GROUP}\": "
   sudo groupdel ${OSDBA_GROUP}
+  if [ $? -eq 0 ]; then
+    echo -e "\033[1;32mDone\033[0m"
+  else
+    echo -e "\033[1;31mFailed\033[0m"
+  fi
 fi
-

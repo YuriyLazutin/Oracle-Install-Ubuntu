@@ -14,7 +14,7 @@ source environment
 
 function DeleteObject {
   if sudo [ -e "${1}" ]; then
-    echo "Removing \"${1}\": "
+    echo -n "Removing \"${1}\": "
     sudo rm -rf "${1}"
     if [ $? -eq 0 ]; then
       echo -e "\033[1;32mDone\033[0m"

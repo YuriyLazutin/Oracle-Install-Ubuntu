@@ -12,7 +12,7 @@
 
 if [ -f /etc/security/limits.d/oracle.conf ]
 then
-  echo "Removing /etc/security/limits.d/oracle.conf: "
+  echo -n "Removing /etc/security/limits.d/oracle.conf: "
   sudo rm /etc/security/limits.d/oracle.conf
   if [ $? -eq 0 ]; then
     echo -e "\033[1;32mDone\033[0m"
