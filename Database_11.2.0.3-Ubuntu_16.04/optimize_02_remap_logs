@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# This script will move logs to ${LOGDIR} directory and create symlinks in it original places
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-dec-23
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source environment
+
+function PrintInfo {
+  if [ $? -eq 0 ]; then
+    result="\033[1;32mDone\033[0m"
+  else
+    result="\033[1;31mFailed\033[0m"
+  fi
+  echo -e "${1}: ${result}"
+}
+
+
+function RemapLog {
+  local source_name="${1}"
+  local destination_name="${2}"
+
+  if sudo [ -L "${source_name}" ]; then
+    local link_target=$(sudo readlink "${source_name}")
+    echo -e "File \"${source_name}\" is already symlink and its target on \"${link_target}\": \033[1;32mDone\033[0m"
+  elif sudo [ -f "${source_name}" ]; then
+    sudo mv "${source_name}" "${LOGDIR}/${destination_name}"
+    PrintInfo "Move file \"${source_name}\" to \"${LOGDIR}/${destination_name}\": "
+    sudo ln -s "${LOGDIR}/${destination_name}" "${source_name}"
+    PrintInfo "Link file \"${source_name}\" -> \"${LOGDIR}/${destination_name}\": "
+  elif sudo [ -d "${source_name}" ]; then
+    sudo mv "${source_name}" "${LOGDIR}/${destination_name}"
+    PrintInfo "Move directory \"${source_name}\" to \"${LOGDIR}/${destination_name}\": "
+    sudo ln -s  "${LOGDIR}/${destination_name}" "${source_name}"
+    PrintInfo "Link directoty \"${source_name}\" -> \"${LOGDIR}/${destination_name}\": "
+  fi
+}
+
+RemapLog "${ORACLE_BASE}/admin/${ORACLE_SID}/dpdump/dp.log" "data_pump_${ORACLE_SID}.log"
+RemapLog "${ORACLE_BASE}/cfgtoollogs" "cfgtoollogs"
+RemapLog "${INVENTORY_LOCATION}/logs" "inventory"
+
