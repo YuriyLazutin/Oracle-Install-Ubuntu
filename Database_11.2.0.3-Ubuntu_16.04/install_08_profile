@@ -76,6 +76,10 @@ if [ $? -ne 0 ]; then
   sudo sh -c "echo \"#export ORACLE_UNQNAME=${ORACLE_UNQNAME}\" >> ${ORACLE_BASE}/.profile"
   PrintInfo
 
+  echo -n "Set the ORACLE_HOSTNAME environment variable: "
+  sudo sh -c "echo \"export ORACLE_HOSTNAME=${ORACLE_HOSTNAME}\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
   echo -n "Set the LBIN environment variable: "
   sudo sh -c "echo \"export LBIN=${LBIN}\" >> ${ORACLE_BASE}/.profile"
   PrintInfo
