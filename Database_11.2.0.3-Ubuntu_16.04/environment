@@ -17,6 +17,7 @@ export ORACLE_OPER=oper
 export ORACLE_SID=cargo #(typically no more than five characters)
 export ORACLE_UNQNAME=${ORACLE_SID}
 export LBIN=/usr/local/bin
+export ORACLE_HOSTNAME="localhost" # It is need for desktop installation, in server-class installation please setup you correct host name (use hostname command to know it) 
 
 export ORACLE_BASE=/opt/Oracle
 export ORACLE_HOME=${ORACLE_BASE}/server
