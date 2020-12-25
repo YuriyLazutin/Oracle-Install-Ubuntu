@@ -14,6 +14,11 @@ export ORACLE_GROUP=oinstall
 export OSDBA_GROUP=dba
 export ORACLE_OWNER=oracle
 export ORACLE_OPER=oper
+# Optional ASM Groups
+#export OSDBA=asmdba
+#export OSASM=asmadmin
+#export OSOPER=asmoper
+
 export ORACLE_SID=cargo #(typically no more than five characters)
 export ORACLE_UNQNAME=${ORACLE_SID}
 export LBIN=/usr/local/bin
