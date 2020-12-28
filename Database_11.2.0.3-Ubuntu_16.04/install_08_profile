@@ -113,7 +113,21 @@ if [ $? -ne 0 ]; then
   PrintInfo
 
   echo -n "Set the LD_LIBRARY_PATH environment variable: "
-  sudo sh -c "echo \"export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}\" >> ${ORACLE_BASE}/.profile"
+  sudo sh -c "echo \"\" >> ${ORACLE_BASE}/.profile"
+  sudo sh -c "echo \"if [ -z \\\${LD_LIBRARY_PATH} ]; then\" >> ${ORACLE_BASE}/.profile"
+  sudo sh -c "echo \"  export LD_LIBRARY_PATH=\\\"\\\${ORACLE_HOME}/lib\\\"\" >> ${ORACLE_BASE}/.profile"
+  sudo sh -c "echo \"else\" >> ${ORACLE_BASE}/.profile"
+  sudo sh -c "echo \"  export LD_LIBRARY_PATH=\\\"\\\${ORACLE_HOME}/lib:\\\${LD_LIBRARY_PATH}\\\"\" >> ${ORACLE_BASE}/.profile"
+  sudo sh -c "echo \"fi\" >> ${ORACLE_BASE}/.profile"
+  PrintInfo
+
+  echo -n "Set the PATH environment variable: "
+  sudo sh -c "echo \"\" >> ${ORACLE_BASE}/.profile"
+  sudo sh -c "echo \"if [ -z \\\${PATH} ]; then\" >> ${ORACLE_BASE}/.profile"
+  sudo sh -c "echo \"  export PATH=\\\"\\\${ORACLE_HOME}/bin\\\"\" >> ${ORACLE_BASE}/.profile"
+  sudo sh -c "echo \"else\" >> ${ORACLE_BASE}/.profile"
+  sudo sh -c "echo \"  export PATH=\\\"\\\${ORACLE_HOME}/bin:\\\${PATH}\\\"\" >> ${ORACLE_BASE}/.profile"
+  sudo sh -c "echo \"fi\" >> ${ORACLE_BASE}/.profile"
   PrintInfo
 
   sudo sh -c "echo \"# Oracle settings (End)\" >> ${ORACLE_BASE}/.profile"
