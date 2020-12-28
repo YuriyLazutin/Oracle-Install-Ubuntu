@@ -19,7 +19,7 @@ export ORACLE_OPER=oper
 #export OSASM=asmadmin
 #export OSOPER=asmoper
 
-export ORACLE_SID=cargo #(typically no more than five characters)
+export ORACLE_SID=cargo #(typically no more than five characters) Oracle Universal Installer limits the SID to 12 alphanumeric characters and the SID cannot contain an underscore (_), dollar sign ( $), or pound sign (#).
 export ORACLE_UNQNAME=${ORACLE_SID}
 export LBIN=/usr/local/bin
 export ORACLE_HOSTNAME="localhost" # It is need for desktop installation, in server-class installation please setup you correct host name (use hostname command to know it) 
