@@ -44,4 +44,5 @@ function RemapLog {
 RemapLog "${ORACLE_BASE}/admin/${ORACLE_SID}/dpdump/dp.log" "data_pump_${ORACLE_SID}.log"
 RemapLog "${ORACLE_BASE}/cfgtoollogs" "cfgtoollogs"
 RemapLog "${INVENTORY_LOCATION}/logs" "inventory"
+RemapLog "${ORACLE_HOME}/install/make.log" "make.log"
 
