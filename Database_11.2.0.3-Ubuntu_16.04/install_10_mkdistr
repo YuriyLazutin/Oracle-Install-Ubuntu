@@ -109,9 +109,9 @@ cd \${TMP}/distr
 "
 PrintInfo "Applying patches"
 
-sudo cp ${TMP}/distr/oracle /usr/local/bin
+sudo cp "${TMP}/distr/oracle" "/usr/local/bin"
 PrintInfo "Copying start/stop oracle script into /usr/local/bin directory"
-sudo chown root:root /usr/local/bin/oracle
+sudo chown root:root "/usr/local/bin/oracle"
 PrintInfo "Changing ownership to root"
-sudo chmod ug=rwx,o=rx /usr/local/bin/oracle
+sudo chmod ug=rwx,o=rx "/usr/local/bin/oracle"
 PrintInfo "Changing access rights"
