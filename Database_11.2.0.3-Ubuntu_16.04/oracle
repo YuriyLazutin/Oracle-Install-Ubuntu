@@ -51,6 +51,10 @@ case "${arg1}" in
   "start")
            case "${arg2}" in
              "em")
+                   if [ ! -z "${3}" ]; then
+                     ORACLE_SID="${3}"
+                   fi
+
                    sudo -u ${ORACLE_OWNER} sh -c "
 
                    if [ -z \"${ORACLE_HOME}\"]; then
@@ -127,6 +131,10 @@ case "${arg1}" in
   "stop")
           case "${arg2}" in
             "em")
+                  if [ ! -z "${3}" ]; then
+                    ORACLE_SID="${3}"
+                  fi
+
                   sudo -u ${ORACLE_OWNER} sh -c "
 
                    if [ -z \"${ORACLE_HOME}\"]; then
