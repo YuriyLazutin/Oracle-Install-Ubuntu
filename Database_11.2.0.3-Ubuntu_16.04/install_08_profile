@@ -73,7 +73,7 @@ if [ $? -ne 0 ]; then
   PrintInfo
 
   echo -n "Set the ORACLE_UNQNAME environment variable: "
-  sudo sh -c "echo \"#export ORACLE_UNQNAME=${ORACLE_UNQNAME}\" >> ${ORACLE_BASE}/.profile"
+  sudo sh -c "echo \"export ORACLE_UNQNAME=${ORACLE_UNQNAME}\" >> ${ORACLE_BASE}/.profile"
   PrintInfo
 
   echo -n "Set the ORACLE_HOSTNAME environment variable: "
