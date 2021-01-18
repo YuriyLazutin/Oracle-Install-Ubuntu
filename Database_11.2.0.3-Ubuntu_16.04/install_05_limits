@@ -36,7 +36,7 @@
 # Just in time change. We need run it under oracle user
 # H — hard
 # S — soft
-# u - max number of precesses
+# u - max number of processes
 # n - max number of open files
 # s - max size of stack (8192 = 8 MB)
 #
