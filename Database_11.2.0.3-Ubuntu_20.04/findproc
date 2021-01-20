@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# This script finds a missed function in *.so libs
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-nov-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+
+for extension in "so" "o" "a"; do
+  for file_name in $(find . -name "*.${extension}" -print); do
+    eu-readelf -s ${file_name} | grep $1
+    if [ $? -eq 0 ]; then
+      echo -e "\033[1;32mFound in: \033[0m"${file_name}
+    fi
+  done
+done
+
+echo -e "\033[1;32mSearch Finished!.\033[0m"
+echo

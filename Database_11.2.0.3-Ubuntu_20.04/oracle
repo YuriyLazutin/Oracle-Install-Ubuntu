@@ -1,0 +1,220 @@
+#!/bin/bash
+
+# This script will start or stop oracle components
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-nov-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+function ToLower {
+  local tmp
+  tmp=$( echo "${1}" | sed 'y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/' )
+  echo "${tmp}"
+}
+
+function PrintHelp {
+  printf "Using:\n"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> start em"         "- Start Enterprice Manager"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> start em otherdb" "- Start Enterprice Manager for non-default database"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> start db"         "- Start default Database"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> start db cargo"   "- Start Database cargo (non-default database)"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> stop em"          "- Stop Enterprice Manager"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> stop em otherdb"  "- Stop Enterprice Manager for non-default database"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> stop db"          "- Stop default Database"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> stop db cargo"    "- Stop Database cargo (non-default database)"
+  printf "\n"
+  printf "Following environment variables can be set and will used as options:\n"
+  printf "%-30s %s\n" "ORACLE_OWNER"     "- determine OS user which used as Oracle software owner (default oracle)"
+  printf "%-30s %s\n" "ORACLE_HOME"      "- server software location (default /opt/Oracle/server)"
+  printf "%-30s %s\n" "ORACLE_SID"       "- database identifier (default cargo)"
+  printf "%-30s %s\n" "LISTENER_NAME"    "- name of listener (default LISTENER)"
+}
+
+if [ -z "${ORACLE_OWNER}" ]; then
+  ORACLE_OWNER="<CUR_ORA_OWNER>"
+fi
+
+# Shutdown mode determine how oracle database will be stopped
+# NORMAL        - users are not allowed to create new connections to the database, but the shutdown process waits for all currently connected users to exit their sessions.
+#                 After all the users have disconnected, then the committed transactions are written to disk, the database files are closed, and the instance is stopped.
+# IMMEDIATE     - We will not to wait for users to disconnect on. All not commited transactions will be lost.
+# TRANSACTIONAL - We will wait while transactions for each user complete before they are disconnected.
+# ABORT         - Emergency shutdown without waiting for the committed transactions to be written to disk.
+if [ -z "${SHUTDOWN_MODE}"]; then
+  SHUTDOWN_MODE="IMMEDIATE"
+fi
+
+arg1=$( ToLower "${1}" )
+arg2=$( ToLower "${2}" )
+
+
+case "${arg1}" in
+  "start")
+           case "${arg2}" in
+             "em")
+                   if [ ! -z "${3}" ]; then
+                     ORACLE_SID="${3}"
+                   fi
+
+                   sudo -u ${ORACLE_OWNER} sh -c "
+
+                   if [ -z \"${ORACLE_HOME}\"]; then
+                     if [ -z \"\${ORACLE_HOME}\" ]; then
+                       export ORACLE_HOME=\"/opt/Oracle/server\"
+                     fi
+                   else
+                     export ORACLE_HOME=\"${ORACLE_HOME}\"
+                   fi
+
+                   if [ -z \"${ORACLE_SID}\"]; then
+                     if [ -z \"\${ORACLE_SID}\" ]; then
+                       export ORACLE_SID=\"cargo\"
+                     fi
+                   else
+                     export ORACLE_SID=\"${ORACLE_SID}\"
+                   fi
+
+                   export ORACLE_UNQNAME=\"\${ORACLE_SID}\"
+
+                   \${ORACLE_HOME}/bin/emctl start dbconsole
+                   "
+             ;;
+             "db")
+                   if [ ! -z "${3}" ]; then
+                     ORACLE_SID="${3}"
+                   fi
+
+                   sudo -u "${ORACLE_OWNER}" sh -c "
+
+                   if [ -z \"${ORACLE_HOME}\"]; then
+                     if [ -z \"\${ORACLE_HOME}\" ]; then
+                       export ORACLE_HOME=\"/opt/Oracle/server\"
+                     fi
+                   else
+                     export ORACLE_HOME=\"${ORACLE_HOME}\"
+                   fi
+
+                   if [ -z \"${LISTENER_NAME}\"]; then
+                     if [ -z \"\${LISTENER_NAME}\" ]; then
+                       export LISTENER_NAME=\"LISTENER\"
+                     fi
+                   else
+                     export LISTENER_NAME=\"${LISTENER_NAME}\"
+                   fi
+
+                   if [ -z \"${ORACLE_SID}\"]; then
+                     if [ -z \"\${ORACLE_SID}\" ]; then
+                       export ORACLE_SID=\"cargo\"
+                     fi
+                   else
+                     export ORACLE_SID=\"${ORACLE_SID}\"
+                   fi
+
+                   export ORACLE_UNQNAME=\"\${ORACLE_SID}\"
+
+                   \${ORACLE_HOME}/bin/lsnrctl start \"\${LISTENER_NAME}\"
+                   # -inherit
+
+                   \${ORACLE_HOME}/bin/sqlplus /nolog <<EOF
+                   CONNECT / as SYSDBA
+                   STARTUP
+                   SELECT instance_name FROM gv\\\$instance;
+                   quit
+                   EOF
+                   "
+             ;;
+             *) echo "Sorry, second option is not recognized."
+                PrintHelp
+                exit 1
+             ;;
+           esac
+  ;;
+  "stop")
+          case "${arg2}" in
+            "em")
+                  if [ ! -z "${3}" ]; then
+                    ORACLE_SID="${3}"
+                  fi
+
+                  sudo -u ${ORACLE_OWNER} sh -c "
+
+                   if [ -z \"${ORACLE_HOME}\"]; then
+                     if [ -z \"\${ORACLE_HOME}\" ]; then
+                       export ORACLE_HOME=\"/opt/Oracle/server\"
+                     fi
+                   else
+                     export ORACLE_HOME=\"${ORACLE_HOME}\"
+                   fi
+
+                   if [ -z \"${ORACLE_SID}\"]; then
+                     if [ -z \"\${ORACLE_SID}\" ]; then
+                       export ORACLE_SID=\"cargo\"
+                     fi
+                   else
+                     export ORACLE_SID=\"${ORACLE_SID}\"
+                   fi
+
+                   export ORACLE_UNQNAME=\"\${ORACLE_SID}\"
+
+                   \${ORACLE_HOME}/bin/emctl stop dbconsole
+                   "
+            ;;
+            "db")
+                   if [ ! -z "${3}" ]; then
+                     ORACLE_SID="${3}"
+                   fi
+
+                   sudo -u "${ORACLE_OWNER}" sh -c "
+
+                   if [ -z \"${ORACLE_HOME}\"]; then
+                     if [ -z \"\${ORACLE_HOME}\" ]; then
+                       export ORACLE_HOME=\"/opt/Oracle/server\"
+                     fi
+                   else
+                     export ORACLE_HOME=\"${ORACLE_HOME}\"
+                   fi
+
+                   if [ -z \"${LISTENER_NAME}\"]; then
+                     if [ -z \"\${LISTENER_NAME}\" ]; then
+                       export LISTENER_NAME=\"LISTENER\"
+                     fi
+                   else
+                     export LISTENER_NAME=\"${LISTENER_NAME}\"
+                   fi
+
+                   if [ -z \"${ORACLE_SID}\"]; then
+                     if [ -z \"\${ORACLE_SID}\" ]; then
+                       export ORACLE_SID=\"cargo\"
+                     fi
+                   else
+                     export ORACLE_SID=\"${ORACLE_SID}\"
+                   fi
+
+                   export ORACLE_UNQNAME=\"\${ORACLE_SID}\"
+
+                   \${ORACLE_HOME}/bin/lsnrctl stop \"\${LISTENER_NAME}\"
+
+                   \${ORACLE_HOME}/bin/sqlplus /nolog <<EOF
+                   CONNECT / as SYSDBA
+                   SHUTDOWN ${SHUTDOWN_MODE}
+                   quit
+                   EOF
+
+                   "
+
+            ;;
+            *) echo "Sorry, second option is not recognized."
+               PrintHelp
+               exit 1
+            ;;
+          esac
+
+  ;;
+  *)       echo "Sorry, first option is not recognized."
+           PrintHelp
+           exit 1
+  ;;
+esac

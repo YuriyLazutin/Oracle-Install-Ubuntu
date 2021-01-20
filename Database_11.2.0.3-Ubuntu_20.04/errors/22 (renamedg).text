@@ -1,0 +1,23 @@
+echo "Linking ASM diskgroup renaming utility"
+Linking ASM diskgroup renaming utility
+rm -f /opt/Oracle/server/rdbms/lib/renamedg
+gcc -o /opt/Oracle/server/rdbms/lib/renamedg -m64 -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/  /opt/Oracle/server/lib/s0main.o /opt/Oracle/server/rdbms/lib/sskfndged.o /opt/Oracle/server/rdbms/lib/skfndgpt.o /opt/Oracle/server/rdbms/lib/kfndg.o /opt/Oracle/server/lib/libgeneric11.a  -ldbtools11 /opt/Oracle/server/lib/libgeneric11.a /opt/Oracle/server/lib/libcore11.a -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11 -locr11 -locrb11 -locrutl11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11  -lasmclnt11 -lcommon11 -lcell11 -lskgxp11 -lgeneric11 -lclntsh  `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11 -lztkg11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lmm -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11   -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11   `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib
+/opt/Oracle/server/lib//libasmclnt11.a(skgfga.o): In function `skgfga_io':
+skgfga.c:(text.unlikely+0xd3d): undefined reference to `scls_block_read'
+skgfga.c:(text.unlikely+0xd84): undefined reference to `scls_block_write'
+/opt/Oracle/server/lib//libasmclnt11.a(skgfga.o): In function `skgfga_close':
+skgfga.c:(text.unlikely+0x104b): undefined reference to `scls_block_close'
+/opt/Oracle/server/lib//libasmclnt11.a(skgfga.o): In function `skgfga_open':
+skgfga.c:(text.unlikely+0x1114): undefined reference to `scls_meta_query_size'
+skgfga.c:(text.unlikely+0x116c): undefined reference to `scls_block_open'
+/opt/Oracle/server/lib//libasmclnt11.a(skgfga.o): In function `skgfga_fini':
+skgfga.c:(text.unlikely+0x18c0): undefined reference to `scls_meta_ctx_destroy'
+/opt/Oracle/server/lib//libasmclnt11.a(skgfga.o): In function `skgfga_init_ex':
+skgfga.c:(text.unlikely+0x199b): undefined reference to `scls_meta_query_size'
+skgfga.c:(text.unlikely+0x1a9c): undefined reference to `scls_meta_ctx_init'
+collect2: error: ld returned 1 exit status
+/opt/Oracle/server/rdbms/lib/ins_rdbms.mk:1106: Error in invoking target «/opt/Oracle/server/rdbms/lib/renamedg»
+make: *** [/opt/Oracle/server/rdbms/lib/renamedg] Error 1
+
+Victory
+gcc -o /opt/Oracle/server/rdbms/lib/renamedg -m64 -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/  /opt/Oracle/server/lib/s0main.o /opt/Oracle/server/rdbms/lib/sskfndged.o /opt/Oracle/server/rdbms/lib/skfndgpt.o /opt/Oracle/server/rdbms/lib/kfndg.o /opt/Oracle/server/lib/libgeneric11.a  -ldbtools11 /opt/Oracle/server/lib/libgeneric11.a /opt/Oracle/server/lib/libcore11.a -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11 -locr11 -locrb11 -locrutl11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11  -lasmclnt11 -lcommon11 -lcell11 -lskgxp11 -lgeneric11 -lclntsh  `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11 -lztkg11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lmm -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11   -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11   `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib -lhasgen11 -Wl,--allow-shlib-undefined

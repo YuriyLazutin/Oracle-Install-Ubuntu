@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# This script will start Net Configuration Assistant
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-dec-29
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+# This variables should be set
+# ${ORACLE_OWNER}
+# ${ORACLE_HOME}
+# ${JAVA_HOME}
+
+if [ -z "${ORACLE_OWNER}" ]; then
+  export ORACLE_OWNER="oracle"
+fi
+
+MIT_MAGIC_KEY=$(xauth nextract - $DISPLAY)
+
+echo "Login as ${ORACLE_OWNER}:"
+su - ${ORACLE_OWNER} -c "
+
+if [ -z \"\${ORACLE_HOME}\" ]; then
+  export ORACLE_HOME=\"/opt/Oracle/server\"
+fi
+
+if [ -z \"\${JAVA_HOME}\" ]; then
+  export JAVA_HOME=\"\${ORACLE_HOME}/jdk\"
+fi
+
+if [ -z \"\${PATH}\" ]; then
+  export PATH=\"\${JAVA_HOME}/bin/:\${PATH}\"
+fi
+
+echo \"${MIT_MAGIC_KEY}\" | xauth nmerge -
+
+netca
+"

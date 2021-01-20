@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# This script starts oracle installer
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source environment
+
+SAVE_TIMEZONE=$(cat /etc/timezone)
+sudo timedatectl set-timezone UTC
+
+echo "Login as ${ORACLE_OWNER}:"
+su - ${ORACLE_OWNER} -c "
+cd \${TMP}/distr
+./runInstaller -silent -waitforcompletion -ignorePrereq -showProgress -responseFile \${TMP}/distr/newdb.rsp
+"
+
+#sudo -u ${ORACLE_OWNER} sh -c "
+#. \${HOME}/.profile
+#cd \${TMP}/distr
+#./runInstaller -silent -waitforcompletion -ignorePrereq -showProgress -responseFile \${TMP}/distr/newdb.rsp#
+#"
+
+sudo timedatectl set-timezone ${SAVE_TIMEZONE}
+

@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# This script will remove symlinks which was created during oracle installation
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+function DeleteSymlink {
+  local link_target=$( readlink "${1}" )
+
+  if ( [ -e "${1}" ] && [ "${link_target}" == "${2}" ] )
+  then
+    echo -n "Removing symlink \"${1}\" -> \"${link_target}\": "
+    sudo rm ${1}
+    if [ $? -eq 0 ]; then
+      echo -e "\033[1;32mDone\033[0m"
+    else
+      echo -e "\033[1;31mFailed\033[0m"
+    fi
+  fi
+}
+
+
+# genclntsh: Failed to link libclntsh.so.11.1 in make file for rdbms/lib/ins_rdbms.mk
+# Reason: /usr/bin/ld: cannot find /usr/lib64/libpthread_nonshared.a inside
+DeleteSymlink "/usr/lib64" "/usr/lib/x86_64-linux-gnu"
+DeleteSymlink "/bin/awk" "/usr/bin/awk"
+DeleteSymlink "/bin/sed" "/usr/bin/sed"
+DeleteSymlink "/bin/uname" "/usr/bin/uname"
+DeleteSymlink "/bin/basename" "/usr/bin/basename"
+DeleteSymlink "/bin/rpm" "/usr/bin/rpm"
+# /lib64/libgcc_s.so.1
+DeleteSymlink "/lib64/libgcc_s.so.1" "/lib/x86_64-linux-gnu/libgcc_s.so.1"

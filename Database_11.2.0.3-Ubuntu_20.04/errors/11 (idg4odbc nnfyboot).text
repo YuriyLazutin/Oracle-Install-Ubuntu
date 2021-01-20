@@ -1,0 +1,4 @@
+${ORACLE_HOME}/lib//libagtsh.so: undefined reference to 'nnfyboot' in make: rdbms/lib/dg4odbc] Error 1
+
+This issue resolved in following way export LD_LIBRARY_PATH=$ORACLE_HOME/lib:$LD_LIBRARY_PATH
+

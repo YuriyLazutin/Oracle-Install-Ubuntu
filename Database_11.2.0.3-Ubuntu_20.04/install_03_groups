@@ -1,0 +1,92 @@
+#!/bin/bash
+
+# Oracle pre-install script
+# This script creates users and groups which needs for installing oracle
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-11
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source environment
+
+function AddGroup {
+  echo -n "Try to find ${1} in /etc/group: "
+  grep "^${1}:" /etc/group > /dev/null
+
+  if [ $? -eq 0 ]; then
+    echo -e "\033[1;32mFound\033[0m"
+  else
+    echo -e "\033[1;31mNot found\033[0m"
+
+    sudo groupadd ${1}
+    if [ $? -eq 0 ]; then
+      result="\033[1;32mDone\033[0m"
+    else
+      result="\033[1;31mFailed\033[0m"
+    fi
+    echo -e "Creating new group (${1}): ${result}"
+  fi
+}
+
+function AddUser {
+  echo -n "Try to find user ${1} in /etc/passwd: "
+  grep "^${1}:" /etc/passwd > /dev/null
+
+  if [ $? -eq 0 ]; then
+    echo -e "\033[1;32mFound\033[0m"
+  else
+    echo -e "\033[1;31mNot found\033[0m"
+
+    sudo useradd --home-dir ${2} --gid ${3} --groups ${4} --create-home --no-user-group --shell /bin/bash ${1}
+    if [ $? -eq 0 ]; then
+      result="\033[1;32mDone\033[0m"
+    else
+      result="\033[1;31mFailed\033[0m"
+    fi
+    echo -e "Creating new user (${1}): ${result}"
+
+    echo "Please provide a new password for user \"${1}\": "
+    sudo passwd ${1}
+    if [ $? -eq 0 ]; then
+      result="\033[1;32mDone\033[0m"
+    else
+      result="\033[1;31mFailed\033[0m"
+    fi
+    echo -e "Changing password for new user (${1}): ${result}"
+
+    sudo chown -R ${1}:${3} ${2}
+    if [ $? -eq 0 ]; then
+      result="\033[1;32mDone\033[0m"
+    else
+      result="\033[1;31mFailed\033[0m"
+    fi
+    echo -e "Setting up ownership of home directory for new user (${1}): ${result}"
+
+  fi
+}
+
+
+
+# Create groups
+AddGroup ${ORACLE_GROUP}
+AddGroup ${OSDBA_GROUP}
+
+# Create users
+
+  # Check default parameters for new user
+  # useradd -D
+  #
+  #   GROUP=100
+  #   HOME=/home
+  #   INACTIVE=-1
+  #   EXPIRE=
+  #   SHELL=/bin/sh
+  #   SKEL=/etc/skel
+  #   CREATE_MAIL_SPOOL=no
+
+#AddUser user home-dir main-group opt-groups
+AddUser ${ORACLE_OWNER} ${ORACLE_BASE} ${ORACLE_GROUP} ${OSDBA_GROUP}
+#AddUser ${ORACLE_OPER} "/home/${ORACLE_OPER}" ${OSDBA_GROUP} ${OSDBA_GROUP}

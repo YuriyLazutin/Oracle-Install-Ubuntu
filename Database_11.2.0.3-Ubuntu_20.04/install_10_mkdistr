@@ -1,0 +1,120 @@
+#!/bin/bash
+
+# This script copied oracle installation files into temp directory and prepare settings
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source environment
+
+function PrintInfo {
+  if [ $? -eq 0 ]; then
+    result="\033[1;32mDone\033[0m"
+  else
+    result="\033[1;31mFailed\033[0m"
+  fi
+  echo -e "${1}: ${result}"
+}
+
+sudo mkdir -p ${TMP}/distr
+PrintInfo "Creating distr directory (${TMP}/distr)"
+
+sudo cp --recursive ./* ${TMP}/distr
+PrintInfo "Copying files to ${TMP}/distr"
+
+sudo chown -R ${ORACLE_OWNER}:${ORACLE_GROUP} ${TMP}/distr
+sudo chmod -R ug=rw,o-rwx ${TMP}/distr
+sudo chmod ug+x ${TMP}/distr
+sudo sh -c "
+for dir_name in \$(find ${TMP}/distr -name \"*\" -print); do
+  if [ -d \${dir_name} ]; then
+    chmod ug+x \${dir_name}
+  fi
+done
+"
+sudo chmod ug+x ${TMP}/distr/install/.oui
+sudo chmod ug+x ${TMP}/distr/install/unzip
+sudo chmod ug+x ${TMP}/distr/install/lsnodes
+sudo chmod ug+x ${TMP}/distr/install/addLangs.sh
+sudo chmod ug+x ${TMP}/distr/install/addNode.sh
+sudo chmod ug+x ${TMP}/distr/install/attachHome.sh
+sudo chmod ug+x ${TMP}/distr/install/detachHome.sh
+sudo chmod ug+x ${TMP}/distr/install/runInstaller.sh
+sudo chmod ug+x ${TMP}/distr/sshsetup/sshUserSetup.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/cvuhelper
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/exectask
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/exectask.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/orarun.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/runfixup.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/alert_log_file_size_analyzer.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/bdump_dest_trace_analyzer.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/checkcorefile.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/check_default_gateway.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/check_disk_asynch_io_linking.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/check_e1000.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/checkhugepage.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/check_jumbo_frames.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/checkmemlock.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/check_network_packet_reassembly.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/check_network_param.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/check_non_routable_network_interconnect.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/checkportavail.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/checkramfs.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/check_rp_filter.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/checksshd.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/check_tcp_packet_retransmit.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/check_vip_restart_attempt.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/check_vmm.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/common_include.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/core_dump_dest_analyzer.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/css_diagwait.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/css_disk_timeout.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/css_misscount.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/css_reboot_time.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/getNICSpeed.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/hangcheck_margin.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/hangcheck_reboot.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/hangcheck_tick.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/hangchecktimer.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/listener_naming_convention.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/ora_00600_errors_analyzer.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/ora_07445_errors_analyzer.sh
+sudo chmod ug+x ${TMP}/distr/stage/cvu/cv/remenv/pluggable/shutdown_hwclock_sync.sh
+sudo chmod ug+x ${TMP}/distr/stage/ext/bin/srawutl
+sudo chmod ug+x ${TMP}/distr/stage/fastcopy/setperms1.sh
+sudo chmod ug+x ${TMP}/distr/runInstaller
+sudo chmod ug+x ${TMP}/distr/findinjar
+sudo chmod ug+x ${TMP}/distr/findproc
+sudo chmod ug+x ${TMP}/distr/patch_jar
+PrintInfo "Changing access rights"
+
+sudo -u ${ORACLE_OWNER} --set-home sh -c "
+. \${HOME}/.profile
+cd \${TMP}/distr
+env > \${LOGDIR}/env.log
+ldd ./install/.oui > \${LOGDIR}/.oui.ldd
+ldd ./install/unzip > \${LOGDIR}/unzip.ldd
+ldd ./install/lsnodes > \${LOGDIR}/lsnodes.ldd
+"
+PrintInfo "Testing executables and make logs"
+
+sudo -u ${ORACLE_OWNER} --set-home sh -c "
+. \${HOME}/.profile
+cd \${TMP}/distr
+./patch_jar
+"
+PrintInfo "Applying patches"
+
+sudo cp "${TMP}/distr/oracle" "/usr/local/bin/${ORACLE_OWNER}"
+PrintInfo "Copying start/stop oracle script into /usr/local/bin directory"
+sudo chown root:root "/usr/local/bin/${ORACLE_OWNER}"
+PrintInfo "Changing ownership to root"
+sudo chmod ug=rwx,o=rx "/usr/local/bin/${ORACLE_OWNER}"
+PrintInfo "Changing start/stop oracle script for current ORACLE_OWNER"
+sudo sed -i "s/<CUR_ORA_OWNER>/${ORACLE_OWNER}/g" "/usr/local/bin/${ORACLE_OWNER}"
+
+PrintInfo "Changing access rights"

@@ -1,0 +1,68 @@
+# Bug: Error in invoking target 'agent nmhs' of makefile (sysman/lib/ins_emagent.mk)
+
+Error in ${ORACLE_HOME}/server/install/make.log
+
+make -f /opt/Oracle/server/sysman/lib/ins_emagent.mk relink_exe EXENAME=emdctl.
+make[1]: directory entry «/opt/Oracle/server/sysman/lib»
+/opt/Oracle/server/sysman/lib/ins_emagent.mk:113: warning: override invoking target «nmosudo»
+/opt/Oracle/server/sysman/lib/ins_emagent.mk:52: warning: old invoking target «nmosudo» ignored
+gcc -o /opt/Oracle/server/sysman/lib/emdctl -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/sysman/lib/        `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib /opt/Oracle/server/sysman/lib//s0nmectl.o -lnmectl -lclntsh -L/opt/Oracle/server/lib  -L/opt/Oracle/server/sysman/lib/  -lnmemso -lcore11 -Wl,-rpath,/opt/Oracle/server/lib/:/opt/Oracle/server/sysman/lib/:/opt/Oracle/server/jdk/jre/lib/amd64/server:/opt/Oracle/server/jdk/jre/lib/amd64 -L/opt/Oracle/server/jdk/jre/lib/amd64/server -L/opt/Oracle/server/jdk/jre/lib/amd64 -z lazyload -ljava -ljvm -lverify -z nolazyload -Wl,-rpath,/opt/Oracle/server/lib/:/opt/Oracle/server/sysman/lib/:/opt/Oracle/server/jdk/jre/lib/amd64/server:/opt/Oracle/server/jdk/jre/lib/amd64  -Wl,--allow-shlib-undefined    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm
+/usr/bin/ld: warning: -z lazyload ignored.
+/usr/bin/ld: warning: -z nolazyload ignored.
+/opt/Oracle/server/sysman/lib//libnmectl.a(nmectlt.o): In function `nmectlt_genSudoProps':
+nmectlt.c:(.text+0x76): undefined reference to `B_DestroyKeyObject'
+nmectlt.c:(.text+0x7f): undefined reference to `B_DestroyKeyObject'
+nmectlt.c:(.text+0x88): undefined reference to `B_DestroyKeyObject'
+nmectlt.c:(.text+0x91): undefined reference to `B_DestroyKeyObject'
+collect2: error: ld returned 1 exit status
+/opt/Oracle/server/sysman/lib/ins_emagent.mk:176: Error in invoking target «/opt/Oracle/server/sysman/lib/emdctl»
+make[1]: *** [/opt/Oracle/server/sysman/lib/emdctl] Error 1
+make[1]: exit from directory «/opt/Oracle/server/sysman/lib»
+/opt/Oracle/server/sysman/lib/ins_emagent.mk:52: Error in invoking target «emdctl»
+make: *** [emdctl] Error 2
+
+Investigation:
+
+current GCC option
+gcc -o /opt/Oracle/server/sysman/lib/emdctl -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/sysman/lib/        `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib /opt/Oracle/server/sysman/lib//s0nmectl.o -lnmectl -lclntsh -L/opt/Oracle/server/lib  -L/opt/Oracle/server/sysman/lib/  -lnmemso -lcore11 -Wl,-rpath,/opt/Oracle/server/lib/:/opt/Oracle/server/sysman/lib/:/opt/Oracle/server/jdk/jre/lib/amd64/server:/opt/Oracle/server/jdk/jre/lib/amd64 -L/opt/Oracle/server/jdk/jre/lib/amd64/server -L/opt/Oracle/server/jdk/jre/lib/amd64 -z lazyload -ljava -ljvm -lverify -z nolazyload -Wl,-rpath,/opt/Oracle/server/lib/:/opt/Oracle/server/sysman/lib/:/opt/Oracle/server/jdk/jre/lib/amd64/server:/opt/Oracle/server/jdk/jre/lib/amd64  -Wl,--allow-shlib-undefined    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm
+
+Simplify it as much as possible
+
+Look at -> /opt/Oracle/server/lib/sysliblist and replace corresponding includes with
+-ldl -lm -lpthread -lnsl -lirc -lipgo -lsvml
+
+Minimal samebugous linking options
+gcc -o emdctl s0nmectl.o -lnmectl -lclntsh -lnmemso -lcore11  -ljava -ljvm -lverify -L/opt/Oracle/server/lib  -L/opt/Oracle/server/sysman/lib/ -L/opt/Oracle/server/jdk/jre/lib/amd64/server -L/opt/Oracle/server/jdk/jre/lib/amd64 -Wl,-rpath,/opt/Oracle/server/lib/:/opt/Oracle/server/sysman/lib/:/opt/Oracle/server/jdk/jre/lib/amd64/server:/opt/Oracle/server/jdk/jre/lib/amd64 -Wl,--allow-shlib-undefined
+
+Remove -Wl,--allow-shlib-undefined and get an error:
+/usr/bin/ld: /opt/Oracle/server/sysman/lib//libnmectl.a(nmectlt.o): undefined reference «B_DestroyKeyObject»
+/opt/Oracle/server/lib//libnnz11.so: error adding symbols: DSO missing from command line
+
+Will search this function
+
+eu-readelf -s libnnz11.so | grep KeyObject
+  418: 000000000006182a    108 FUNC    GLOBAL DEFAULT       10 B_DestroyKeyObject
+  466: 0000000000061896    102 FUNC    GLOBAL DEFAULT       10 B_CreateKeyObject
+ 6284: 000000000019c2f4    392 FUNC    LOCAL  DEFAULT       11 CreateKeyObjectFromPrivateKeyInfo
+ 7592: 00000000001d4aa8    186 FUNC    LOCAL  DEFAULT       11 setKeyObject
+13964: 000000000006182a    108 FUNC    GLOBAL DEFAULT       10 B_DestroyKeyObject
+14012: 0000000000061896    102 FUNC    GLOBAL DEFAULT       10 B_CreateKeyObject
+
+!!!!!!!!!!!!!! Victory !!!!!!!!!!!!!!!!!!!!!
+ gcc -o emdctl s0nmectl.o -lnmectl -lclntsh -lnnz11 -lnmemso -lcore11  -ljava -ljvm -lverify -L/opt/Oracle/server/lib  -L/opt/Oracle/server/sysman/lib/ -L/opt/Oracle/server/jdk/jre/lib/amd64/server -L/opt/Oracle/server/jdk/jre/lib/amd64 -Wl,-rpath,/opt/Oracle/server/lib/:/opt/Oracle/server/sysman/lib/:/opt/Oracle/server/jdk/jre/lib/amd64/server:/opt/Oracle/server/jdk/jre/lib/amd64 -Wl,--allow-shlib-undefined
+
+Options -z lazyload and -z nolazyload in gcc and linker ld are absent, so we have warnings
+/usr/bin/ld: warning: -z lazyload ignored.
+/usr/bin/ld: warning: -z nolazyload ignored.
+
+
+Solution:
+
+Edit ${ORACLE_HOME}/sysman/lib/ins_emagent.mk
+
+$(MK_EMAGENT_NMECTL)
+
+replace with
+
+$(MK_EMAGENT_NMECTL) -lnnz11
+

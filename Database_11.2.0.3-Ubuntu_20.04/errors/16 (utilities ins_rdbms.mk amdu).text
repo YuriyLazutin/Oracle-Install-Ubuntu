@@ -1,0 +1,74 @@
+Error in ${ORACLE_HOME}/server/install/make.log:
+
+Linking Dump ASM Metadata utility (amdu)
+rm -f /opt/Oracle/server/rdbms/lib/amdu
+gcc -o /opt/Oracle/server/rdbms/lib/amdu -m64 -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/  /opt/Oracle/server/lib/s0main.o /opt/Oracle/server/rdbms/lib/sskfmued.o /opt/Oracle/server/rdbms/lib/skfmupt.o -ldbtools11 -lcore11 -lgeneric11 -lcommon11 -lgeneric11 -lcommon11 -lunls11 -lnls11 -lcore11 -lcell11 -lskgxp11 -lnls11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11 -locr11 -locrb11 -locrutl11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11  -lasmclnt11 -lclntsh  `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11 -lztkg11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lmm -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11   -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11   `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib
+/opt/Oracle/server/lib//libcommon11.a(kfkl.o): In function `kfklOssOpen':
+kfkl.c:(text.unlikely+0xb9c): undefined reference to `osssec_getkey'
+kfkl.c:(text.unlikely+0xc11): undefined reference to `oss_open'
+/opt/Oracle/server/lib//libcommon11.a(kfkl.o): In function `kfklOssRead':
+kfkl.c:(text.unlikely+0xd81): undefined reference to `oss_read'
+kfkl.c:(text.unlikely+0xded): undefined reference to `oss_wait'
+/opt/Oracle/server/lib//libcommon11.a(kfkl.o): In function `kfklOssWrite':
+kfkl.c:(text.unlikely+0xf44): undefined reference to `oss_write'
+kfkl.c:(text.unlikely+0xfb0): undefined reference to `oss_wait'
+/opt/Oracle/server/lib//libcommon11.a(kfkl.o): In function `kfklOssClose':
+kfkl.c:(text.unlikely+0x10c0): undefined reference to `oss_close'
+/opt/Oracle/server/lib//libcommon11.a(kfkl.o): In function `kfklOssDiscover':
+kfkl.c:(text.unlikely+0x1146): undefined reference to `oss_discovery_open'
+kfkl.c:(text.unlikely+0x11db): undefined reference to `oss_initialize'
+/opt/Oracle/server/lib//libcommon11.a(kfkl.o): In function `kfklOssScanNext':
+kfkl.c:(text.unlikely+0x1277): undefined reference to `oss_discovery_fetch'
+/opt/Oracle/server/lib//libcommon11.a(kfkl.o): In function `kfklOssScanTerm':
+kfkl.c:(text.unlikely+0x135b): undefined reference to `oss_discovery_close'
+/opt/Oracle/server/lib//libcommon11.a(kfkl.o): In function `kfklOssTerm':
+kfkl.c:(text.unlikely+0x1396): undefined reference to `oss_finalize'
+/opt/Oracle/server/lib//libcommon11.a(kfkl.o): In function `kfklCellScanTerm':
+kfkl.c:(text.unlikely+0x1cac): undefined reference to `oss_cell_discovery_close'
+/opt/Oracle/server/lib//libcommon11.a(kfkl.o): In function `kfklCellScanNext':
+kfkl.c:(text.unlikely+0x1d52): undefined reference to `oss_cell_discovery_fetch'
+/opt/Oracle/server/lib//libcommon11.a(kfkl.o): In function `kfklCellScanInit':
+kfkl.c:(text.unlikely+0x1e19): undefined reference to `oss_initialize'
+kfkl.c:(text.unlikely+0x1e84): undefined reference to `oss_cell_discovery_open'
+kfkl.c:(text.unlikely+0x1f15): undefined reference to `oss_cell_discovery_fetch'
+collect2: error: ld returned 1 exit status
+make: *** [/opt/Oracle/server/rdbms/lib/amdu] Error 1
+/opt/Oracle/server/rdbms/lib/ins_rdbms.mk:1094: Error in invoking target «/opt/Oracle/server/rdbms/lib/amdu»
+
+
+
+
+
+Investigation:
+
+current GCC option
+gcc -o /opt/Oracle/server/rdbms/lib/amdu -m64 -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/  /opt/Oracle/server/lib/s0main.o /opt/Oracle/server/rdbms/lib/sskfmued.o /opt/Oracle/server/rdbms/lib/skfmupt.o -ldbtools11 -lcore11 -lgeneric11 -lcommon11 -lgeneric11 -lcommon11 -lunls11 -lnls11 -lcore11 -lcell11 -lskgxp11 -lnls11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11 -locr11 -locrb11 -locrutl11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11  -lasmclnt11 -lclntsh  `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11 -lztkg11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lmm -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11   -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11   `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!! Victory !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+gcc -o /opt/Oracle/server/rdbms/lib/amdu -m64 -L/opt/Oracle/server/rdbms/lib/ -L/opt/Oracle/server/lib/ -L/opt/Oracle/server/lib/stubs/  /opt/Oracle/server/lib/s0main.o /opt/Oracle/server/rdbms/lib/sskfmued.o /opt/Oracle/server/rdbms/lib/skfmupt.o -ldbtools11 -lcore11 -lgeneric11 -lasmclntsh11 -lcommon11 -lgeneric11 -lcommon11 -lunls11 -lnls11 -lcore11 -lcell11 -lskgxp11 -lnls11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11 -locr11 -locrb11 -locrutl11 -lhasgen11 -lskgxn2 -lnnz11 -lzt11 -lxml11  -lasmclnt11 -lclntsh  `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnnz11 -lzt11 -lztkg11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lmm -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lnro11 `cat /opt/Oracle/server/lib/ldflags`    -lncrypt11 -lnsgr11 -lnzjs11 -ln11 -lnl11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11   -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11 -lclient11 -lnnetd11  -lvsn11 -lcommon11 -lgeneric11 -lsnls11 -lnls11  -lcore11 -lsnls11 -lnls11 -lcore11 -lsnls11 -lnls11 -lxml11 -lcore11 -lunls11 -lsnls11 -lnls11 -lcore11 -lnls11   `cat /opt/Oracle/server/lib/sysliblist` -Wl,-rpath,/opt/Oracle/server/lib -lm    `cat /opt/Oracle/server/lib/sysliblist` -ldl -lm   -L/opt/Oracle/server/lib
+
+
+
+
+Solution:
+
+
+${ORACLE_HOME}/rdbms/lib/ins_rdbms.mk
+
+$(AMDU): $(ALWAYS) $(AMDU_DEPS) $(DEF_OPT)
+<------>$(SILENT)$(ECHO)
+<------>$(SILENT)$(ECHO) "Linking Dump ASM Metadata utility (amdu)"
+<------>$(RMF) $@
+<------>$(AMDU_LINKLINE)
+
+replace with
+
+$(AMDU): $(ALWAYS) $(AMDU_DEPS) $(DEF_OPT)
+<------>$(SILENT)$(ECHO)
+<------>$(SILENT)$(ECHO) "Linking Dump ASM Metadata utility (amdu)"
+<------>$(RMF) $@
+<------>$(AMDU_LINKLINE:-lcommon11=-lasmclntsh11 -lcommon11)
+
+
+

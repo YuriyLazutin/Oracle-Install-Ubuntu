@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# This script will patch some makefiles in order to prevent bugs during installation
+# This script should be run under ${ORACLE_OWNER} in ${TMP}/distr directory
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+
+
+# extracting files
+jar -vxf ./stage/Components/oracle.sysman.agent/10.2.0.4.3/1/DataFiles/filegroup38.jar sysman/lib/ins_emagent.mk
+jar -vxf ./stage/Components/oracle.rdbms.rsf/11.2.0.3.0/1/DataFiles/filegroup16.jar rdbms/lib/ins_rdbms.mk
+jar -vxf ./stage/Components/oracle.buildtools.rsf/11.2.0.3.0/1/DataFiles/filegroup1.jar bin/genorasdksh
+jar -vxf ./stage/Components/oracle.has.common/11.2.0.3.0/1/DataFiles/filegroup16.jar srvm/lib/ins_srvm.mk
+jar -vxf ./stage/Components/oracle.network.listener/11.2.0.3.0/1/DataFiles/filegroup3.jar network/lib/ins_net_server.mk
+jar -vxf ./stage/Components/oracle.sysman.common/10.2.0.4.3/1/DataFiles/filegroup6.jar bin/commonenv.template
+
+
+# patch files
+
+# Bug: Error in invoking target 'agent nmhs' of makefile (sysman/lib/ins_emagent.mk)
+sed -i 's/\$(MK_EMAGENT_NMECTL)/\$(MK_EMAGENT_NMECTL) -lnnz11/g' ./sysman/lib/ins_emagent.mk
+# Bug: Error in invoking target 'utilities' of makefile (rdbms/lib/ins_rdbms.mk) ??? kfod
+sed -i 's/\$(KFOD_LINKLINE)/\$(KFOD_LINKLINE:-locr11=-lasmclntsh11 -locr11)/g' ./rdbms/lib/ins_rdbms.mk
+# Bug: Error in invoking target 'all_no_orcl' of makefile (rdbms/lib/ins_rdbms.mk)
+sed -i 's/\$(AMDU_LINKLINE)/\$(AMDU_LINKLINE:-lcommon11=-lasmclntsh11 -lcommon11)/' ./rdbms/lib/ins_rdbms.mk
+# renamedg
+sed -i 's/\$(KFNDG_LINKLINE)/\$(KFNDG_LINKLINE) -lhasgen11 -Wl,--allow-shlib-undefined/g' ./rdbms/lib/ins_rdbms.mk
+# Bug: Error in invoking target 'irman ioracle' of makefile (rdbms/lib/ins_rdbms.mk)
+sed -i 's/\$(ORACLE_LINKLINE)/\$(ORACLE_LINKLINE:-locr11=-Wl,--no-as-needed -locr11)/g' ./rdbms/lib/ins_rdbms.mk
+# Bug: Big bug with liborasdk.so.11.1 (bin/genorasdksh)
+sed -i 's/\$BASE_LIB/ -Wl,--no-as-needed \$BASE_LIB/g' ./bin/genorasdksh
+# Bug: Error in invoking target 'install' of makefile (srvm/lib/ins_srvm.mk)
+sed -i 's/\$(GETCRSHOME_LINKLINE)/\$(GETCRSHOME_LINKLINE) -Wl,--allow-shlib-undefined/g' ./srvm/lib/ins_srvm.mk
+# Bug: Error in invoking target 'install' of makefile (network/lib/ins_net_server.mk)
+sed -i 's/\$(TNSLSNR_LINKLINE)/\$(TNSLSNR_LINKLINE:-lclntsh=-lnlsnr11 -lclntsh)/g' ./network/lib/ins_net_server.mk
+# Fixing bug while running Enterprice Manager (emctl: 23: ulimit: bad number)
+sed -i 's/#!\/bin\/sh/#!\/bin\/bash/' ./bin/commonenv.template
+
+
+# put patched files back to jar
+jar -vuf ./stage/Components/oracle.sysman.agent/10.2.0.4.3/1/DataFiles/filegroup38.jar sysman/lib/ins_emagent.mk
+jar -vuf ./stage/Components/oracle.rdbms.rsf/11.2.0.3.0/1/DataFiles/filegroup16.jar rdbms/lib/ins_rdbms.mk
+jar -vuf ./stage/Components/oracle.buildtools.rsf/11.2.0.3.0/1/DataFiles/filegroup1.jar bin/genorasdksh
+jar -vuf ./stage/Components/oracle.has.common/11.2.0.3.0/1/DataFiles/filegroup16.jar srvm/lib/ins_srvm.mk
+jar -vuf ./stage/Components/oracle.network.listener/11.2.0.3.0/1/DataFiles/filegroup3.jar network/lib/ins_net_server.mk
+jar -vuf ./stage/Components/oracle.sysman.common/10.2.0.4.3/1/DataFiles/filegroup6.jar bin/commonenv.template

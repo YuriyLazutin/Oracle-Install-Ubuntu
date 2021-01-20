@@ -1,0 +1,104 @@
+#!/bin/bash
+
+# Oracle pre-install script
+# This script checks and installs Software Requirements
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+function CheckPackage {
+  echo -n "${1}: "
+  dpkg -l | grep "${1}" &> /dev/null
+  if [ $? -ne 0 ]; then
+    echo -e "\033[1;31mNot found\033[0m"
+    read -p "Do you want to install \"${1}\" (Y/N)?: " user_choice
+    if [ "x${user_choice}" == "xY" ] || [ "x${user_choice}" == "xy" ]; then
+      sudo apt install ${1}
+    fi
+  else
+    echo -e "\033[1;32mFound\033[0m"
+  fi
+}
+
+
+# Check and install java (Look's like oracle contained it's own Java, so this checks is not needed)
+#CheckPackage "default-jdk"
+#echo -n "Java version: "
+#java -version
+#echo -n "Java compiler version: "
+#javac -version
+
+# binutils-2.17.50.0.6
+CheckPackage "binutils"
+
+# compat-libstdc++-33-3.2.3
+# compat-libstdc++-33-3.2.3 (32 bit)
+# Look at libstdc++! In forums sad that libstdc++5 is working!
+# libstdc++-4.1.2
+# libstdc++-4.1.2 (32 bit)
+# libstdc++-devel 4.1.2
+CheckPackage "compat-libstdc++"
+CheckPackage "libstdc++"
+
+# elfutils-libelf-0.125
+# elfutils-libelf-devel-0.125
+CheckPackage "elfutils"
+
+# alternative  libelf-0.8.5
+CheckPackage "libelf"
+
+# expat-1.95.7 (We need expat or libexpat package?)
+#CheckPackage "expat"
+CheckPackage "libexpat1"
+
+# gcc-4.1.2
+# libgcc-4.1.2
+# libgcc-4.1.2 (32 bit)
+CheckPackage "gcc"
+
+# gcc-c++-4.1.2
+CheckPackage "g++"
+
+# glibc-2.5-24
+# glibc-2.5-24 (32 bit)
+# glibc-common-2.5
+# glibc-devel-2.5
+# glibc-devel-2.5 (32 bit)
+# glibc-headers-2.5
+# Possibly we need libc6
+#CheckPackage "glibc"
+
+# libaio-0.3.106
+# libaio-0.3.106 (32 bit)
+# libaio-devel-0.3.106
+# libaio-devel-0.3.106 (32 bit)
+CheckPackage "libaio1"
+CheckPackage "libaio-dev"
+CheckPackage "libaio1-dbg"
+
+# make-3.81
+CheckPackage "make"
+
+# numactl-0.6.4.x86_64
+CheckPackage "numactl"
+
+# pdksh-5.2.14
+# alternative  ksh-20060214
+# alternative  ksh-93r-12.9
+# alternative  ksh-93t
+CheckPackage "ksh"
+
+# sysstat-7.0.2
+CheckPackage "sysstat"
+
+# unixODBC-2.2.12 or later
+# unixODBC-devel-2.2.12 or later
+# unixODBC-32bit-2.2.12 (32-bit) or later
+CheckPackage "unixodbc"
+
+# rpm
+CheckPackage "rpm"

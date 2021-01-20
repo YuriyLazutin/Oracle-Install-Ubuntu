@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# This script will setup xauthority
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+# Old version
+#MIT_MAGIC_KEY=$(xauth nextract - $DISPLAY)
+#echo "Login as oracle:"
+#su - oracle -c "echo \"${MIT_MAGIC_KEY}\" | xauth nmerge -"
+
+source environment
+
+function PrintInfo {
+  if [ $? -eq 0 ]; then
+    result="\033[1;32mDone\033[0m"
+  else
+    result="\033[1;31mFailed\033[0m"
+  fi
+  echo -e "${1}: ${result}"
+}
+
+echo -n "Copy .Xauthority file: "
+sudo cp ${HOME}/.Xauthority ${ORACLE_BASE}/.Xauthority
+PrintInfo

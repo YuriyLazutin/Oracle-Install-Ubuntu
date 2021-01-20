@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# This script will stop oracle server before uninstallation
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+
+source environment
+
+sudo -u ${ORACLE_OWNER} --set-home sh -c "
+. \${HOME}/.profile
+export ORACLE_UNQNAME=\${ORACLE_SID}
+\${ORACLE_HOME}/bin/emctl stop dbconsole
+\${ORACLE_HOME}/bin/dbshut \${ORACLE_HOME}
+\${ORACLE_HOME}/bin/lsnrctl stop \"LISTENER\"
+
+\${ORACLE_HOME}/bin/sqlplus /nolog <<EOF
+CONNECT / as SYSDBA
+SHUTDOWN IMMEDIATE
+quit
+EOF
+"

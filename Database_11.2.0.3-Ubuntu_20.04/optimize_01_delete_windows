@@ -1,0 +1,122 @@
+#!/bin/bash
+
+# This script will remove windows *.bat, *.exe, *.dll files and following windows directories:
+# ${ORACLE_HOME}/owb/bin/win32
+#
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-dec-23
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source environment
+
+function DeleteFsObject {
+  if sudo [ -e "${1}" ]; then
+    echo -n "Removing \"${1}\": "
+    sudo rm -rf "${1}"
+    if [ $? -eq 0 ]; then
+      echo -e "\033[1;32mDone\033[0m"
+    else
+      echo -e "\033[1;31mFailed\033[0m"
+    fi
+  fi
+}
+
+# Deleting windows *.exe files
+
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win64/unzip.exe
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win64/setup.exe
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win32/unzip.exe
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win32/setup.exe
+DeleteFsObject "${ORACLE_HOME}/sqldeveloper/sqldeveloper/bin/sqldeveloper.exe"
+DeleteFsObject "${ORACLE_HOME}/sqldeveloper/sqldeveloper/bin/sqldeveloperW.exe"
+DeleteFsObject "${ORACLE_HOME}/sqldeveloper/sqldeveloper.exe"
+DeleteFsObject "${ORACLE_HOME}/ide/bin/product.exe"
+DeleteFsObject "${ORACLE_HOME}/owb/bin/owb.exe"
+
+
+# Deleting windows *.bat files
+
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/filesList.bat
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win64/addNode.bat
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win64/detachHome.bat
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win64/addLangs.bat
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win64/runConfig.bat
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win64/attachHome.bat
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win64/access_setup.bat
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/filesList.bat
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win32/addNode.bat
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win32/detachHome.bat
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win32/addLangs.bat
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win32/runConfig.bat
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win32/attachHome.bat
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/bin/platform/win32/access_setup.bat
+DeleteFsObject "${ORACLE_HOME}/sqldeveloper/sqlcli.bat"
+DeleteFsObject "${ORACLE_HOME}/oui/bin/filesList.bat"
+DeleteFsObject "${ORACLE_HOME}/oc4j/ant/bin/ant.bat"
+DeleteFsObject "${ORACLE_HOME}/oc4j/ant/bin/lcp.bat"
+DeleteFsObject "${ORACLE_HOME}/oc4j/ant/bin/antRun.bat"
+DeleteFsObject "${ORACLE_HOME}/oc4j/j2ee/home/jsp/bin/ojspc.bat"
+DeleteFsObject "${ORACLE_HOME}/sysman/admin/scripts/emdwgrd.bat"
+DeleteFsObject "${ORACLE_HOME}/sysman/admin/emdrep/bin/RepManager.bat"
+DeleteFsObject "${ORACLE_HOME}/owb/UnifiedRepos/patch_paris_repos.bat"
+DeleteFsObject "${ORACLE_HOME}/owb/jrt/jsp/bin/ojspc.bat"
+DeleteFsObject "${ORACLE_HOME}/owb/wf/install/wfinstall.bat"
+DeleteFsObject "${ORACLE_HOME}/owb/wf/admin/wfjvlsnr.bat"
+DeleteFsObject "${ORACLE_HOME}/owb/wf/admin/wfmgrstart.bat"
+DeleteFsObject "${ORACLE_HOME}/owb/wf/admin/wfsvcstop.bat"
+DeleteFsObject "${ORACLE_HOME}/owb/wf/admin/wfsvcstart.bat"
+DeleteFsObject "${ORACLE_HOME}/owb/wf/admin/wftload.bat"
+DeleteFsObject "${ORACLE_HOME}/owb/wf/admin/wfresgen.bat"
+DeleteFsObject "${ORACLE_HOME}/owb/wf/admin/wfmgrstop.bat"
+DeleteFsObject "${ORACLE_HOME}/owb/wf/admin/wfxload.bat"
+DeleteFsObject "${ORACLE_HOME}/owb/bin/admin/m.bat"
+#./server/owb/bin/win32/ccashut.bat
+#./server/owb/bin/win32/OMBPlusw.bat
+#./server/owb/bin/win32/upgradeloc.bat
+#./server/owb/bin/win32/OMBPlus.bat
+#./server/owb/bin/win32/startOwbbInst.bat
+#./server/owb/bin/win32/openRAB.bat
+#./server/owb/bin/win32/owbclient.bat
+#./server/owb/bin/win32/NAStart.bat
+#./server/owb/bin/win32/rtp_admin.bat
+#./server/owb/bin/win32/ccastart.bat
+#./server/owb/bin/win32/stopOwbbInst.bat
+#./server/owb/bin/win32/rts_test.bat
+#./server/owb/bin/win32/runTransfer.bat
+#./server/owb/bin/win32/changecodepage.bat
+#./server/owb/bin/win32/rt_mgr.bat
+#./server/owb/bin/win32/jvm.bat
+#./server/owb/bin/win32/local_service_login.bat
+#./server/owb/bin/win32/NAStop.bat
+#./server/owb/bin/win32/cleancca.bat
+#./server/owb/bin/win32/openDB.bat
+#./server/owb/bin/win32/OMBPlusJdev.bat
+#./server/owb/bin/win32/reposinst.bat
+#./server/owb/bin/win32/run_service_local.bat
+#./server/owb/bin/win32/run_service.bat
+#./server/owb/bin/win32/cca_admin.bat
+DeleteFsObject "${ORACLE_HOME}/owb/bin/win32"
+DeleteFsObject "${ORACLE_HOME}/owb/doc/welcome/data/build/XMLTOHTML.bat"
+DeleteFsObject "${ORACLE_HOME}/OPatch/opatch.bat"
+DeleteFsObject "${ORACLE_HOME}/bin/PARDeploy.bat"
+DeleteFsObject "${ORACLE_HOME}/bin/pafctl.bat"
+DeleteFsObject "${ORACLE_HOME}/bin/emdwgrd.bat"
+DeleteFsObject "${ORACLE_HOME}/bin/EMDeploy.bat"
+
+
+# Deleting windows *.dll files
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/lib/win64/oraInstaller.dll
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/lib/win32/oraInstaller.dll
+#./tmp/OraInstall2020-12-21_10-14-11AM/oui/lib/win32/RemoteCommandWMI.dll
+DeleteFsObject "${ORACLE_HOME}/sqldeveloper/sqldeveloper/lib/jdevnative.dll"
+DeleteFsObject "${ORACLE_HOME}/sqldeveloper/ide/lib/idenative.dll"
+DeleteFsObject "${ORACLE_HOME}/sqldeveloper/ide/bin/launcher.dll"
+DeleteFsObject "${ORACLE_HOME}/sqldeveloper/lib/registry.dll"
+DeleteFsObject "${ORACLE_HOME}/sqldeveloper/lib/mfcdao.dll"
+DeleteFsObject "${ORACLE_HOME}/ide/lib/idenative.dll"
+DeleteFsObject "${ORACLE_HOME}/ide/bin/launcher.dll"
+DeleteFsObject "${ORACLE_HOME}/owb/bin/admin/ojrfc.dll"

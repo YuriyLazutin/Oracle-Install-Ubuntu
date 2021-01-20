@@ -1,0 +1,15 @@
+This file describes a scripts which you can use to improve and optimize a new Oracle database installation
+
+1) A new Oracle database installation contains a few files for Windows operating system. We can delete it. Run script optimize_01_delete_windows, to do this.
+
+./optimize_01_delete_windows
+
+2) We have a many places in which Oracle stored a logs, but we created a special folder for it.
+Script optimize_02_remap_logs will move logs to ${TMP} directory and create symlinks in it original places.
+
+./optimize_02_remap_logs
+
+3) During installation we created a temporary directory with Oracle installation files by install_10_mkdistr script. Currently it can be deleted.
+Just run optimize_03_delete_distr script.
+
+./optimize_03_delete_distr

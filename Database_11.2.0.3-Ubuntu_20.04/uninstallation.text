@@ -1,0 +1,42 @@
+This file describes an uninstallation process
+
+1) Download Oracle installation scripts
+
+cd ${HOME}
+git clone https://github.com/YuriyLazutin/Oracle-Install-Ubuntu.git
+
+2) Go to scripts directory corresponding to yours Ubuntu version
+
+cd ${HOME}/Oracle-Install-Ubuntu/Database_11.2.0.3-Ubuntu_16.04/
+
+3) Open file "environment" in your favorite text editor and change uninstallation parameters (such as ORACLE_BASE, ORACLE_HOME etc.)
+mcedit ./environment
+
+if you stored a backup copy of this file during installation, just replace this file.
+
+4) Run first script. It will stop oracle server and its components
+
+./uninstall_01_stopserver
+
+5) Run second script. It will rollback changes which was done by root scripts during installation.
+
+./uninstall_02_root
+
+6) Run the third script. It will remove symlinks which was created during installation.
+
+./uninstall_03_symlinks
+
+7) Run the fourth script. It will remove kernel parameters which was created during installation.
+
+./uninstall_04_kernel
+
+8) Run the fifths script. It will restore system limits.
+
+./uninstall_05_limits
+
+9) Run the sixth script. It will drop oracle's users, groups and its contents in home directories.
+
+./uninstall_06_groups
+
+10) Enjoy :) Just in case you make a reboot your system.
+
