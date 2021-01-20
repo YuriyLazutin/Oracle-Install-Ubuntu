@@ -18,6 +18,7 @@ git clone https://github.com/YuriyLazutin/Oracle-Install-Ubuntu.git
 4) Copy the scripts corresponding to your Ubuntu version into "database" directory
 
 cp -R ${HOME}/Oracle/Oracle-Install-Ubuntu/Database_11.2.0.3-Ubuntu_16.04/* ${HOME}/Oracle/database/
+cd ${HOME}/Oracle/database
 
 5) Open file "environment" in your favorite text editor and change installation parameters (such as ORACLE_BASE, ORACLE_HOME etc.)
 cd ${HOME}/Oracle/database/
