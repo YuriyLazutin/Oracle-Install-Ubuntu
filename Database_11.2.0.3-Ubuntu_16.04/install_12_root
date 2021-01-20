@@ -24,7 +24,7 @@ function PrintInfo {
 # Replace actions from: ${ORACLE_INVENTORY}/orainstRoot.sh
 
 if [ ! -f "/etc/oraInst.loc" ]; then
-  sudo sh -c "echo inventory_loc=${ORACLE_INVENTORY} > /etc/oraInst.loc"
+  sudo sh -c "echo inventory_loc=${INVENTORY_LOCATION} > /etc/oraInst.loc"
   sudo sh -c "echo inst_group=${ORACLE_GROUP} >> /etc/oraInst.loc"
   PrintInfo "Creating /etc/oraInst.loc"
 
@@ -44,7 +44,7 @@ sudo ln -s ${ORACLE_HOME}/bin/oraenv ${LBIN}/oraenv
 #sudo ln -s ${ORACLE_HOME}/bin/coraenv ${LBIN}/coraenv
 PrintInfo "Move files to LBIN, and set permissions"
 
-sudo sh -c "echo >> ${ORATAB}"
+sudo sh -c "echo \"${ORACLE_SID}:${ORACLE_HOME}:N\">> ${ORATAB}"
 sudo chown ${ORACLE_OWNER}:${ORACLE_GROUP} ${ORATAB}
 sudo chmod ug=rw,o=r ${ORATAB}
 PrintInfo "Create oratab file (${ORATAB})"
