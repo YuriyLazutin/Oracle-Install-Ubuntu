@@ -11,15 +11,14 @@
 
 source environment
 
-#echo "Login as oracle:"
-#su - oracle -c "
-#cd \${TMP}/distr
-#./runInstaller
-#"
-
-#./runInstaller -silent -response db.rsp
-
-sudo -u ${ORACLE_OWNER} sh -c "
+echo "Login as ${ORACLE_OWNER}:"
+su - ${ORACLE_OWNER} -c "
 cd \${TMP}/distr
 ./runInstaller -silent -response newdb.rsp
 "
+
+#sudo -u ${ORACLE_OWNER} sh -c "
+#. \${HOME}/.profile
+#cd \${TMP}/distr
+#./runInstaller -silent -response newdb.rsp
+#"

@@ -11,8 +11,8 @@
 
 source environment
 
-echo "Login as oracle:"
-su - oracle -c "
+echo "Login as ${ORACLE_OWNER}:"
+su - ${ORACLE_OWNER} -c "
 cd \${TMP}/distr
 ./runInstaller
 "
