@@ -115,6 +115,6 @@ sudo chown root:root "/usr/local/bin/${ORACLE_OWNER}"
 PrintInfo "Changing ownership to root"
 sudo chmod ug=rwx,o=rx "/usr/local/bin/${ORACLE_OWNER}"
 PrintInfo "Changing start/stop oracle script for current ORACLE_OWNER"
-sudo sed -i 's/<CUR_ORA_OWNER>/${ORACLE_OWNER}/g' "/usr/local/bin/${ORACLE_OWNER}"
+sudo sed -i "s/<CUR_ORA_OWNER>/${ORACLE_OWNER}/g" "/usr/local/bin/${ORACLE_OWNER}"
 
 PrintInfo "Changing access rights"
