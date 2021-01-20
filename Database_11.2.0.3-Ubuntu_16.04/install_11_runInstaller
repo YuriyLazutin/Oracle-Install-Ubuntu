@@ -17,7 +17,7 @@ sudo timedatectl set-timezone UTC
 echo "Login as ${ORACLE_OWNER}:"
 su - ${ORACLE_OWNER} -c "
 cd \${TMP}/distr
-./runInstaller
+./runInstaller -waitforcompletion
 "
 
 sudo timedatectl set-timezone ${SAVE_TIMEZONE}
@@ -27,5 +27,5 @@ sudo timedatectl set-timezone ${SAVE_TIMEZONE}
 #cd \${TMP}/distr
 #xeyes
 #echo \${DISPLAY}
-#./runInstaller
+#./runInstaller -waitforcompletion
 #"
