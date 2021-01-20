@@ -17,14 +17,14 @@ function ToLower {
 
 function PrintHelp {
   printf "Using:\n"
-  printf "%-30s %s\n" "oracle start em"         "- Start Enterprice Manager"
-  printf "%-30s %s\n" "oracle start em otherdb" "- Start Enterprice Manager for non-default database"
-  printf "%-30s %s\n" "oracle start db"         "- Start default Database"
-  printf "%-30s %s\n" "oracle start db cargo"   "- Start Database cargo (non-default database)"
-  printf "%-30s %s\n" "oracle stop em"          "- Stop Enterprice Manager"
-  printf "%-30s %s\n" "oracle stop em otherdb"  "- Stop Enterprice Manager for non-default database"
-  printf "%-30s %s\n" "oracle stop db"          "- Stop default Database"
-  printf "%-30s %s\n" "oracle stop db cargo"    "- Stop Database cargo (non-default database)"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> start em"         "- Start Enterprice Manager"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> start em otherdb" "- Start Enterprice Manager for non-default database"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> start db"         "- Start default Database"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> start db cargo"   "- Start Database cargo (non-default database)"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> stop em"          "- Stop Enterprice Manager"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> stop em otherdb"  "- Stop Enterprice Manager for non-default database"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> stop db"          "- Stop default Database"
+  printf "%-30s %s\n" "<CUR_ORA_OWNER> stop db cargo"    "- Stop Database cargo (non-default database)"
   printf "\n"
   printf "Following environment variables can be set and will used as options:\n"
   printf "%-30s %s\n" "ORACLE_OWNER"     "- determine OS user which used as Oracle software owner (default oracle)"
@@ -34,7 +34,7 @@ function PrintHelp {
 }
 
 if [ -z "${ORACLE_OWNER}" ]; then
-  ORACLE_OWNER="oracle"
+  ORACLE_OWNER="<CUR_ORA_OWNER>"
 fi
 
 # Shutdown mode determine how oracle database will be stopped
