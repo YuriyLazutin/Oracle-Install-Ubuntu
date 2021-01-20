@@ -11,13 +11,16 @@
 
 source environment
 
+SAVE_TIMEZONE=$(cat /etc/timezone)
+sudo timedatectl set-timezone UTC
+
 echo "Login as ${ORACLE_OWNER}:"
 su - ${ORACLE_OWNER} -c "
 cd \${TMP}/distr
 ./runInstaller
 "
 
-#./runInstaller -silent -response db.rsp
+sudo timedatectl set-timezone ${SAVE_TIMEZONE}
 
 #sudo -u ${ORACLE_OWNER} --set-home sh -c "
 #. \${HOME}/.profile
