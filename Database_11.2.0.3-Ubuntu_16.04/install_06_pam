@@ -10,8 +10,8 @@
 #          https://www.paypal.com/paypalme/yuriylazutin
 #          https://www.patreon.com/yuriylazutin
 
-#conf_file=/etc/pam.d/login
-conf_file=./login.conf
+conf_file=/etc/pam.d/login
+#conf_file=./login.conf
 
 echo -n "Check PAM configuration: "
 conf_str=$( grep -v "^#\|^ .*#\|^<-->.*#\|^$" ${conf_file} | grep  "session.*required.*pam_limits.so" )
