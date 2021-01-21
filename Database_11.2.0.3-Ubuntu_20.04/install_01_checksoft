@@ -25,8 +25,8 @@ function CheckPackage {
 }
 
 
-# Check and install java (Look's like oracle contained it's own Java, so this checks is not needed)
-#CheckPackage "default-jdk"
+# Check and install java (this need for unpack and patch jar files)
+CheckPackage "default-jdk"
 #echo -n "Java version: "
 #java -version
 #echo -n "Java compiler version: "

@@ -20,26 +20,43 @@ function PrintInfo {
   echo -e "${1}: ${result}"
 }
 
+function RemoveString {
+  sudo grep "${1}" ${ORACLE_BASE}/.profile > /dev/null
+  if [ $? -eq 0 ]; then
+    echo -n "Remove string \"${1}\": "
+    sudo sed -i "s/${1}//g" ${ORACLE_BASE}/.profile
+    PrintInfo
+  fi
+}
+
+
 sudo grep "# Oracle settings (Start)" ${ORACLE_BASE}/.profile
 if [ $? -ne 0 ]; then
 
   # Check following strings and remove it if exists
   #  # set PATH so it includes user's private bin directories
   #  PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-  sudo grep "# set PATH so it includes user's private bin directories" ${ORACLE_BASE}/.profile > /dev/null
+
+  ## set PATH so it includes user's private bin if it exists
+  #if [ -d "$HOME/bin" ] ; then
+  #    PATH="$HOME/bin:$PATH"
+  #fi
+
+  ## set PATH so it includes user's private bin if it exists
+  #if [ -d "$HOME/.local/bin" ] ; then
+  #    PATH="$HOME/.local/bin:$PATH"
+  #fi
+
+  RemoveString "# set PATH so it includes user's private bin directories"
+  RemoveString "PATH=\"\$HOME/bin:\$HOME/.local/bin:\$PATH\""
+
+  sudo grep "# set PATH so it includes user's private bin if it exists" ${ORACLE_BASE}/.profile > /dev/null
   if [ $? -eq 0 ]; then
-    echo -n "Remove string \"# set PATH so it includes user's private bin directories\": "
-    sudo sed -i "s/# set PATH so it includes user's private bin directories//g" ${ORACLE_BASE}/.profile
+    echo -n "Remove blocks \"# set PATH so it includes user's private bin if it exists\": "
+    sudo sed -i "/^# set PATH so it includes user's private bin if it exists/,/^fi$/d" ${ORACLE_BASE}/.profile
     PrintInfo
   fi
 
-  sudo grep "PATH=\"\$HOME/bin:\$HOME/.local/bin:\$PATH\"" ${ORACLE_BASE}/.profile > /dev/null
-  if [ $? -eq 0 ]; then
-    echo -n "Remove string \"PATH=\"\$HOME/bin:\$HOME/.local/bin:\$PATH\"\": "
-    sudo sed -i "s/PATH=\"\$HOME\/bin:\$HOME\/.local\/bin:\$PATH\"//g" ${ORACLE_BASE}/.profile
-    PrintInfo
-  fi
-  
   # Start of Oracle section
   sudo sh -c "echo >> ${ORACLE_BASE}/.profile"
   sudo sh -c "echo \"# Oracle settings (Start)\" >> ${ORACLE_BASE}/.profile"

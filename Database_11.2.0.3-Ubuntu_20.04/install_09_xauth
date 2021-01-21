@@ -26,5 +26,5 @@ function PrintInfo {
 }
 
 echo -n "Copy .Xauthority file: "
-sudo cp ${HOME}/.Xauthority ${ORACLE_BASE}/.Xauthority
+sudo cp ${XAUTHORITY} ${ORACLE_BASE}/.Xauthority
 PrintInfo
