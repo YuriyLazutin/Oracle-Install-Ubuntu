@@ -1,0 +1,17 @@
+cd ${ORACLE_HOME}/network/lib
+/usr/bin/make -f ins_net_client.mk ntcontab.o ORACLE_HOME=/opt/Oracle/server
+
+rm -f ntcontab.*
+(if [ "compile" = "compile" ] ; then \
+  /opt/Oracle/server/bin/gennttab > ntcontab.c ;\
+  gcc -m64  -fPIC -c ntcontab.c ;\
+  rm -f /opt/Oracle/server/lib/ntcontab.o ;\
+  mv ntcontab.o /opt/Oracle/server/lib/ ;\
+          /usr/bin/ar rv /opt/Oracle/server/lib/libn11.a /opt/Oracle/server/lib/ntcontab.o ; fi)
+/bin/sed: -e expression #1, char 7: unterminated `s' command
+/bin/sed: -e expression #1, char 7: unterminated `s' command
+/bin/sed: -e expression #1, char 7: unterminated `s' command
+
+
+Solution
+   Looks like in make using inclorrect shell interpreter. We need to add #!/bin/bash into gennttab script

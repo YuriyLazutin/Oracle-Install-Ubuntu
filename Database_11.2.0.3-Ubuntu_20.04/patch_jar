@@ -19,7 +19,7 @@ jar -vxf ./stage/Components/oracle.buildtools.rsf/11.2.0.3.0/1/DataFiles/filegro
 jar -vxf ./stage/Components/oracle.has.common/11.2.0.3.0/1/DataFiles/filegroup16.jar srvm/lib/ins_srvm.mk
 jar -vxf ./stage/Components/oracle.network.listener/11.2.0.3.0/1/DataFiles/filegroup3.jar network/lib/ins_net_server.mk
 jar -vxf ./stage/Components/oracle.sysman.common/10.2.0.4.3/1/DataFiles/filegroup6.jar bin/commonenv.template
-
+jar -vxf ./stage/Components/oracle.network.rsf/11.2.0.3.0/1/DataFiles/filegroup4.jar bin/gennttab
 
 # patch files
 
@@ -41,6 +41,8 @@ sed -i 's/\$(GETCRSHOME_LINKLINE)/\$(GETCRSHOME_LINKLINE) -Wl,--allow-shlib-unde
 sed -i 's/\$(TNSLSNR_LINKLINE)/\$(TNSLSNR_LINKLINE:-lclntsh=-lnlsnr11 -lclntsh)/g' ./network/lib/ins_net_server.mk
 # Fixing bug while running Enterprice Manager (emctl: 23: ulimit: bad number)
 sed -i 's/#!\/bin\/sh/#!\/bin\/bash/' ./bin/commonenv.template
+# Fixing bug with grep freeze (bin/gennttab issue)
+sed -i '1s/^/#!\/bin\/bash\n/' ./bin/gennttab
 
 
 # put patched files back to jar
@@ -50,3 +52,4 @@ jar -vuf ./stage/Components/oracle.buildtools.rsf/11.2.0.3.0/1/DataFiles/filegro
 jar -vuf ./stage/Components/oracle.has.common/11.2.0.3.0/1/DataFiles/filegroup16.jar srvm/lib/ins_srvm.mk
 jar -vuf ./stage/Components/oracle.network.listener/11.2.0.3.0/1/DataFiles/filegroup3.jar network/lib/ins_net_server.mk
 jar -vuf ./stage/Components/oracle.sysman.common/10.2.0.4.3/1/DataFiles/filegroup6.jar bin/commonenv.template
+jar -vuf ./stage/Components/oracle.network.rsf/11.2.0.3.0/1/DataFiles/filegroup4.jar bin/gennttab
