@@ -35,3 +35,14 @@ DeleteSymlink "/bin/basename" "/usr/bin/basename"
 DeleteSymlink "/bin/rpm" "/usr/bin/rpm"
 # /lib64/libgcc_s.so.1
 DeleteSymlink "/lib64/libgcc_s.so.1" "/lib/x86_64-linux-gnu/libgcc_s.so.1"
+# /lib64/libpthread_nonshared.a
+DeleteSymlink "/lib64/libpthread_nonshared.a" "/lib/x86_64-linux-gnu/libpthread_nonshared.a"
+DeleteSymlink "/lib64/libpthread_nonshared.a" "/usr/lib/x86_64-linux-gnu/libpthread_nonshared.a"
+DeleteSymlink "/lib64/libpthread_nonshared.a" "/usr/lib64/x86_64-linux-gnu/libpthread_nonshared.a"
+DeleteSymlink "/lib64/libpthread_nonshared.a" "/lib/x86_64-linux-gnu/libpthread.a"
+DeleteSymlink "/lib64/libpthread_nonshared.a" "/usr/lib/x86_64-linux-gnu/libpthread.a"
+DeleteSymlink "/lib64/libpthread_nonshared.a" "/usr/lib64/x86_64-linux-gnu/libpthread.a"
+# /lib64/libc_nonshared.a
+DeleteSymlink "/lib64/libc_nonshared.a" "/lib/x86_64-linux-gnu/libc_nonshared.a"
+DeleteSymlink "/lib64/libc_nonshared.a" "/usr/lib/x86_64-linux-gnu/libc_nonshared.a"
+DeleteSymlink "/lib64/libc_nonshared.a" "/usr/lib64/x86_64-linux-gnu/libc_nonshared.a"

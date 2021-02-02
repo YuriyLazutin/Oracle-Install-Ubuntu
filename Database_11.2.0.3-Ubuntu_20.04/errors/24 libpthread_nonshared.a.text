@@ -1,0 +1,12 @@
+/usr/bin/make -f ins_rdbms.mk client_sharedlib ORACLE_HOME=/opt/Oracle/server
+make: Warning: File 'ins_rdbms.mk' has modification time 23748 s in the future
+/opt/Oracle/server/bin/genclntsh
+/bin/ld: /opt/Oracle/server/lib/libnnz11.so: .dynsym local symbol at index 128 (>= sh_info of 15)
+/bin/ld: /opt/Oracle/server/lib/libnnz11.so: .dynsym local symbol at index 844 (>= sh_info of 15)
+/bin/ld: cannot find /usr/lib64/libpthread_nonshared.a
+collect2: error: ld returned 1 exit status
+genclntsh: Failed to link libclntsh.so.11.1
+make: *** [ins_rdbms.mk:36: client_sharedlib] Error 1
+
+Solution:
+We need to create a symlinks as in install_02_symlinks file (Focal Fossa specific section)

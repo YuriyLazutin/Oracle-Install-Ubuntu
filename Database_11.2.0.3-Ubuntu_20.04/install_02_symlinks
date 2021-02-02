@@ -71,6 +71,103 @@ else
   echo -e "\033[1;32mFound\033[0m"
 fi
 
+# Focal fossa cpecific
+file_name="libpthread_nonshared.a"
+alt_file_name="libpthread.a"
+echo -n "Try to find ${file_name} in /lib64/${file_name}: "
+if [ -f "/lib64/${file_name}" ]; then
+  echo -e "\033[1;32mFound\033[0m"
+else
+  echo -e "\033[1;31mNot found\033[0m"
+  link_name="/lib64/${file_name}"
+  unset link_target
+
+  # Try to find libpthread_nonshared.a
+  for file_path in "/lib/x86_64-linux-gnu" "/usr/lib/x86_64-linux-gnu" "/usr/lib64/x86_64-linux-gnu"; do
+    if [ -z "${link_target}" ]; then
+      echo -n "Try to find ${file_name} in ${file_path}/${file_name}: "
+      if [ -f "${file_path}/${file_name}" ]; then
+        echo -e "\033[1;32mFound\033[0m"
+        link_target="${file_path}/${file_name}"
+      else
+        echo -e "\033[1;31mNot found\033[0m"
+      fi
+    fi
+  done
+  
+  # If libpthread_nonshared.a was not found, then we will try to find libpthread.a
+  if [ -z "${link_target}" ]; then
+    for file_path in "/lib/x86_64-linux-gnu" "/usr/lib/x86_64-linux-gnu" "/usr/lib64/x86_64-linux-gnu"; do
+      if [ -z "${link_target}" ]; then
+        echo -n "Try to find ${alt_file_name} in ${file_path}/${alt_file_name}: "
+        if [ -f "${file_path}/${alt_file_name}" ]; then
+          echo -e "\033[1;32mFound\033[0m"
+          link_target="${file_path}/${alt_file_name}"
+        else
+          echo -e "\033[1;31mNot found\033[0m"
+        fi
+      fi
+    done
+  fi
+
+  if [ -z ${link_target} ]; then
+    echo -e "\033[37;1;41mFatal Error!\033[0m \033[1;31mFile ${file_name} was not found on this host! Please check and install it first\033[0m"
+    exit 1
+  fi
+
+  sudo ln -s ${link_target} ${link_name}
+  if [ $? -eq 0 ]; then
+    result="\033[1;32mDone\033[0m"
+  else
+    result="\033[1;31mFailed\033[0m"
+  fi
+  echo -e "Creating symlink ${link_name} -> ${link_target}: ${result}"
+fi
+
+#if [ ! -e "${link_name}/libpthread_nonshared.a"]; then
+#  sudo ln -s "${link_target}/libpthread.a" "${link_name}/libpthread_nonshared.a"
+#fi
+
+file_name="libc_nonshared.a"
+echo -n "Try to find ${file_name} in /lib64/${file_name}: "
+if [ -f "/lib64/${file_name}" ]; then
+  echo -e "\033[1;32mFound\033[0m"
+else
+  echo -e "\033[1;31mNot found\033[0m"
+  link_name="/lib64/${file_name}"
+  unset link_target
+
+  for file_path in "/lib/x86_64-linux-gnu" "/usr/lib/x86_64-linux-gnu" "/usr/lib64/x86_64-linux-gnu"; do
+    if [ -z ${link_target} ]; then
+      echo -n "Try to find ${file_name} in ${file_path}/${file_name}: "
+      if [ -f "${file_path}/${file_name}" ]; then
+        echo -e "\033[1;32mFound\033[0m"
+        link_target="${file_path}/${file_name}"
+      else
+        echo -e "\033[1;31mNot found\033[0m"
+      fi
+    fi
+  done
+
+  if [ -z ${link_target} ]; then
+    echo -e "\033[37;1;41mFatal Error!\033[0m \033[1;31mFile ${file_name} was not found on this host! Please check and install it first\033[0m"
+    exit 1
+  fi
+
+  sudo ln -s ${link_target} ${link_name}
+  if [ $? -eq 0 ]; then
+    result="\033[1;32mDone\033[0m"
+  else
+    result="\033[1;31mFailed\033[0m"
+  fi
+  echo -e "Creating symlink ${link_name} -> ${link_target}: ${result}"
+fi
+
+#if [ ! -e "${link_name}/libc_nonshared.a"]; then
+#  sudo ln -s "${link_target}/libc_nonshared.a" "${link_name}/libc_nonshared.a"
+#fi
+# End Focal fossa cpecific
+
 # /lib64/libgcc_s.so.1: File or directory does not exists, while creating lib/liborasdkbase.so.11.1 in ins_rdbms.mk
 file_name="libgcc_s.so.1"
 echo -n "Try to find ${file_name} in /lib64/${file_name}: "
