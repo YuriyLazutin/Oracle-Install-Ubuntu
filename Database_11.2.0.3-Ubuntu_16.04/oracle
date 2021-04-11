@@ -43,7 +43,7 @@ fi
 # IMMEDIATE     - We will not to wait for users to disconnect on. All not commited transactions will be lost.
 # TRANSACTIONAL - We will wait while transactions for each user complete before they are disconnected.
 # ABORT         - Emergency shutdown without waiting for the committed transactions to be written to disk.
-if [ -z "${SHUTDOWN_MODE}"]; then
+if [ -z "${SHUTDOWN_MODE}" ]; then
   SHUTDOWN_MODE="IMMEDIATE"
 fi
 
@@ -61,7 +61,7 @@ case "${arg1}" in
 
                    sudo -u ${ORACLE_OWNER} sh -c "
 
-                   if [ -z \"${ORACLE_HOME}\"]; then
+                   if [ -z \"${ORACLE_HOME}\" ]; then
                      if [ -z \"\${ORACLE_HOME}\" ]; then
                        export ORACLE_HOME=\"/opt/Oracle/server\"
                      fi
@@ -69,7 +69,7 @@ case "${arg1}" in
                      export ORACLE_HOME=\"${ORACLE_HOME}\"
                    fi
 
-                   if [ -z \"${ORACLE_SID}\"]; then
+                   if [ -z \"${ORACLE_SID}\" ]; then
                      if [ -z \"\${ORACLE_SID}\" ]; then
                        export ORACLE_SID=\"cargo\"
                      fi
@@ -89,7 +89,7 @@ case "${arg1}" in
 
                    sudo -u "${ORACLE_OWNER}" sh -c "
 
-                   if [ -z \"${ORACLE_HOME}\"]; then
+                   if [ -z \"${ORACLE_HOME}\" ]; then
                      if [ -z \"\${ORACLE_HOME}\" ]; then
                        export ORACLE_HOME=\"/opt/Oracle/server\"
                      fi
@@ -97,7 +97,7 @@ case "${arg1}" in
                      export ORACLE_HOME=\"${ORACLE_HOME}\"
                    fi
 
-                   if [ -z \"${LISTENER_NAME}\"]; then
+                   if [ -z \"${LISTENER_NAME}\" ]; then
                      if [ -z \"\${LISTENER_NAME}\" ]; then
                        export LISTENER_NAME=\"LISTENER\"
                      fi
@@ -105,7 +105,7 @@ case "${arg1}" in
                      export LISTENER_NAME=\"${LISTENER_NAME}\"
                    fi
 
-                   if [ -z \"${ORACLE_SID}\"]; then
+                   if [ -z \"${ORACLE_SID}\" ]; then
                      if [ -z \"\${ORACLE_SID}\" ]; then
                        export ORACLE_SID=\"cargo\"
                      fi
@@ -141,7 +141,7 @@ case "${arg1}" in
 
                   sudo -u ${ORACLE_OWNER} sh -c "
 
-                   if [ -z \"${ORACLE_HOME}\"]; then
+                   if [ -z \"${ORACLE_HOME}\" ]; then
                      if [ -z \"\${ORACLE_HOME}\" ]; then
                        export ORACLE_HOME=\"/opt/Oracle/server\"
                      fi
@@ -149,7 +149,7 @@ case "${arg1}" in
                      export ORACLE_HOME=\"${ORACLE_HOME}\"
                    fi
 
-                   if [ -z \"${ORACLE_SID}\"]; then
+                   if [ -z \"${ORACLE_SID}\" ]; then
                      if [ -z \"\${ORACLE_SID}\" ]; then
                        export ORACLE_SID=\"cargo\"
                      fi
@@ -169,7 +169,7 @@ case "${arg1}" in
 
                    sudo -u "${ORACLE_OWNER}" sh -c "
 
-                   if [ -z \"${ORACLE_HOME}\"]; then
+                   if [ -z \"${ORACLE_HOME}\" ]; then
                      if [ -z \"\${ORACLE_HOME}\" ]; then
                        export ORACLE_HOME=\"/opt/Oracle/server\"
                      fi
@@ -177,7 +177,7 @@ case "${arg1}" in
                      export ORACLE_HOME=\"${ORACLE_HOME}\"
                    fi
 
-                   if [ -z \"${LISTENER_NAME}\"]; then
+                   if [ -z \"${LISTENER_NAME}\" ]; then
                      if [ -z \"\${LISTENER_NAME}\" ]; then
                        export LISTENER_NAME=\"LISTENER\"
                      fi
@@ -185,7 +185,7 @@ case "${arg1}" in
                      export LISTENER_NAME=\"${LISTENER_NAME}\"
                    fi
 
-                   if [ -z \"${ORACLE_SID}\"]; then
+                   if [ -z \"${ORACLE_SID}\" ]; then
                      if [ -z \"\${ORACLE_SID}\" ]; then
                        export ORACLE_SID=\"cargo\"
                      fi
