@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# This script will remove sqldeveloper
+# ${ORACLE_HOME}/sqldeveloper
+#
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-11
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source environment
+
+function DeleteFsObject {
+  if sudo [ -e "${1}" ]; then
+    echo -n "Removing \"${1}\": "
+    sudo rm -rf "${1}"
+    if [ $? -eq 0 ]; then
+      echo -e "\033[1;32mDone\033[0m"
+    else
+      echo -e "\033[1;31mFailed\033[0m"
+    fi
+  fi
+}
+
+DeleteFsObject "${ORACLE_HOME}/sqldeveloper"

@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# This script will remove logs
+#
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-11
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source environment
+
+function DeleteFsObject {
+  if sudo [ -e "${1}" ]; then
+    echo -n "Removing \"${1}\": "
+    sudo rm -rf "${1}"
+    if [ $? -eq 0 ]; then
+      echo -e "\033[1;32mDone\033[0m"
+    else
+      echo -e "\033[1;31mFailed\033[0m"
+    fi
+  fi
+
+  if sudo [ -L "${1}" ]; then
+    echo -n "Unlinking \"${1}\": "
+    sudo rm -rf "${1}"
+    if [ $? -eq 0 ]; then
+      echo -e "\033[1;32mDone\033[0m"
+    else
+      echo -e "\033[1;31mFailed\033[0m"
+    fi
+ fi
+}
+
+DeleteFsObject "${LOGDIR}/.oui.ldd"
+DeleteFsObject "${LOGDIR}/env.log"
+DeleteFsObject "${LOGDIR}/lsnodes.ldd"
+DeleteFsObject "${LOGDIR}/unzip.ldd"
+
+DeleteFsObject "${ORACLE_HOME}/install/make.log"
+DeleteFsObject "${LOGDIR}/make.log"
+
+DeleteFsObject "${INVENTORY_LOCATION}/logs"
+DeleteFsObject "${LOGDIR}/inventory"
+
+DeleteFsObject "${ORACLE_BASE}/cfgtoollogs"
+DeleteFsObject "${ORACLE_HOME}/cfgtoollogs"
+DeleteFsObject "${LOGDIR}/cfgtoollogs"
+
+DeleteFsObject "${ORACLE_BASE}/admin/${ORACLE_SID}/dpdump/dp.log"
+DeleteFsObject "${LOGDIR}/data_pump_${ORACLE_SID}.log"

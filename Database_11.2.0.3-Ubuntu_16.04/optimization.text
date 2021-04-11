@@ -13,3 +13,13 @@ Script optimize_02_remap_logs will move logs to ${TMP} directory and create syml
 Just run optimize_03_delete_distr script.
 
 ./optimize_03_delete_distr
+
+4) You can remove sqldeveloper, which unnesassary on server
+Just run optimize_04_delete_sqldeveloper script.
+
+./optimize_04_delete_sqldeveloper
+
+5) You can remove logs
+
+./optimize_05_delete_logs
+
