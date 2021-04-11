@@ -93,6 +93,9 @@ If you will install in GUI mode you will meets with different fails:
 
 or
 
+sudo ${INVENTORY_LOCATION}/orainstRoot.sh
+sudo ${ORACLE_HOME}/root.sh
+
 Enjoy :) Just in case you make a reboot your system.
 
 You can start or stop your database with one of following commands:

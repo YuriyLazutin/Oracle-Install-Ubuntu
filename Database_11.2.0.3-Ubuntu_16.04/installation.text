@@ -90,6 +90,19 @@ If you will install in GUI mode you will meets with different fails:
 
 or
 
-
+sudo ${INVENTORY_LOCATION}/orainstRoot.sh
+sudo ${ORACLE_HOME}/root.sh
 
 Enjoy :) Just in case you make a reboot your system.
+
+You can start or stop your database with one of following commands:
+oracle start db (will start listener and default database)
+oracle start db other_db_sid (will start listener and database with SID other_db_sid, of cause if this db was created earlier)
+oracle stop db (will stop listener and default database)
+oracle stop db other_db_sid (will stop listener and database with SID other_db_sid)
+
+Additionally you can start or stop Enterprice Manager:
+oracle start em (will start Enterprice Manager for default database)
+oracle start em other_db_sid (will start Enterprice Manager for database with SID other_db_sid)
+oracle stop em (will stop Enterprice Manager for default database)
+oracle stop em other_db_sid (will stop Enterprice Manager for database with SID other_db_sid)
