@@ -30,14 +30,14 @@ function RemapLog {
     echo -e "File \"${source_name}\" is already symlink and its target on \"${link_target}\": \033[1;32mDone\033[0m"
   elif sudo [ -f "${source_name}" ]; then
     sudo mv "${source_name}" "${LOGDIR}/${destination_name}"
-    PrintInfo "Move file \"${source_name}\" to \"${LOGDIR}/${destination_name}\": "
+    PrintInfo "Move file \"${source_name}\" to \"${LOGDIR}/${destination_name}\""
     sudo ln -s "${LOGDIR}/${destination_name}" "${source_name}"
-    PrintInfo "Link file \"${source_name}\" -> \"${LOGDIR}/${destination_name}\": "
+    PrintInfo "Link file \"${source_name}\" -> \"${LOGDIR}/${destination_name}\""
   elif sudo [ -d "${source_name}" ]; then
     sudo mv "${source_name}" "${LOGDIR}/${destination_name}"
-    PrintInfo "Move directory \"${source_name}\" to \"${LOGDIR}/${destination_name}\": "
+    PrintInfo "Move directory \"${source_name}\" to \"${LOGDIR}/${destination_name}\""
     sudo ln -s  "${LOGDIR}/${destination_name}" "${source_name}"
-    PrintInfo "Link directoty \"${source_name}\" -> \"${LOGDIR}/${destination_name}\": "
+    PrintInfo "Link directoty \"${source_name}\" -> \"${LOGDIR}/${destination_name}\""
   fi
 }
 
