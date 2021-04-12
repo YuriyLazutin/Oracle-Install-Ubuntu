@@ -59,7 +59,7 @@ case "${arg1}" in
                      ORACLE_SID="${3}"
                    fi
 
-                   sudo -u ${ORACLE_OWNER} sh -c "
+                   sudo su - ${ORACLE_OWNER} sh -c "
 
                    if [ -z \"${ORACLE_HOME}\" ]; then
                      if [ -z \"\${ORACLE_HOME}\" ]; then
@@ -87,7 +87,7 @@ case "${arg1}" in
                      ORACLE_SID="${3}"
                    fi
 
-                   sudo -u "${ORACLE_OWNER}" sh -c "
+                   sudo su - "${ORACLE_OWNER}" sh -c "
 
                    if [ -z \"${ORACLE_HOME}\" ]; then
                      if [ -z \"\${ORACLE_HOME}\" ]; then
@@ -139,7 +139,7 @@ case "${arg1}" in
                     ORACLE_SID="${3}"
                   fi
 
-                  sudo -u ${ORACLE_OWNER} sh -c "
+                  sudo su - ${ORACLE_OWNER} sh -c "
 
                    if [ -z \"${ORACLE_HOME}\" ]; then
                      if [ -z \"\${ORACLE_HOME}\" ]; then
@@ -167,7 +167,7 @@ case "${arg1}" in
                      ORACLE_SID="${3}"
                    fi
 
-                   sudo -u "${ORACLE_OWNER}" sh -c "
+                   sudo su - "${ORACLE_OWNER}" sh -c "
 
                    if [ -z \"${ORACLE_HOME}\" ]; then
                      if [ -z \"\${ORACLE_HOME}\" ]; then
