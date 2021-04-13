@@ -123,7 +123,7 @@ case "${arg1}" in
                    STARTUP
                    SELECT instance_name FROM gv\\\$instance;
                    quit
-                   EOF
+EOF
                    "
              ;;
              *) echo "Sorry, second option is not recognized."
@@ -201,7 +201,7 @@ case "${arg1}" in
                    CONNECT / as SYSDBA
                    SHUTDOWN ${SHUTDOWN_MODE}
                    quit
-                   EOF
+EOF
 
                    "
 
